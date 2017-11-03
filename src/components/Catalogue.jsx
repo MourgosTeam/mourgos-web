@@ -12,6 +12,7 @@ class Catalogue extends Component {
 
     this.mode = props.mode || "minimal";
 
+    this.openForEdit = props.openForEdit;
 
     this.state = { 
       categories : [],
@@ -22,11 +23,12 @@ class Catalogue extends Component {
       case 'minimal':
         this.getMe();
         break;
+      default:
       case 'normal':
         this.getCategories();
         break;
     }
-
+    
     
   }
 
@@ -41,13 +43,14 @@ class Catalogue extends Component {
   }
 
   getCategories(){
+    var self = this;
     GetIt("/categories/catalogue/"+this.id , "GET")
     .then(function(data){
       return data.json();
     })
     .then(function(data){
       return data.map(function(object, index){
-        return <Category id={object.id} object={object} key={index} mode="normal"> { object.Name } </Category>; 
+        return <Category id={object.id} object={object} key={index} mode="normal" openForEdit={self.openForEdit}> { object.Name } </Category>; 
       });
     })
     .then(

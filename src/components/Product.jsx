@@ -7,11 +7,11 @@ import Attribute from './Attribute.jsx';
 import {Panel} from 'react-bootstrap'
 
 
-function AddButton(props){
-  return (
-      <button className="btn btn-default add-button">Προσθήκη</button> 
-    );
-}
+// function AddButton(props){
+//   return (
+//       <button className="btn btn-default add-button">Προσθήκη</button> 
+//     );
+// }
 
 class Product extends Component {
   constructor(props){
@@ -28,14 +28,17 @@ class Product extends Component {
 
     this.mode = props.mode || "minimal";
 
+    this.editFn = props.openForEdit;
+    this.attributes = [];
 
-    this.openForEdit = this.openForEdit.bind(this);
+    this.openForEdit = () => this.editFn(this.state.object, this.attributes);
 
     switch(this.mode){
       case 'minimal':
         if(!props.object)
         this.getMe();
         break;
+      default:
       case 'normal':
         this.getAttributes();
         break;
@@ -53,11 +56,13 @@ class Product extends Component {
 
 
   getAttributes(){
+    var self = this;
     GetIt("/attributes/product/"+this.id , "GET")
     .then(function(data){
       return  data.json();
     })
     .then(function(data){
+      self.attributes = data;
       return data.map(function(object, index){
         return  (<div key={index}>
                     <h2>{object.Name}</h2>
@@ -70,11 +75,8 @@ class Product extends Component {
     );
   }
 
-  openForEdit(){
-      alert(this.id);
-  }
 
-  renderMinimal(){
+  renderNormal(){
     return (
       <div className="col-xs-12 col-md-6 col-lg-6 sm-pad">
         <Panel onClick={this.openForEdit} className="full-height">
@@ -102,7 +104,7 @@ class Product extends Component {
     );
   }
 
-  renderNormal(){
+  renderMinimal(){
     return (
       <div className="row">
         <div className="col-xs-12">

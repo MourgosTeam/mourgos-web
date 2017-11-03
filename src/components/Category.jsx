@@ -13,6 +13,8 @@ class Category extends Component {
 
     this.mode = props.mode;
 
+    this.openForEdit = props.openForEdit;
+
     this.state = { 
       products : [],
       object : props.object || {}
@@ -24,6 +26,7 @@ class Category extends Component {
         if(!props.object)
         this.getMe();
         break;
+      default:
       case 'normal':
         this.getProducts();
         break;
@@ -40,13 +43,14 @@ class Category extends Component {
   }
 
   getProducts(){
+    var self = this;
     GetIt("/products/category/"+this.id , "GET")
     .then(function(data){
       return data.json();
     })
     .then(function(data){
       return data.map(function(object, index){
-        return <Product id={object.id} object={object} key={index} indexKey={index} mode="minimal"> { object.Name } </Product>; 
+        return <Product id={object.id} object={object} key={index} indexKey={index} mode="normal" openForEdit={self.openForEdit}> { object.Name } </Product>; 
       });
     })
     .then(

@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Catalogue from './components/Catalogue.jsx'
-import Basket from './components/Basket.jsx'
 
+import CatalogueView from './components/CatalogueView.jsx'
 
 class App extends Component {
   constructor(props){
@@ -43,16 +42,7 @@ class App extends Component {
             
           </div>
         </header>
-        <div className="container">
-          <div className="row">
-            <div className="col-xs-12 col-sm-7 col-md-8 col-lg-8">
-              <Catalogue id="1" mode="normal" onAddItem={this.addBasketItem}></Catalogue>
-            </div>
-            <div className="col-xs-12 col-sm-5 col-md-4 col-lg-4">
-              <Basket items={this.state.basketItems} onRemoveItem={this.removeBasketItem}/>
-            </div>
-          </div>
-        </div>
+        <CatalogueView catalogue="1s"></CatalogueView>
       </div>
     );
   }

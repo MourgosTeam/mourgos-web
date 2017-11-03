@@ -4,7 +4,7 @@ import './Attribute.css';
 // import { GetIt } from '../helpers/helpers.js'
 import {Button, ButtonGroup, ToggleButton,ToggleButtonGroup} from 'react-bootstrap'
 function AttributeOption(props){
-  return (<ToggleButton className="AttributeOption" value={props.key}>
+  return (<ToggleButton className="AttributeOption" value={props.key} key={props.key}>
             {props.optionName}
           </ToggleButton>);
 }
@@ -15,24 +15,23 @@ class Attribute extends Component {
     this.id = props.id;
 
     this.object = props.object;
-    this.object.Options = JSON.parse(this.object.Options);
+    this.object.Options = (typeof this.object.Options == "string") ? JSON.parse(this.object.Options) : this.object.Options;
     
 
     const options = this.object.Options.map( function(data, index){
       return AttributeOption({optionName : data , key : index});
     });
-
-    this.state = {
-      options : options,
-      selected : null
-    }
+    this.options = options;
   }
 
   render() {
     return (
-      <div className="col-xs-12">
-        <ToggleButtonGroup type="radio" name="options">
-          {this.state.options}
+      <div className="">
+        <ToggleButtonGroup type="radio" name="options" defaultValue={-1} onChange={this.props.attributeSelected}>
+          {this.options}
+          <ToggleButton className="AttributeOption" value={-1}>
+            <span className="glyphicon glyphicon-minus"></span>
+          </ToggleButton>
         </ToggleButtonGroup>
       </div>
     );
