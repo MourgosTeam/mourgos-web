@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import './Attribute.css';
 
 // import { GetIt } from '../helpers/helpers.js'
-
+import {Button, ButtonGroup, ToggleButton,ToggleButtonGroup} from 'react-bootstrap'
 function AttributeOption(props){
-  return (<span className="AttributeOption">
+  return (<ToggleButton className="AttributeOption" value={props.key}>
             {props.optionName}
-          </span>);
+          </ToggleButton>);
 }
 class Attribute extends Component {
   constructor(props){
@@ -19,9 +19,9 @@ class Attribute extends Component {
     
 
     const options = this.object.Options.map( function(data, index){
-      return <AttributeOption optionName={data} key={index}></AttributeOption>;
+      return AttributeOption({optionName : data , key : index});
     });
-    
+
     this.state = {
       options : options,
       selected : null
@@ -30,8 +30,10 @@ class Attribute extends Component {
 
   render() {
     return (
-      <div className="Attribute">
+      <div className="col-xs-12">
+        <ToggleButtonGroup type="radio" name="options">
           {this.state.options}
+        </ToggleButtonGroup>
       </div>
     );
   }

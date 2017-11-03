@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './Category.css';
 
-import { GetIt } from '../helpers/helpers.js'
+import { GetIt } from '../helpers/helpers.jsx'
 
 import Product from './Product.jsx'
 
@@ -11,22 +11,42 @@ class Category extends Component {
     
     this.id = props.id;
 
-    this.state = { 
-      products : []
-    };
+    this.mode = props.mode;
 
-    this.getProducts();
+    this.state = { 
+      products : [],
+      object : props.object || {}
+    };
+    
+
+    switch(this.mode){
+      case 'minimal':
+        if(!props.object)
+        this.getMe();
+        break;
+      case 'normal':
+        this.getProducts();
+        break;
+    }
+    
   }
 
+  getMe(){
+    GetIt("/categories/"+this.id , "GET")
+    .then(function(data){
+      return data.json();
+    })
+    .then( (data) => this.setState({ object : data }));
+  }
 
   getProducts(){
-    GetIt("/products/"+this.id , "GET")
+    GetIt("/products/category/"+this.id , "GET")
     .then(function(data){
       return data.json();
     })
     .then(function(data){
       return data.map(function(object, index){
-        return <Product id={object.id} object={object} key={index}> { object.Name } </Product>; 
+        return <Product id={object.id} object={object} key={index} indexKey={index} mode="minimal"> { object.Name } </Product>; 
       });
     })
     .then(
@@ -34,12 +54,36 @@ class Category extends Component {
     );
   }
 
-  render() {
+  renderNormal(){
     return (
-      <div className="Category">
-          {this.state.products}
+      <div className="col-xs-12">
+        <div className="col-xs-12 category-title text-left">
+            {this.state.object.Name}
+        </div>
+        <div className="row col-xs-12 is-flex">
+            {this.state.products}
+        </div>
       </div>
     );
+  }
+
+  renderMinimal(){
+    return (
+      <div className="col-xs-12">
+        {this.state.object.Name}
+      </div>
+    );
+  }
+
+  render() {
+    switch(this.mode){
+      case 'normal':
+        return this.renderNormal();
+      default:
+      case 'minimal':
+        return this.renderMinimal();
+
+    }
   }
 }
 

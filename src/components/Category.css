@@ -1,4 +1,11 @@
 .Category{
-	width: 200px;
+	width: 400px;
 	border: 1px solid #FF0000;
+}
+.category-title{
+    font-size: 18px;
+    font-weight: bold;
+    color: #777;
+    text-transform: uppercase;
+    padding: 5px 0;
 }
