@@ -1,0 +1,21 @@
+.basket{
+	padding-top: 15px;
+}
+.basket-panel{
+	padding: 10px;
+	padding-top: 40px;
+	border: 1px solid #cecece;
+}
+.basket-item{
+	font-size:14px;
+	font-family: Tahoma;
+    color: #777;
+    padding: 5px 0;
+
+}
+.basket .title{
+	font-size: 18px;
+    color: #777;
+    text-transform: uppercase;
+    padding: 10px 0;
+}

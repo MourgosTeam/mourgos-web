@@ -76,7 +76,7 @@ class Product extends Component {
 
   renderMinimal(){
     return (
-      <div className="col-xs-12 col-md-6 col-lg-4 sm-pad">
+      <div className="col-xs-12 col-md-6 col-lg-6 sm-pad">
         <Panel onClick={this.openForEdit} className="full-height">
           <div className="col-xs-8 text-left product-title-minimal">
             <span>{this.indexKey + 1}. {this.state.object.Name}</span>
