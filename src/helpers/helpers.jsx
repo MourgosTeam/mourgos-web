@@ -2,8 +2,9 @@ import React from 'react';
 import 'whatwg-fetch'
 
 export function GetIt(url, method, token, body){
-  url = "/api/" + url;
+  url = "/api" + url;
 
+  console.log("Fetching " + url);
 	return fetch(url, {
 		method: method,
 		body: JSON.stringify(body),

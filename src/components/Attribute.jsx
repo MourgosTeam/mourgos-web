@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './Attribute.css';
 
-// import { GetIt } from '../helpers/helpers.js'
 import {ToggleButton,ToggleButtonGroup} from 'react-bootstrap'
 function AttributeOption(props){
   return (<ToggleButton className="AttributeOption" value={props.key} key={props.key}>
