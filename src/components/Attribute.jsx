@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './Attribute.css';
 
 // import { GetIt } from '../helpers/helpers.js'
-import {Button, ButtonGroup, ToggleButton,ToggleButtonGroup} from 'react-bootstrap'
+import {ToggleButton,ToggleButtonGroup} from 'react-bootstrap'
 function AttributeOption(props){
   return (<ToggleButton className="AttributeOption" value={props.key} key={props.key}>
             {props.optionName}
@@ -15,7 +15,7 @@ class Attribute extends Component {
     this.id = props.id;
 
     this.object = props.object;
-    this.object.Options = (typeof this.object.Options == "string") ? JSON.parse(this.object.Options) : this.object.Options;
+    this.object.Options = (typeof this.object.Options === "string") ? JSON.parse(this.object.Options) : this.object.Options;
     
 
     const options = this.object.Options.map( function(data, index){

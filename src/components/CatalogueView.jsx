@@ -6,8 +6,6 @@ import Basket from './Basket.jsx'
 
 import EditProduct from './EditProduct.jsx'
 
-import {GetIt} from '../helpers/helpers.jsx'
-
 class CatalogueView extends Component {
   constructor(props){
     super(props);

@@ -1,0 +1,20 @@
+language: node_js
+node_js:
+  - 8
+cache:
+  directories:
+    - node_modules
+    - packages/create-react-app/node_modules
+    - packages/react-scripts/node_modules
+install:
+  - npm install
+script:
+  - npm run build
+after_success:
+  - if [ $TRAVIS_BRANCH != 'master' ]; then exit 0; fi
+  - openssl aes-256-cbc -K $encrypted_8dbf7e943a18_key -iv $encrypted_8dbf7e943a18_iv -in .travis/mourgos_deploy.enc -out .travis/mourgos_deploy -d
+  - chmod 600 .travis/mourgos_deploy
+  - eval "$(ssh-agent -s)"
+  - ssh-add .travis/mourgos_deploy
+  - scp -o stricthostkeychecking=no -r ./build $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
+  - ssh -o stricthostkeychecking=no $DEPLOY_USER@$DEPLOY_HOST "./deploy_web.sh"
