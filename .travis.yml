@@ -9,6 +9,7 @@ cache:
 install:
 - npm install
 script:
+- npm run lint
 - npm run build
 after_success:
 - if [ $TRAVIS_BRANCH != 'master' ]; then exit 0; fi
