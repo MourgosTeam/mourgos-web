@@ -1,20 +1,24 @@
 language: node_js
 node_js:
-  - 8
+- 8
 cache:
   directories:
-    - node_modules
-    - packages/create-react-app/node_modules
-    - packages/react-scripts/node_modules
+  - node_modules
+  - packages/create-react-app/node_modules
+  - packages/react-scripts/node_modules
 install:
-  - npm install
+- npm install
 script:
-  - npm run build
+- npm run build
 after_success:
-  - if [ $TRAVIS_BRANCH != 'master' ]; then exit 0; fi
-  - openssl aes-256-cbc -K $encrypted_8dbf7e943a18_key -iv $encrypted_8dbf7e943a18_iv -in .travis/mourgos_deploy.enc -out .travis/mourgos_deploy -d
-  - chmod 600 .travis/mourgos_deploy
-  - eval "$(ssh-agent -s)"
-  - ssh-add .travis/mourgos_deploy
-  - scp -o stricthostkeychecking=no -r ./build $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
-  - ssh -o stricthostkeychecking=no $DEPLOY_USER@$DEPLOY_HOST "./deploy_web.sh"
+- if [ $TRAVIS_BRANCH != 'master' ]; then exit 0; fi
+- openssl aes-256-cbc -K $encrypted_8dbf7e943a18_key -iv $encrypted_8dbf7e943a18_iv
+  -in .travis/mourgos_deploy.enc -out .travis/mourgos_deploy -d
+- chmod 600 .travis/mourgos_deploy
+- eval "$(ssh-agent -s)"
+- ssh-add .travis/mourgos_deploy
+- scp -o stricthostkeychecking=no -r ./build $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
+- ssh -o stricthostkeychecking=no $DEPLOY_USER@$DEPLOY_HOST "./deploy_web.sh"
+notifications:
+  slack:
+    secure: JTGu1rjB3buVhMNVzWNS1FwhP1VGhg/nafouKwGEFP4Qe+SDtxRstkCzfQhy0J8CK+1ZspyY1fbsGW0K0bgQLtgHxzayalmHFQQaHBiYL6LJBCViLiNPsoCzXheCW0KR52mAhy8YLRy7yB8uvLjDruIKelT6S9Jo/iRVLGd1IFYlT03pOWs4INVEiHCL1/8QzRD2HMLTX/NhirBpl0qU9Wm0c/wQZeiUPOzjcWQrgqyjHbgtjzOjYuJIXFy1MdVN1f5+oLimoSOuwT2nVwybVVWbp7vjWJLjXCshgnAlcM2MqgSi/b/ThiFZWYNii+3vYmy2sDM8xWMEJLm9gIqjwRwlwgO7bJGIZGUZPiQo3opHIUnNNhJFEq6tAapg8CXlDzNvbqEBJ/waMvW+RyK4qTKyzvJjDN0f3vhZ2rsTwUanOBbelaKy7CqeWHV0QMWD3ydMTnow7X2kufexAikE1qPR3EllhjrpuJCFxb3za5ymnsOBxqARU9lfU0nmT9EX7qvxnb4CCfch2j+9X3dun/pQx2XsEyRGCi32E83dblASrGNNOHwShCd9YTsb2AXfN3ZYkI36ibnTSPslZjKoRsd/KhlnrpoGO2OyZBaDDer+LS/yOvKNFM3WD8HX1H3oaD5JUrkfvd+YqQecmv/Z1xl3i3wgDJ2ShRZrE68PasU=
