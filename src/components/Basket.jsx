@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
 import './Basket.css';
 
+
+
 // import { GetIt, ImageCover } from '../helpers/helpers.jsx'
 
 // import Attribute from './Attribute.jsx';
-// import {Panel} from 'react-bootstrap'
+import {Button} from 'react-bootstrap'
 
 
 class BasketItem extends Component{
   constructor(props){
     super(props);
 
-    this.editHandler = () => props.editHandler(props.item.object, props.item.quantity, props.item._attributes);
+    this.editHandler = () => props.editHandler(props.item.object, props.item.quantity, props.item._attributes, props.item._selectedAttributes);
     this.removeHandler = () => props.removeHandler(props.item);
   }
   render(){
@@ -29,9 +31,9 @@ class BasketItem extends Component{
 class Basket extends Component {
   constructor(props){
     super(props);
-
     this.removeBasketItem = props.onRemoveItem;
     this.editBasketItem = props.onEditItem;
+    this.clear = props.onClear;
   }
 
   render() {
@@ -44,8 +46,12 @@ class Basket extends Component {
 
         {
           (this.props.items.length)?(
-              <div className="basket-subtotal">
-                  ΣΥΝΟΛΟ: {this.props.total}
+              <div className="basket-total-panel text-right">
+                  <div className="basket-total">ΣΥΝΟΛΟ: {this.props.total}</div>
+                  <div>
+                    <span className="basket-clear" onClick={this.clear}>Καθαρισμα</span>
+                    <Button className="basket-add-button">Παραγγελια</Button>
+                  </div>
               </div>):
           (
               <div className="basket-noproducts">

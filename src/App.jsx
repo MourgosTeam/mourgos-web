@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 import AllCataloguesView from './components/AllCataloguesView.jsx'
 import CatalogueView from './components/CatalogueView.jsx'
+import { GetIt } from './helpers/helpers.jsx'
 
 
 import {UIRouter, UIView, UISref, UISrefActive, pushStateLocationPlugin} from '@uirouter/react';
+
+const logo = "/images/mourgos-logo-white.png"
 
 class App extends Component {
   constructor(props){
@@ -34,10 +36,21 @@ class App extends Component {
       url  : "/catalogues/:catalogueId",
       component: CatalogueView,
       resolve:[{
-        token: "catalogue",
+        token: "catalogueId",
         deps : ['$transition$'],
         resolveFn : (trans) =>{
           return Promise.resolve(trans.params().catalogueId);
+        }
+      },
+      {
+        token: "catalogue",
+        deps : ['$transition$'],
+        resolveFn : (trans) =>{
+          var id = trans.params().catalogueId;
+          return GetIt("/catalogues/"+id , "GET")
+          .then(function(data){
+            return data.json();
+          })
         }
       }]
     }];
@@ -50,18 +63,15 @@ class App extends Component {
         <header className="navbar navbar-default">
           <div className="container">
             <UISref to="home">
-              <img src={logo} className="App-logo navbar-header" alt="logo" />
+              <div className="navbar-header">
+                <img src={logo}  alt="logo" className="App-logo" />
+                <span className="logo-text">Mourgos.gr</span>
+              </div>
             </UISref>
             
           </div>
         </header>
         <div>
-          <UISrefActive class="active">
-            <UISref to="home"><a>Hello</a></UISref>
-          </UISrefActive>
-          <UISrefActive class="active">
-            <UISref to="about"><a>About</a></UISref>
-          </UISrefActive>
           <UIView render={(Component, props) => {
               return <Component {...props} />
           }}/>

@@ -12,13 +12,18 @@ class EditProduct extends Component {
     this.closeModal = props.closeModal;
     this.onSubmit = props.onSubmit;
 
-    var opts = this.props.attributes.map((data,index) => {
-      return data.selected;
-    });
+    var opts = props.selectedAttributes;
     this.state = {
-      quantity  : this.props.quantity,
+      quantity  : props.quantity,
       options   : opts
     };
+  }
+
+  componentWillReceiveProps(nextProps){
+    this.setState({
+      quantity : nextProps.quantity,
+      options  : nextProps.selectedAttributes
+    });
   }
 
   attributeSelected = (data,index) => {
@@ -29,12 +34,13 @@ class EditProduct extends Component {
   
   submitItem = () => { 
     var attributes = this.props.attributes;
+    var selected = [];
     var res = this.state.options.map((data,index) => {
-      attributes[index].selected = data;
+      selected[index] = data;
       if(data === -1 || data === undefined)return "";
       return this.props.attributes[index].Name + ": " + this.props.attributes[index].Options[data];
     });
-    this.onSubmit(this.props.object,res, this.state.quantity, attributes);
+    this.onSubmit(this.props.object,res, this.state.quantity, attributes, selected);
     this.setState({options : [], quantity : 1});
   }
 

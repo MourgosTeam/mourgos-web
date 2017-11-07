@@ -44,10 +44,10 @@ class AllCataloguesView extends Component {
     return (
       <div className="container">
         <div className="row">
-          <div className="col-xs-12 col-md-4 col-lg-4 hidden-xs">
-            {/*<SearchFilters items={this.state.basketItems} onChange={this.onDataChange}/>*/}
-          </div>
-          <div className="col-xs-12 col-md-8">
+           {/*<div className="col-xs-12 col-md-4 col-lg-3 hidden-xs">
+           <SearchFilters items={this.state.basketItems} onChange={this.onDataChange}/>
+          </div>*/}
+          <div className="col-xs-12 col-md-12 col-lg-12 row is-flex">
             {this.state.catalogues}
           </div>
         </div>

@@ -24,13 +24,35 @@
 	color: #999;
 	
 }
+.basket-clear{
+    font-size: 14px;
+    color: #888;
+    text-transform: uppercase;
+    padding: 0 15px;
+}
+.basket-add-button{
+    font-size: 16px;
+    border-radius: 25px;
+    padding: 7px 13px;
+    box-shadow: 0px 1px 4px -2px;
+    color: #777;
+    text-transform: uppercase;
+}
 
-
-.basket-subtotal{
+.basket-total-panel{
 	border-top:1px solid #777;
     margin-top: 35px;
     padding-top: 10px;
 }
+
+.basket-total{
+    font-size:18px;
+    color: #797979;
+    padding-top: 5px;
+    padding-bottom: 25px;
+}
+
+
 .basket-noproducts{
     font-size: 14px;
     color: #777;

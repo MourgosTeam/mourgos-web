@@ -9,9 +9,9 @@ import EditProduct from './EditProduct.jsx'
 class CatalogueView extends Component {
   constructor(props){
     super(props);
-    this.catalogueId = props.resolves.catalogue || props.catalogue;
-
     console.log(props);
+    this.catalogueId = props.resolves.catalogueId || props.catalogueId;
+    this.catalogue = props.resolves.catalogue || props.catalogue;
     // TO - DO
     //this.loadFromStorage();
     this.state = {
@@ -19,22 +19,25 @@ class CatalogueView extends Component {
       showModal   : false,
       editItem    : {},
       editAttributes : [],
+      selectedAttributes: [],
       editQuantity: 1,
       basketTotal : 0,
       callback    : this.addBasketItem
     }
   }
 
-  addBasketItem = ( item, description, quantity, prodAttributes ) => {
+  addBasketItem = ( item, description, quantity, prodAttributes, selectedAttributes ) => {
+    var newItem = Object.assign({},item);
+    newItem.__randID = Math.random();
     var newItem = {
-      object : item, 
+      object : newItem, 
       description : description,
       quantity : quantity,
-      _attributes : prodAttributes
+      _attributes : prodAttributes,
+      _selectedAttributes : selectedAttributes
     };
     var sum = 0;
     for(var i=0; i < this.state.basketItems.length;i++)sum += parseFloat(this.state.basketItems[i].object.Price * this.state.basketItems[i].quantity);
-
     sum += parseFloat(newItem.object.Price*newItem.quantity);
     sum = sum.toFixed(2);
     this.setState(prevState => ({
@@ -43,22 +46,16 @@ class CatalogueView extends Component {
       showModal : false
     }));
   }
-  editBasketItem = (item, description, quantity, prodAttributes) => {
+  editBasketItem = (item, description, quantity, prodAttributes, selectedAttributes) => {
     var arr = [...this.state.basketItems];
     var newArr = [];
     for(let i=0,l=arr.length,changed=-1; i < l ;i++){
-      if(arr[i].object === item && arr[i]._attributes === prodAttributes){
-        if(changed > -1){
-          newArr.push(arr[i]);
-          continue;
-          // newArr[changed].quantity += arr[i].quantity;
-          // continue;
-        }
+      if(arr[i].object === item){
         arr[i].description = description;
         arr[i].quantity = quantity;
         arr[i]._attributes = prodAttributes;
-        changed = i;
-      }
+        arr[i]._selectedAttributes = selectedAttributes;
+      }      
       newArr.push(arr[i]);
     }
 
@@ -86,44 +83,58 @@ class CatalogueView extends Component {
   closeModal = () => {
     this.setState({showModal:false});
   }
-  openForEdit = (item,quantity,attributes) => {
-    var newItem = Object.assign({},item);
+  openForEdit = (item,quantity,attributes, selectedAttributes) => {
     this.setState({
       showModal : true,
-      editItem  : newItem,
+      editItem  : item,
       editAttributes : attributes,
+      selectedAttributes : selectedAttributes,
       modalButtonText : "Αλλαγή",
       editQuantity : quantity || 1,
       callback  : this.editBasketItem
     });
   }
   openForAdd = (item,attributes) => {
-    var newItem = Object.assign({},item);
     this.setState({
       showModal : true,
-      editItem  : newItem,
+      editItem  : item,
       editQuantity : 1,
       editAttributes : attributes,
+      selectedAttributes: [],
       modalButtonText : "Προσθήκη",
       callback  : this.addBasketItem
     });
   }
-
+  clearBasket = () => {
+    this.setState({
+      basketItems: []
+    });
+  }
   render() {
     return (
       <div className="container">
         <div className="row">
           <div className="col-xs-12 col-sm-7 col-md-8 col-lg-8">
+            <div className="row">
+              <div className="col-xs-12 catalogue-view-title">
+                {this.catalogue.Name}
+              </div>
+              <div className="col-xs-12 catalogue-view-image">
+              </div>
+            </div>
             <Catalogue id={this.catalogueId} mode="normal" openForAdd={this.openForAdd}></Catalogue>
           </div>
           <div className="col-xs-12 col-sm-5 col-md-4 col-lg-4">
             {console.log(this.state.editItem)}
-            <Basket items={this.state.basketItems} total={this.state.basketTotal} onRemoveItem={this.removeBasketItem} onEditItem={this.openForEdit}/>
+            <Basket items={this.state.basketItems} total={this.state.basketTotal} 
+                    onRemoveItem={this.removeBasketItem} onEditItem={this.openForEdit} onClear={this.clearBasket}/>
           </div>
         </div>
         {this.state.showModal ?
           <EditProduct showModal={this.state.showModal} quantity={this.state.editQuantity} buttonText={this.state.modalButtonText}
-                       closeModal={this.closeModal} onSubmit={this.state.callback} object={this.state.editItem} attributes={this.state.editAttributes}></EditProduct>
+                       closeModal={this.closeModal} onSubmit={this.state.callback} 
+                       object={this.state.editItem} attributes={this.state.editAttributes}
+                       selectedAttributes={this.state.selectedAttributes}></EditProduct>
           : ""}
       </div>
     );

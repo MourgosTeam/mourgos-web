@@ -1,10 +1,17 @@
 @import 'bootstrap.css';
-
+@import url('https://fonts.googleapis.com/css?family=Comfortaa|Open+Sans|Passion+One|Londrina+Solid');
 
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.logo{
+    font-family: 'Londrina Solid', cursive;
+    letter-spacing: 2px;
+    font-weight: normal;
+    font-size: 100%;
 }
 
 .image-cover{
@@ -16,8 +23,12 @@ body {
 }
 
 .sm-pad{
-	padding-left: 3px;
-	padding-right: 3px;
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
+.sm-pad-all{
+    padding: 4px;
 }
 
 .row.is-flex {

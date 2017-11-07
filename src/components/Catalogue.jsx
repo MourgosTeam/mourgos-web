@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
 import './Catalogue.css';
 
-import { GetIt } from '../helpers/helpers.jsx'
+import { GetIt, ImageCover } from '../helpers/helpers.jsx'
 import Category from "./Category.jsx"
 
+import {Panel} from 'react-bootstrap'
 import {UISref, UISrefActive} from '@uirouter/react'
+
+
 
 class Catalogue extends Component {
   constructor(props){
     super(props);
     
     this.id = props.id;
-
+    this.object = props.object;
     this.mode = props.mode || "minimal";
 
     this.openForAdd = props.openForAdd;
@@ -23,6 +26,7 @@ class Catalogue extends Component {
 
     switch(this.mode){
       case 'minimal':
+        
         break;
       default:
       case 'normal':
@@ -51,9 +55,25 @@ class Catalogue extends Component {
 
   renderMinimal(){
     return (
-      <div className="col-xs-12 text-left">
+      <div className="col-xs-12 col-sm-6 col-md-4 text-center sm-pad-all">
         <UISrefActive class="active">
-          <UISref to="catalogues" params={{catalogueId:this.props.object.id}}><a>{this.props.object.Name}</a></UISref>
+          <UISref to="catalogues" params={{catalogueId:this.props.object.id}}>
+            <a className="full-height">
+              <Panel className="full-height">
+                <div className="col-xs-12 catalogue-title-minimal">
+                  <span>{this.props.object.Name}</span>
+                </div>
+                <div className="col-xs-12 col-md-12">
+                  <div className="catalogue-image-minimal">
+                    <ImageCover src={this.props.object.Image}/>
+                  </div>
+                  <div className="catalogue-description-minimal">
+                    <span className="text-muted">{this.props.object.Description}</span>
+                  </div>
+                </div>
+              </Panel>
+            </a>
+          </UISref>
         </UISrefActive>
       </div>
     );
