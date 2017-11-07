@@ -31,3 +31,13 @@
     margin-top: 35px;
     padding-top: 10px;
 }
+.basket-noproducts{
+    font-size: 14px;
+    color: #777;
+    padding-bottom: 20px;
+}
+
+.basket-buttons span{
+    padding: 5px 6px;
+    font-size: 14px;
+}

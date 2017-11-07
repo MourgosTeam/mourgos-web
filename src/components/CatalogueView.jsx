@@ -11,64 +11,102 @@ import {GetIt} from '../helpers/helpers.jsx'
 class CatalogueView extends Component {
   constructor(props){
     super(props);
+    this.catalogueId = props.resolves.catalogue || props.catalogue;
 
-    this.catalogueId = props.catalogue;
-
+    console.log(props);
+    // TO - DO
+    //this.loadFromStorage();
     this.state = {
-      basketItems :  [{quantity : 2, description : [], name : "To kalutero beef tis agoras", price : 214.5}],
+      basketItems :  [],
       showModal   : false,
       editItem    : {},
       editAttributes : [],
-      basketTotal : 0
+      editQuantity: 1,
+      basketTotal : 0,
+      callback    : this.addBasketItem
     }
-
-    // TO - DO
-    //this.loadFromStorage();
-    this.addBasketItem = this.addBasketItem.bind(this);
-    this.removeBasketItem = this.removeBasketItem.bind(this);
-    this.closeModal = this.closeModal.bind(this);
-    this.openForEdit = this.openForEdit.bind(this);
   }
 
-  addBasketItem(item, options, quantity){
+  addBasketItem = ( item, description, quantity, prodAttributes ) => {
     var newItem = {
-      name : item.Name,
-      description : options,
-      price : item.Price,
-      quantity : quantity
+      object : item, 
+      description : description,
+      quantity : quantity,
+      _attributes : prodAttributes
     };
     var sum = 0;
-    for(var i=0; i < this.state.basketItems.length;i++)sum += parseFloat(this.state.basketItems[i].price * this.state.basketItems[i].quantity);
-    
-    sum += parseFloat(newItem.price);
+    for(var i=0; i < this.state.basketItems.length;i++)sum += parseFloat(this.state.basketItems[i].object.Price * this.state.basketItems[i].quantity);
+
+    sum += parseFloat(newItem.object.Price*newItem.quantity);
     sum = sum.toFixed(2);
     this.setState(prevState => ({
       basketItems: [...prevState.basketItems, newItem],
-      basketTotal: sum
+      basketTotal: sum,
+      showModal : false
     }));
   }
+  editBasketItem = (item, description, quantity, prodAttributes) => {
+    var arr = [...this.state.basketItems];
+    var newArr = [];
+    for(let i=0,l=arr.length,changed=-1; i < l ;i++){
+      if(arr[i].object === item && arr[i]._attributes == prodAttributes){
+        if(changed > -1){continue;
+          newArr[changed].quantity += arr[i].quantity;
+          continue;
+        }
+        arr[i].description = description;
+        arr[i].quantity = quantity;
+        arr[i]._attributes = prodAttributes;
+        changed = i;
+      }
+      newArr.push(arr[i]);
+    }
 
-  removeBasketItem(item){
+    var sum = 0;  
+    for(var i=0; i < newArr.length;i++)sum += parseFloat(newArr[i].object.Price * newArr[i].quantity);
+    sum = sum.toFixed(2);
+    this.setState(prevState => ({
+      basketItems: newArr,
+      basketTotal: sum,
+      showModal : false
+    })); 
+    return;
+  }
+
+  removeBasketItem = (item) => {
     var array = this.state.basketItems;
     var index = array.indexOf(item);
-    array.splice(index, 1);
-    
-    console.log("REMOVING");
-    console.log(item);
-    var sum = this.state.basketTotal - (item.price * item.quantity);
+    if(index > -1)
+      array.splice(index, 1);
+    var sum = this.state.basketTotal - (item.object.Price * item.quantity).toFixed(2);
     sum = sum.toFixed(2);
     this.setState({basketItems: array, basketTotal: sum });
   }
 
-  closeModal(){
+  closeModal = () => {
     this.setState({showModal:false});
   }
-  openForEdit(item,attributes){
-      this.setState({
-        showModal : true,
-        editItem  : item,
-        editAttributes : attributes
-      });
+  openForEdit = (item,quantity,attributes) => {
+    var newItem = Object.assign({},item);
+    this.setState({
+      showModal : true,
+      editItem  : newItem,
+      editAttributes : attributes,
+      modalButtonText : "Αλλαγή",
+      editQuantity : quantity || 1,
+      callback  : this.editBasketItem
+    });
+  }
+  openForAdd = (item,attributes) => {
+    var newItem = Object.assign({},item);
+    this.setState({
+      showModal : true,
+      editItem  : newItem,
+      editQuantity : 1,
+      editAttributes : attributes,
+      modalButtonText : "Προσθήκη",
+      callback  : this.addBasketItem
+    });
   }
 
   render() {
@@ -76,13 +114,17 @@ class CatalogueView extends Component {
       <div className="container">
         <div className="row">
           <div className="col-xs-12 col-sm-7 col-md-8 col-lg-8">
-            <Catalogue id={this.catalogueId} mode="normal" openForEdit={this.openForEdit}></Catalogue>
+            <Catalogue id={this.catalogueId} mode="normal" openForAdd={this.openForAdd}></Catalogue>
           </div>
           <div className="col-xs-12 col-sm-5 col-md-4 col-lg-4">
-            <Basket items={this.state.basketItems} total={this.state.basketTotal} onRemoveItem={this.removeBasketItem} editHandler={this.openForEdit}/>
+            {console.log(this.state.editItem)}
+            <Basket items={this.state.basketItems} total={this.state.basketTotal} onRemoveItem={this.removeBasketItem} onEditItem={this.openForEdit}/>
           </div>
         </div>
-        <EditProduct showModal={this.state.showModal} closeModal={this.closeModal} onSubmit={this.addBasketItem} object={this.state.editItem} attributes={this.state.editAttributes} ></EditProduct>
+        {this.state.showModal ?
+          <EditProduct showModal={this.state.showModal} quantity={this.state.editQuantity} buttonText={this.state.modalButtonText}
+                       closeModal={this.closeModal} onSubmit={this.state.callback} object={this.state.editItem} attributes={this.state.editAttributes}></EditProduct>
+          : ""}
       </div>
     );
   }

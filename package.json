@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@uirouter/react": "^0.5.4",
     "bootstrap": "^3.3.7",
     "react": "^16.0.0",
     "react-bootstrap": "^0.31.5",
@@ -16,5 +17,5 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "proxy" : "http://localhost:3001/"
+  "proxy": "http://localhost:3001/"
 }

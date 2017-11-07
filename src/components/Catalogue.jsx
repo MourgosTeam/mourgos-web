@@ -4,6 +4,8 @@ import './Catalogue.css';
 import { GetIt } from '../helpers/helpers.jsx'
 import Category from "./Category.jsx"
 
+import {UISref, UISrefActive} from '@uirouter/react'
+
 class Catalogue extends Component {
   constructor(props){
     super(props);
@@ -12,7 +14,7 @@ class Catalogue extends Component {
 
     this.mode = props.mode || "minimal";
 
-    this.openForEdit = props.openForEdit;
+    this.openForAdd = props.openForAdd;
 
     this.state = { 
       categories : [],
@@ -21,7 +23,6 @@ class Catalogue extends Component {
 
     switch(this.mode){
       case 'minimal':
-        this.getMe();
         break;
       default:
       case 'normal':
@@ -32,16 +33,6 @@ class Catalogue extends Component {
     
   }
 
-  getMe(){
-    GetIt("/catalogues/"+this.id , "GET")
-    .then(function(data){
-      return data.json();
-    })
-    .then(
-      (data) => this.setState({object : data})
-    );    
-  }
-
   getCategories(){
     var self = this;
     GetIt("/categories/catalogue/"+this.id , "GET")
@@ -50,7 +41,7 @@ class Catalogue extends Component {
     })
     .then(function(data){
       return data.map(function(object, index){
-        return <Category id={object.id} object={object} key={index} mode="normal" openForEdit={self.openForEdit}> { object.Name } </Category>; 
+        return <Category id={object.id} object={object} key={index} mode="normal" openForAdd={self.openForAdd}> { object.Name } </Category>; 
       });
     })
     .then(
@@ -60,8 +51,10 @@ class Catalogue extends Component {
 
   renderMinimal(){
     return (
-      <div className="col-xs-12">
-        {this.state.object.Name}
+      <div className="col-xs-12 text-left">
+        <UISrefActive class="active">
+          <UISref to="catalogues" params={{catalogueId:this.props.object.id}}><a>{this.props.object.Name}</a></UISref>
+        </UISrefActive>
       </div>
     );
   }

@@ -28,10 +28,10 @@ class Product extends Component {
 
     this.mode = props.mode || "minimal";
 
-    this.editFn = props.openForEdit;
+    this.editFn = props.openForAdd;
     this.attributes = [];
 
-    this.openForEdit = () => this.editFn(this.state.object, this.attributes);
+    this.openForAdd = () => this.editFn(this.state.object, this.attributes);
 
     switch(this.mode){
       case 'minimal':
@@ -79,7 +79,7 @@ class Product extends Component {
   renderNormal(){
     return (
       <div className="col-xs-12 col-md-6 col-lg-6 sm-pad">
-        <Panel onClick={this.openForEdit} className="full-height">
+        <Panel onClick={this.openForAdd} className="full-height">
           <div className="col-xs-8 text-left product-title-minimal">
             <span>{this.indexKey + 1}. {this.state.object.Name}</span>
           </div>

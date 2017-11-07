@@ -12,40 +12,40 @@ class EditProduct extends Component {
     this.closeModal = props.closeModal;
     this.onSubmit = props.onSubmit;
 
-    this.attributeSelected = this.attributeSelected.bind(this);
-    this.submitItem = this.submitItem.bind(this);
-
-    this.more = this.more.bind(this);
-    this.less = this.less.bind(this);
-
+    var opts = this.props.attributes.map((data,index) => {
+      return data.selected;
+    });
     this.state = {
-      quantity : 1
+      quantity  : this.props.quantity,
+      options   : opts
     };
-    this.options = [];
-
   }
 
-  attributeSelected(data,index){
-    this.options[index] = data;
+  attributeSelected = (data,index) => {
+    var newOptions = [...this.state.options];
+    newOptions[index] = data;
+    this.setState({ options : newOptions});
   }
   
-  submitItem(){ 
-    var res = this.options.map((data,index) => {
-      if(!this.props.attributes[index] || data === -1)return "";
+  submitItem = () => { 
+    var attributes = this.props.attributes;
+    var res = this.state.options.map((data,index) => {
+      attributes[index].selected = data;
+      if(data === -1 || data === undefined)return "";
       return this.props.attributes[index].Name + ": " + this.props.attributes[index].Options[data];
     });
-    this.onSubmit(this.props.object,res, this.state.quantity);
+    this.onSubmit(this.props.object,res, this.state.quantity, attributes);
+    this.setState({options : [], quantity : 1});
   }
 
-  more(){
+  more = () => {
     this.setState({quantity:this.state.quantity+1});
   }
 
-  less(){
+  less = () => {
     this.setState({quantity:this.state.quantity-1 || 1});
   }
   render() {
-    var self = this;
     return (
       <div>
       <Modal show={this.props.showModal} onHide={this.closeModal}>
@@ -54,11 +54,11 @@ class EditProduct extends Component {
           </Modal.Header>
           <Modal.Body>
             <div className="container-fluid">
-            {this.props.attributes.map(function(object, index){
+            {this.props.attributes.map((object, index) => {
                 return  (<div className="row" key={(index+1)*Math.random()}>
                             <div className="col-xs-12">
                               <h4>{object.Name}</h4>
-                              <Attribute id={object.id} object={object} key={(index+1)*Math.random()} attributeSelected={(data) => self.attributeSelected(data,index)}></Attribute>
+                              <Attribute id={object.id} object={object} selected={this.state.options[index]} key={(index+1)*Math.random()} attributeSelected={(data) => this.attributeSelected(data,index)}></Attribute>
                             </div>
                           </div>); 
             })}
@@ -70,7 +70,7 @@ class EditProduct extends Component {
               <Button bsSize="sm" disabled>{this.state.quantity}</Button>
               <Button bsSize="sm" onClick={this.more}><span className="glyphicon glyphicon-plus"></span></Button>
             </ButtonGroup>
-            <Button onClick={ () => self.submitItem()} className="btn btn-default">Προσθήκη</Button>
+            <Button onClick={ () => this.submitItem()} className="btn btn-default">{this.props.buttonText}</Button>
           </Modal.Footer>
         </Modal>
         </div>);

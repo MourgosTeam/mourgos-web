@@ -13,7 +13,7 @@ class Category extends Component {
 
     this.mode = props.mode;
 
-    this.openForEdit = props.openForEdit;
+    this.openForAdd = props.openForAdd;
 
     this.state = { 
       products : [],
@@ -50,7 +50,7 @@ class Category extends Component {
     })
     .then(function(data){
       return data.map(function(object, index){
-        return <Product id={object.id} object={object} key={index} indexKey={index} mode="normal" openForEdit={self.openForEdit}> { object.Name } </Product>; 
+        return <Product id={object.id} object={object} key={index} indexKey={index} mode="normal" openForAdd={self.openForAdd}> { object.Name } </Product>; 
       });
     })
     .then(
