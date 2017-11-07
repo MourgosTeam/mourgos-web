@@ -27,10 +27,10 @@ class CatalogueView extends Component {
   }
 
   addBasketItem = ( item, description, quantity, prodAttributes, selectedAttributes ) => {
-    var newItem = Object.assign({},item);
-    newItem.__randID = Math.random();
+    var copiedItem = Object.assign({},item);
+    copiedItem.__randID = Math.random();
     var newItem = {
-      object : newItem, 
+      object : copiedItem, 
       description : description,
       quantity : quantity,
       _attributes : prodAttributes,
@@ -49,7 +49,7 @@ class CatalogueView extends Component {
   editBasketItem = (item, description, quantity, prodAttributes, selectedAttributes) => {
     var arr = [...this.state.basketItems];
     var newArr = [];
-    for(let i=0,l=arr.length,changed=-1; i < l ;i++){
+    for(let i=0,l=arr.length; i < l ;i++){
       if(arr[i].object === item){
         arr[i].description = description;
         arr[i].quantity = quantity;

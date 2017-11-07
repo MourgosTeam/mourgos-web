@@ -6,7 +6,7 @@ import CatalogueView from './components/CatalogueView.jsx'
 import { GetIt } from './helpers/helpers.jsx'
 
 
-import {UIRouter, UIView, UISref, UISrefActive, pushStateLocationPlugin} from '@uirouter/react';
+import {UIRouter, UIView, UISref, pushStateLocationPlugin} from '@uirouter/react';
 
 const logo = "/images/mourgos-logo-white.png"
 
