@@ -23,7 +23,7 @@ class App extends Component {
 
     this.uistates = [{
       name : "home",
-      url  : "/home",
+      url  : "/",
       component: AllCataloguesView
     },
     {
