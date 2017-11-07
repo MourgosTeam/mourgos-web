@@ -62,7 +62,7 @@ class App extends Component {
       <div className="App">
         <header className="navbar navbar-default">
           <div className="container">
-            <UISref to="home">
+            <UISref to="home" className="pointer">
               <div className="navbar-header">
                 <img src={logo}  alt="logo" className="App-logo" />
                 <span className="logo-text">Mourgos.gr</span>
