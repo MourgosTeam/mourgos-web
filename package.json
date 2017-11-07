@@ -12,10 +12,23 @@
     "whatwg-fetch": "^2.0.3"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "PORT=3001 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint src"
   },
-  "proxy": "http://localhost:3001/"
+  "proxy": {
+    "/api": {
+      "target": "http://localhost:3000/",
+      "ws": true,
+      "pathRewrite": {
+        "^/api": ""
+      }
+    }
+  },
+  "devDependencies": {
+    "eslint": "^4.10.0",
+    "eslint-plugin-react": "^7.4.0"
+  }
 }

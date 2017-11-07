@@ -1,11 +1,10 @@
 import React from 'react';
 import 'whatwg-fetch'
 
-const dev = true
 export function GetIt(url, method, token, body){
-	if(dev){
-		url = "http:\/\/localhost:3001" + url;
-	}
+  url = "/api" + url;
+
+  console.log("Fetching " + url);
 	return fetch(url, {
 		method: method,
 		body: JSON.stringify(body),
