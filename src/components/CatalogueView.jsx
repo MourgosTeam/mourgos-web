@@ -48,9 +48,11 @@ class CatalogueView extends Component {
     var newArr = [];
     for(let i=0,l=arr.length,changed=-1; i < l ;i++){
       if(arr[i].object === item && arr[i]._attributes === prodAttributes){
-        if(changed > -1){continue;
-          newArr[changed].quantity += arr[i].quantity;
+        if(changed > -1){
+          newArr.push(arr[i]);
           continue;
+          // newArr[changed].quantity += arr[i].quantity;
+          // continue;
         }
         arr[i].description = description;
         arr[i].quantity = quantity;
