@@ -26,7 +26,7 @@ class Attribute extends Component {
   render() {
     return (
       <div className="">
-        <ToggleButtonGroup type="radio" name="options" defaultValue={this.props.selected == undefined?-1:this.props.selected} onChange={this.props.attributeSelected}>
+        <ToggleButtonGroup type="radio" name="options" defaultValue={this.props.selected === undefined?-1:this.props.selected} onChange={this.props.attributeSelected}>
           {this.options}
           <ToggleButton className="AttributeOption" value={-1}>
             <span className="glyphicon glyphicon-minus"></span>
