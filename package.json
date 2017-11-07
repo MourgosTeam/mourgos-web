@@ -12,7 +12,7 @@
     "whatwg-fetch": "^2.0.3"
   },
   "scripts": {
-    "start": "PORT=3001 react-scripts start",
+    "start": "cross-env PORT=3001 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
@@ -25,9 +25,17 @@
       "pathRewrite": {
         "^/api": ""
       }
+    },
+    "/images": {
+      "target": "http://localhost:3000/",
+      "ws": false,
+      "pathRewrite": {
+        "^/images": "/images"
+      }
     }
   },
   "devDependencies": {
+    "cross-env": "^5.1.1",
     "eslint": "^4.10.0",
     "eslint-plugin-react": "^7.4.0"
   }
