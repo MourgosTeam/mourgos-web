@@ -26,6 +26,7 @@ export function BackgroundImage(imageUrl) {
     backgroundImage: `linear-gradient(rgba(0, 0, 0, ${darkenBackgroundAmount}),
                                       rgba(0, 0, 0, ${darkenBackgroundAmount})),
                       url(${imageUrl})`,
-    backgroundSize: "cover"
+    backgroundSize: "cover",
+    backgroundPosition : "center"
   };
 }
