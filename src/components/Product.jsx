@@ -78,8 +78,8 @@ class Product extends Component {
 
   renderNormal(){
     return (
-      <div className="col-xs-12 col-md-6 col-lg-6 sm-pad">
-        <Panel onClick={this.openForAdd} className="full-height" style={BackgroundImage(this.state.object.Image)}>
+      <div className="col-xs-12 col-md-6 col-lg-4 sm-pad">
+        <Panel onClick={this.openForAdd} className="full-height pointer" style={BackgroundImage(this.state.object.Image)}>
           <div className="col-xs-8 text-left product-title-minimal">
             <span>{this.indexKey + 1}. {this.state.object.Name}</span>
           </div>

@@ -14,6 +14,10 @@ body {
     font-size: 100%;
 }
 
+.login{
+    font-family: 'Comfortaa', cursive;
+}
+
 .image-cover{
 	background-size: cover;
 	background-position: center;

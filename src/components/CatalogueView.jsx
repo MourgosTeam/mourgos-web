@@ -114,7 +114,7 @@ class CatalogueView extends Component {
     return (
       <div className="container">
         <div className="row">
-          <div className="col-xs-12 col-sm-7 col-md-8 col-lg-8">
+          <div className="col-xs-12 col-sm-7 col-md-8 col-lg-9">
             <div className="row">
               <div className="col-xs-12 catalogue-view-title">
                 {this.catalogue.Name}
@@ -124,7 +124,7 @@ class CatalogueView extends Component {
             </div>
             <Catalogue id={this.catalogueId} mode="normal" openForAdd={this.openForAdd}></Catalogue>
           </div>
-          <div className="col-xs-12 col-sm-5 col-md-4 col-lg-4">
+          <div className="col-xs-12 col-sm-5 col-md-4 col-lg-3">
             {console.log(this.state.editItem)}
             <Basket items={this.state.basketItems} total={this.state.basketTotal} 
                     onRemoveItem={this.removeBasketItem} onEditItem={this.openForEdit} onClear={this.clearBasket}/>

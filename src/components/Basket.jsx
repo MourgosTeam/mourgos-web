@@ -38,7 +38,7 @@ class Basket extends Component {
 
   render() {
     return (<div className="row basket">
-      <div className="col-xs-12 title text-center">Το Καλάθι μου</div>
+      <div className="col-xs-12 title text-center">Το Καλαθι μου</div>
         <div className="col-xs-12 basket-panel">
         {this.props.items.map(function(data,index){
           return <BasketItem key={(index+1)*Math.floor(Math.random()*1000000)} item={data} removeHandler={this.removeBasketItem} editHandler={this.editBasketItem}></BasketItem>
@@ -49,8 +49,8 @@ class Basket extends Component {
               <div className="basket-total-panel text-right">
                   <div className="basket-total">ΣΥΝΟΛΟ: {this.props.total}</div>
                   <div className="row">
-                    <Button className="col-xs-5 basket-clear-button" onClick={this.clear}>Καθαρισμα</Button>
-                    <div className="col-xs-2"></div>
+                    <span className="col-xs-5 basket-clear-button" onClick={this.clear}>Καθαρισμα</span>
+                    <div className="col-xs-1"></div>
                     <Button className="col-xs-5 basket-add-button">Παραγγελια</Button>
                   </div>
               </div>):

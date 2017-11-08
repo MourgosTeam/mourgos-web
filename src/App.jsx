@@ -63,12 +63,32 @@ class App extends Component {
         <header className="navbar navbar-default">
           <div className="container">
             <UISref to="home" className="pointer">
-              <div className="navbar-header">
+              <div className="navbar-header logo-container">
                 <img src={logo}  alt="logo" className="App-logo" />
                 <span className="logo-text">Mourgos.gr</span>
               </div>
             </UISref>
-            
+              <div className="pull-right login text-right">
+                <div className="row login-name">
+                  <span>Δημήτρης</span>
+                </div> 
+                <div className="row login-address">
+                  <span>Άνω Τζουμαγιάς 25</span>
+                </div> 
+                <div className="row login-links">
+                  <ul>
+                    <li>
+                      <span>Το προφίλ μου</span>
+                    </li>
+                    <li>
+                      <span>Οι παραγγελίες μου</span>
+                    </li>
+                    <li>
+                      <span>Αποσύνδεση</span>
+                    </li>
+                  </ul>
+                </div> 
+              </div>
           </div>
         </header>
         <div>

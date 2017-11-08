@@ -6,17 +6,56 @@ button:focus {outline: none !important;}
 
 .App-logo {
   /*animation: App-logo-spin infinite 20s linear;*/
-  height: 50px;
+  height: 90px;
   vertical-align: bottom;
 }
 .logo-text{
     font-family: 'Londrina Solid', cursive;
     letter-spacing: 1px;
     font-weight: normal;
-    font-size: 28px;
+    font-size: 50px;
     color: white;
     padding-left: 2px;
 }
+.logo-container{
+  padding:5px 5px;
+}
+
+.login{
+  padding-top: 10px;
+}
+.login-name, .login-address{
+  font-weight: bold;
+  color: white;
+}
+.login-name{
+  font-family: 'Passion one', sans-serif;
+  font-size:20px;
+}
+.login-address{
+  font-size: 16px;
+  padding-top: 1px;
+  padding-bottom: 2px;
+}
+
+.login-links ul{
+  list-style-type: none;
+}
+.login-links ul li{
+  display: inline-block;
+  padding: 4px 10px 1px 10px;
+  border-right: 1px solid #aaa;
+  color: #cecece;
+  cursor: pointer;
+}
+.login-links ul li:last-child{
+  border-right: 0;
+  padding-right: 0;
+}
+
+
+
+
 
 .App-header {
   background-color: #222;
