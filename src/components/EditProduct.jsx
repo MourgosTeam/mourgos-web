@@ -56,8 +56,12 @@ class EditProduct extends Component {
       <div>
       <Modal show={this.props.showModal} onHide={this.closeModal}>
           <Modal.Header closeButton>
-            <Modal.Title>{this.props.object.Name}</Modal.Title>
+            <Modal.Title>
+              <div className="modal-title">{this.props.object.Name}</div>
+              <div className="modal-title-description">{this.props.object.Description}</div>
+            </Modal.Title>
           </Modal.Header>
+          {this.props.attributes.length ? 
           <Modal.Body>
             <div className="container-fluid">
             {this.props.attributes.map((object, index) => {
@@ -70,6 +74,7 @@ class EditProduct extends Component {
             })}
             </div>
           </Modal.Body>
+          : ""}
           <Modal.Footer>
             <ButtonGroup className="pull-left">
               <Button bsSize="sm" onClick={this.less}><span className="glyphicon glyphicon-minus"></span></Button>

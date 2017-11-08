@@ -22,6 +22,12 @@ export function ImageCover(props){
 
 const darkenBackgroundAmount = 0.3;
 export function BackgroundImage(imageUrl) {
+  if(!imageUrl){
+    return {
+      backgroundColor : '#777',
+      border : '1px solid #cecece'
+    }
+  }
   return {
     backgroundImage: `linear-gradient(rgba(0, 0, 0, ${darkenBackgroundAmount}),
                                       rgba(0, 0, 0, ${darkenBackgroundAmount})),

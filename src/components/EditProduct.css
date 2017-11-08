@@ -1,0 +1,19 @@
+.glyphicon{
+	cursor: pointer;
+}
+.glyphicon-edit:hover{
+	color:cornflowerblue;
+}
+.glyphicon-remove:hover{
+	color:red;
+}
+
+.modal-title{
+	font-size:18px;
+	font-weight: bold;
+}
+.modal-title-description{
+	font-size: 14px;
+	font-weight: lighter;
+	padding-top: 5px;
+}
