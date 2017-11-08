@@ -81,7 +81,7 @@ class Product extends Component {
       <div className="col-xs-12 col-md-6 col-lg-4 sm-pad">
         <Panel onClick={this.openForAdd} className="full-height pointer" style={BackgroundImage(this.state.object.Image)}>
           <div className="col-xs-8 text-left product-title-minimal">
-            <span>{this.indexKey + 1}. {this.state.object.Name}</span>
+            <span>{this.state.object.Name}</span>
           </div>
           <div className="col-xs-4 text-right product-price-minimal sm-pad">
             {/*<div>
