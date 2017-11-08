@@ -8,7 +8,7 @@ import { GetIt } from './helpers/helpers.jsx'
 
 import {UIRouter, UIView, UISref, pushStateLocationPlugin} from '@uirouter/react';
 
-const logo = "/images/mourgos-logo-white.png"
+const logo = "/images/mourgos-logo-white.png";
 
 class App extends Component {
   constructor(props){
