@@ -48,9 +48,10 @@ class Basket extends Component {
           (this.props.items.length)?(
               <div className="basket-total-panel text-right">
                   <div className="basket-total">ΣΥΝΟΛΟ: {this.props.total}</div>
-                  <div>
-                    <span className="basket-clear" onClick={this.clear}>Καθαρισμα</span>
-                    <Button className="basket-add-button">Παραγγελια</Button>
+                  <div className="row">
+                    <Button className="col-xs-5 basket-clear-button" onClick={this.clear}>Καθαρισμα</Button>
+                    <div className="col-xs-2"></div>
+                    <Button className="col-xs-5 basket-add-button">Παραγγελια</Button>
                   </div>
               </div>):
           (

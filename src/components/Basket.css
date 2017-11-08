@@ -2,8 +2,8 @@
 	padding-top: 15px;
 }
 .basket-panel{
-	padding-bottom: 20px;
-	padding-top: 40px;
+  padding: 10px 20px;
+
 	border: 1px solid #cecece;
 }
 .basket-item{
@@ -24,19 +24,18 @@
 	color: #999;
 	
 }
-.basket-clear{
-    font-size: 14px;
-    color: #888;
-    text-transform: uppercase;
-    padding: 0 15px;
-}
-.basket-add-button{
+
+.basket-add-button, .basket-clear-button {
     font-size: 16px;
-    border-radius: 25px;
     padding: 7px 13px;
     box-shadow: 0px 1px 4px -2px;
     color: #777;
     text-transform: uppercase;
+    border-radius: 25px;
+}
+
+.basket-add-button {
+  color: #EE6055;
 }
 
 .basket-total-panel{

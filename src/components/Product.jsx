@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './Product.css';
 
-import { GetIt, ImageCover } from '../helpers/helpers.jsx'
+import { GetIt, BackgroundImage } from '../helpers/helpers.jsx'
 
 import Attribute from './Attribute.jsx';
 import {Panel} from 'react-bootstrap'
@@ -79,7 +79,7 @@ class Product extends Component {
   renderNormal(){
     return (
       <div className="col-xs-12 col-md-6 col-lg-6 sm-pad">
-        <Panel onClick={this.openForAdd} className="full-height">
+        <Panel onClick={this.openForAdd} className="full-height" style={BackgroundImage(this.state.object.Image)}>
           <div className="col-xs-8 text-left product-title-minimal">
             <span>{this.indexKey + 1}. {this.state.object.Name}</span>
           </div>
@@ -88,15 +88,12 @@ class Product extends Component {
               <AddButton></AddButton>
             </div> */}
             <div>
-              <span className="text-muted">{this.state.object.Price} <span className="glyphicon glyphicon-euro"></span></span>
+              <span>{this.state.object.Price} <span className="glyphicon glyphicon-euro"></span></span>
             </div>
           </div>
           <div className="col-xs-12 col-md-12 text-left">
-            <div className="product-image-minimal">
-              <ImageCover src={this.state.object.Image}/>
-            </div>
             <div className="product-description-minimal">
-              <span className="text-muted">{this.state.object.Description}</span>
+              <span>{this.state.object.Description}</span>
             </div>
           </div>
         </Panel>

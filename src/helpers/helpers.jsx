@@ -19,3 +19,13 @@ export function ImageCover(props){
 	return (<div className="image-cover" style={{backgroundImage:'url('+props.src+')'}}>
 			</div>);
 }
+
+const darkenBackgroundAmount = 0.3;
+export function BackgroundImage(imageUrl) {
+  return {
+    backgroundImage: `linear-gradient(rgba(0, 0, 0, ${darkenBackgroundAmount}),
+                                      rgba(0, 0, 0, ${darkenBackgroundAmount})),
+                      url(${imageUrl})`,
+    backgroundSize: "cover"
+  };
+}

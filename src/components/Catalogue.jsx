@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import './Catalogue.css';
 
-import { GetIt, ImageCover } from '../helpers/helpers.jsx'
+import { GetIt, BackgroundImage} from '../helpers/helpers.jsx'
 import Category from "./Category.jsx"
 
 import {Panel} from 'react-bootstrap'
 import {UISref, UISrefActive} from '@uirouter/react'
-
-
 
 class Catalogue extends Component {
   constructor(props){
@@ -55,20 +53,19 @@ class Catalogue extends Component {
 
   renderMinimal(){
     return (
-      <div className="col-xs-12 col-sm-6 col-md-4 text-center sm-pad-all">
+      <div className="col-xs-12 col-sm-6 col-md-4 text-center sm-pad-all" >
         <UISrefActive class="active">
           <UISref to="catalogues" params={{catalogueId:this.props.object.id}}>
             <a className="full-height">
-              <Panel className="full-height">
+              <Panel
+                className="full-height"
+                style={BackgroundImage(this.props.object.Image)}>
                 <div className="col-xs-12 catalogue-title-minimal">
                   <span>{this.props.object.Name}</span>
                 </div>
-                <div className="col-xs-12 col-md-12">
-                  <div className="catalogue-image-minimal">
-                    <ImageCover src={this.props.object.Image}/>
-                  </div>
+                <div className="col-xs-12 col-md-12" >
                   <div className="catalogue-description-minimal">
-                    <span className="text-muted">{this.props.object.Description}</span>
+                    <span>{this.props.object.Description}</span>
                   </div>
                 </div>
               </Panel>
