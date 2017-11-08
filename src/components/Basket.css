@@ -2,9 +2,9 @@
 	padding-top: 15px;
 }
 .basket-panel{
-  padding: 20px 20px;
-
+    padding: 20px 20px;
 	border: 1px solid #cecece;
+    background-color: white;
 }
 .basket-item{
 	font-size:14px;

@@ -2,6 +2,10 @@
 	font-size:22px;
 	color:#777;
 }
+.catalogue-view-subtitle{
+	font-size: 16px;
+	padding: 10px;	 
+}
 .catalogue-view-image{
 	width: 200px;
 	max-height: 100px;

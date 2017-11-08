@@ -117,7 +117,9 @@ class CatalogueView extends Component {
           <div className="col-xs-12 col-sm-7 col-md-8 col-lg-9">
             <div className="row">
               <div className="col-xs-12 catalogue-view-title">
-                {this.catalogue.Name}
+                <div>{this.catalogue.Name}</div>
+
+                <div className="catalogue-view-subtitle">{this.catalogue.Description}</div>
               </div>
               <div className="col-xs-12 catalogue-view-image">
               </div>
