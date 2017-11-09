@@ -6,7 +6,7 @@ import Attribute from './Attribute.jsx';
 import {Modal, Button, ButtonGroup} from 'react-bootstrap'
 
 function AttributeAdder(props) {
-  return <a href={"/attributes.html?id="+props.object.id+"&name="+props.object.Name}>Edit</a>              
+  return <a target="_new" href={"/attributes.html?id="+props.object.id+"&name="+props.object.Name}>Edit</a>              
 }
 class EditProduct extends Component {
   constructor(props){
