@@ -33,17 +33,24 @@
     line-height: 38px;
     cursor: pointer;
 }
+
+.basket-clear-button:hover{
+    color: #EE6055;
+    
+}
+
 .basket-add-button {
     font-size: 16px;
     padding: 7px 13px;
     box-shadow: 0px 1px 4px -2px;
-    color: #777;
+    color: #EE6055;
     text-transform: uppercase;
     border-radius: 25px;
 }
 
-.basket-add-button {
-  color: #EE6055;
+.basket-add-button:hover {
+  color: white;
+  background-color: #ee6055;
 }
 
 .basket-total-panel{

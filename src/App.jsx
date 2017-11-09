@@ -68,14 +68,14 @@ class App extends Component {
                 <span className="logo-text">Mourgos.gr</span>
               </div>
             </UISref>
-              <div className="pull-right login text-right">
-                <div className="row login-name">
+              <div className="pull-right login text-right row">
+                <div className="col-xs-12 login-name">
                   <span>Δημήτρης</span>
                 </div> 
-                <div className="row login-address">
+                <div className="col-xs-12 login-address">
                   <span>Άνω Τζουμαγιάς 25</span>
                 </div> 
-                <div className="row login-links">
+                <div className="col-xs-12 login-links">
                   <ul>
                     <li>
                       <span>Το προφίλ μου</span>

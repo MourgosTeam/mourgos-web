@@ -28,7 +28,11 @@
     text-transform: uppercase;
 }
 
-
-.panel{
+.product-panel{
+    box-shadow: 0px 0px 5px 0px #cecece;
 	border: 0
+}
+
+.product-panel:hover{
+    box-shadow: 0px 0px 4px 2px #cecece;
 }
