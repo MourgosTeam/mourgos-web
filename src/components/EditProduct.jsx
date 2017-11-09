@@ -5,7 +5,9 @@ import './EditProduct.css';
 import Attribute from './Attribute.jsx';
 import {Modal, Button, ButtonGroup} from 'react-bootstrap'
 
-
+function AttributeAdder(props) {
+  return <a href={"/attributes.html?id="+props.object.id+"&name="+props.object.Name}>Edit</a>              
+}
 class EditProduct extends Component {
   constructor(props){
     super(props);
@@ -57,7 +59,10 @@ class EditProduct extends Component {
       <Modal show={this.props.showModal} onHide={this.closeModal}>
           <Modal.Header closeButton>
             <Modal.Title>
-              <div className="modal-title">{this.props.object.Name}</div>
+              <div className="modal-title">
+                {this.props.object.Name}  
+                <AttributeAdder object={this.props.object} /> 
+              </div>
               <div className="modal-title-price">{(this.props.object.Price*this.state.quantity).toFixed(2)} <span className="glyphicon glyphicon-euro"></span></div>
               <div className="modal-title-description">{this.props.object.Description}</div>
 
