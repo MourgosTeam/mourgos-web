@@ -21,7 +21,7 @@ export function ImageCover(props){
 }
 
 const darkenBackgroundAmount = 0.3;
-export function BackgroundImage(imageUrl) {
+export function BackgroundImage(imageUrl, logo) { // for logo use contain no-repeat
   if(!imageUrl){
     return {
       backgroundColor : '#777',
@@ -32,7 +32,8 @@ export function BackgroundImage(imageUrl) {
     backgroundImage: `linear-gradient(rgba(0, 0, 0, ${darkenBackgroundAmount}),
                                       rgba(0, 0, 0, ${darkenBackgroundAmount})),
                       url(${imageUrl})`,
-    backgroundSize: "cover",
-    backgroundPosition : "center"
+    backgroundSize: (logo)?"contain":"cover",
+    backgroundPosition : "center",
+    backgroundRepeat : "no-repeat"
   };
 }

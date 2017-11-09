@@ -59,7 +59,7 @@ class Catalogue extends Component {
             <a className="full-height">
               <Panel
                 className="full-height"
-                style={BackgroundImage(this.props.object.Image)}>
+                style={BackgroundImage(this.props.object.Image, true)}>
                 <div className="col-xs-12 catalogue-title-minimal">
                   <span>{this.props.object.Name}</span>
                 </div>
