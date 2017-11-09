@@ -97,7 +97,7 @@ class App extends Component {
           }}/>
         </div>
 
-        <div className="footer container-fluid">
+        <div className="footer text-center">
           <span>Mourgos.gr</span>
         </div>
       </div>
