@@ -10,7 +10,6 @@ class CatalogueView extends Component {
   constructor(props){
     super(props);
     console.log(props);
-    this.catalogueId = props.resolves.catalogueId || props.catalogueId;
     this.catalogue = props.resolves.catalogue || props.catalogue;
     // TO - DO
     //this.loadFromStorage();
@@ -124,7 +123,7 @@ class CatalogueView extends Component {
               <div className="col-xs-12 catalogue-view-image">
               </div>
             </div>
-            <Catalogue id={this.catalogueId} mode="normal" openForAdd={this.openForAdd}></Catalogue>
+            <Catalogue id={this.catalogue.id} mode="normal" openForAdd={this.openForAdd}></Catalogue>
           </div>
           <div className="col-xs-12 col-sm-5 col-md-4 col-lg-3">
             {console.log(this.state.editItem)}

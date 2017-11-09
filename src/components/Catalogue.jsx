@@ -55,7 +55,7 @@ class Catalogue extends Component {
     return (
       <div className="col-xs-12 col-sm-6 col-md-4 text-center sm-pad-all" >
         <UISrefActive class="active">
-          <UISref to="catalogues" params={{catalogueId:this.props.object.id}}>
+          <UISref to="catalogues" params={{catalogueURL:this.props.object.FriendlyURL}}>
             <a className="full-height">
               <Panel
                 className="full-height"

@@ -33,21 +33,21 @@ class App extends Component {
     },
     {
       name : "catalogues",
-      url  : "/catalogues/:catalogueId",
+      url  : "/:catalogueURL",
       component: CatalogueView,
       resolve:[{
-        token: "catalogueId",
+        token: "catalogueURL",
         deps : ['$transition$'],
         resolveFn : (trans) =>{
-          return Promise.resolve(trans.params().catalogueId);
+          return Promise.resolve(trans.params().catalogueURL);
         }
       },
       {
         token: "catalogue",
         deps : ['$transition$'],
         resolveFn : (trans) =>{
-          var id = trans.params().catalogueId;
-          return GetIt("/catalogues/"+id , "GET")
+          var curl = trans.params().catalogueURL;
+          return GetIt("/catalogues/"+curl , "GET")
           .then(function(data){
             return data.json();
           })
