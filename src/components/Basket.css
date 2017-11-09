@@ -1,6 +1,10 @@
 .basket{
 	padding-top: 15px;
 }
+.basket-fixed {
+    position: relative;
+    top : 0px;
+}
 .basket-panel{
     padding: 20px 20px;
 	border: 1px solid #cecece;

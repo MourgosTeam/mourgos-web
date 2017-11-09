@@ -75,3 +75,14 @@ button:focus {outline: none !important;}
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+
+
+.footer{
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #3E3449;
+  color: white;
+  font-family: "Londrina" , cursive;
+  border-top:1px solid #18141c; 
+}

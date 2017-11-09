@@ -77,12 +77,17 @@ class Catalogue extends Component {
   }
   renderNormal(){
     return (
-      <div className="col-xs-12">
+      <div>
         <div className="row">
-          {this.state.object.Name}
+          <div className="col-xs-12 catalogue-view-title">
+            <div>{this.props.object.Name}</div>
+            <div className="catalogue-view-subtitle">{this.props.object.Description}</div>
+          </div>
+          <div className="col-xs-12 catalogue-view-image">
+          </div>
         </div>
         <div className="row">
-          {this.state.categories}
+            {this.state.categories}
         </div>
       </div>
     );

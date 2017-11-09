@@ -96,6 +96,10 @@ class App extends Component {
               return <Component {...props} />
           }}/>
         </div>
+
+        <div className="footer container-fluid">
+          <span>Mourgos.gr</span>
+        </div>
       </div>
       </UIRouter>
     );

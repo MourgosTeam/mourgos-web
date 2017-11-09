@@ -114,29 +114,19 @@ class CatalogueView extends Component {
       <div className="container">
         <div className="row">
           <div className="col-xs-12 col-sm-7 col-md-8 col-lg-9">
-            <div className="row">
-              <div className="col-xs-12 catalogue-view-title">
-                <div>{this.catalogue.Name}</div>
-
-                <div className="catalogue-view-subtitle">{this.catalogue.Description}</div>
-              </div>
-              <div className="col-xs-12 catalogue-view-image">
-              </div>
-            </div>
-            <Catalogue id={this.catalogue.id} mode="normal" openForAdd={this.openForAdd}></Catalogue>
+            <Catalogue id={this.catalogue.id} mode="normal" object={this.catalogue} openForAdd={this.openForAdd}></Catalogue>
           </div>
           <div className="col-xs-12 col-sm-5 col-md-4 col-lg-3">
-            {console.log(this.state.editItem)}
             <Basket items={this.state.basketItems} total={this.state.basketTotal} 
                     onRemoveItem={this.removeBasketItem} onEditItem={this.openForEdit} onClear={this.clearBasket}/>
           </div>
         </div>
         {this.state.showModal ?
-          <EditProduct showModal={this.state.showModal} quantity={this.state.editQuantity} buttonText={this.state.modalButtonText}
-                       closeModal={this.closeModal} onSubmit={this.state.callback} 
-                       object={this.state.editItem} attributes={this.state.editAttributes}
-                       selectedAttributes={this.state.selectedAttributes}></EditProduct>
-          : ""}
+        <EditProduct showModal={this.state.showModal} quantity={this.state.editQuantity} buttonText={this.state.modalButtonText}
+                     closeModal={this.closeModal} onSubmit={this.state.callback} 
+                     object={this.state.editItem} attributes={this.state.editAttributes}
+                     selectedAttributes={this.state.selectedAttributes}></EditProduct>
+        : ""}
       </div>
     );
   }

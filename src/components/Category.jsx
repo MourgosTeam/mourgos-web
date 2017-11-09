@@ -60,11 +60,11 @@ class Category extends Component {
 
   renderNormal(){
     return (
-      <div className="col-xs-12">
+      <div>
         <div className="col-xs-12 category-title text-left">
             {this.state.object.Name}
         </div>
-        <div className="row col-xs-12 is-flex">
+        <div className="col-xs-12 is-flex">
             {this.state.products}
         </div>
       </div>
