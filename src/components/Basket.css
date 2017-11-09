@@ -5,6 +5,7 @@
     padding: 20px 20px;
 	border: 1px solid #cecece;
     background-color: white;
+    box-shadow: 0 0 6px 0 #cecece;
 }
 .basket-item{
 	font-size:14px;
@@ -36,7 +37,7 @@
 
 .basket-clear-button:hover{
     color: #EE6055;
-    
+
 }
 
 .basket-add-button {
