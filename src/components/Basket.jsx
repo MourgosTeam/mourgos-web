@@ -19,7 +19,9 @@ class BasketItem extends Component{
   render(){
     return (<div className="row basket-item">
       <span className="description col-xs-12 col-sm-8 col-md-8 text-left">{this.props.item.quantity}x {this.props.item.object.Name}</span>
-      <span className="price col-xs-12 col-sm-4 col-md-4 text-right">{(this.props.item.object.Price * this.props.item.quantity).toFixed(2)} EUR</span>
+      <span className="price col-xs-12 col-sm-4 col-md-4 text-right">{(this.props.item.object.Price * this.props.item.quantity).toFixed(2)} 
+        <span className="glyphicon glyphicon-euro"></span>
+      </span>
       <span className="col-xs-8 text-left"> 
         {this.props.item.description.map((data, index) => {return <div className="basket-item-description" key={index}>{data}</div>})}
       </span>
@@ -57,8 +59,9 @@ class Basket extends Component {
   }
   render() {
     return (<div className={ "row basket " + ((this.state.fixed) ? "basket-fixed" : "") } style={ (this.state.fixed) ? {top:this.state.top} : {}}>
-      <div className="col-xs-12 title text-center">Το Καλαθι μου</div>
-        <div className="col-xs-12 basket-panel">
+      
+      <div className="col-xs-12 basket-panel">
+        <div className="col-xs-12 title text-center">Το Καλαθι μου</div>
         {this.props.items.map(function(data,index){
           return <BasketItem key={(index+1)*Math.floor(Math.random()*1000000)} item={data} removeHandler={this.removeBasketItem} editHandler={this.editBasketItem}></BasketItem>
         }.bind(this))}

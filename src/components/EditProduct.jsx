@@ -58,7 +58,7 @@ class EditProduct extends Component {
           <Modal.Header closeButton>
             <Modal.Title>
               <div className="modal-title">{this.props.object.Name}</div>
-              <div className="modal-title-price">{(this.props.object.Price*this.state.quantity).toFixed(2)} <span class="glyphicon glyphicon-euro"></span></div>
+              <div className="modal-title-price">{(this.props.object.Price*this.state.quantity).toFixed(2)} <span className="glyphicon glyphicon-euro"></span></div>
               <div className="modal-title-description">{this.props.object.Description}</div>
 
             </Modal.Title>
