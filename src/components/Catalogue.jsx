@@ -81,6 +81,7 @@ class Catalogue extends Component {
         <div className="row">
           <div className="col-xs-12 catalogue-view-title">
             <div>{this.props.object.Name}</div>
+            <div><img src={this.props.object.Image} className="catalogue-view-image" /></div>
             <div className="catalogue-view-subtitle">{this.props.object.Description}</div>
           </div>
           <div className="col-xs-12 catalogue-view-image">

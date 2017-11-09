@@ -6,10 +6,21 @@ import Basket from './Basket.jsx'
 
 import EditProduct from './EditProduct.jsx'
 
+
+function CalculatePrice(item){
+  var fprice = parseFloat(item.object.Price);
+  for(var i=0; i < item._selectedAttributes.length;i++){
+    if(item._selectedAttributes[i] > -1){
+      fprice += parseFloat(item._attributes[i].Price);
+    }
+  }
+  item.TotalPrice =  parseFloat(fprice)*parseInt(item.quantity);
+  return item.TotalPrice;
+}
+
 class CatalogueView extends Component {
   constructor(props){
     super(props);
-    console.log(props);
     this.catalogue = props.resolves.catalogue || props.catalogue;
     // TO - DO
     //this.loadFromStorage();
@@ -36,9 +47,8 @@ class CatalogueView extends Component {
       _selectedAttributes : selectedAttributes
     };
     var sum = 0;
-    for(var i=0; i < this.state.basketItems.length;i++)sum += parseFloat(this.state.basketItems[i].object.Price * this.state.basketItems[i].quantity);
-    sum += parseFloat(newItem.object.Price*newItem.quantity);
-    sum = sum.toFixed(2);
+    for(var i=0; i < this.state.basketItems.length;i++)sum += CalculatePrice(this.state.basketItems[i])
+    sum += CalculatePrice(newItem);
     this.setState(prevState => ({
       basketItems: [...prevState.basketItems, newItem],
       basketTotal: sum,
@@ -59,8 +69,7 @@ class CatalogueView extends Component {
     }
 
     var sum = 0;  
-    for(var i=0; i < newArr.length;i++)sum += parseFloat(newArr[i].object.Price * newArr[i].quantity);
-    sum = sum.toFixed(2);
+    for(var i=0; i < newArr.length;i++)sum += CalculatePrice(newArr[i]);
     this.setState(prevState => ({
       basketItems: newArr,
       basketTotal: sum,
@@ -74,8 +83,7 @@ class CatalogueView extends Component {
     var index = array.indexOf(item);
     if(index > -1)
       array.splice(index, 1);
-    var sum = this.state.basketTotal - (item.object.Price * item.quantity).toFixed(2);
-    sum = sum.toFixed(2);
+    var sum = this.state.basketTotal - CalculatePrice(item);
     this.setState({basketItems: array, basketTotal: sum });
   }
 

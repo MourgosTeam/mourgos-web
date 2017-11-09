@@ -74,7 +74,9 @@ class EditProduct extends Component {
             {this.props.attributes.map((object, index) => {
                 return  (<div className="row" key={(index+1)*Math.random()}>
                             <div className="col-xs-12">
-                              <h4>{object.Name}</h4>
+                              <h4>{object.Name} 
+                                {((object.Price > 0) ? <span className="small-price"> + {object.Price}</span> : '' )} 
+                              </h4>
                               <Attribute id={object.id} object={object} selected={this.state.options[index]} key={(index+1)*Math.random()} attributeSelected={(data) => this.attributeSelected(data,index)}></Attribute>
                             </div>
                           </div>); 

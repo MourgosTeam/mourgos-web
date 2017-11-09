@@ -19,7 +19,7 @@ class BasketItem extends Component{
   render(){
     return (<div className="row basket-item">
       <span className="description col-xs-12 col-sm-8 col-md-8 text-left">{this.props.item.quantity}x {this.props.item.object.Name}</span>
-      <span className="price col-xs-12 col-sm-4 col-md-4 text-right">{(this.props.item.object.Price * this.props.item.quantity).toFixed(2)} 
+      <span className="price col-xs-12 col-sm-4 col-md-4 text-right">{this.props.item.TotalPrice.toFixed(2)} 
         <span className="glyphicon glyphicon-euro"></span>
       </span>
       <span className="col-xs-8 text-left"> 
@@ -69,7 +69,7 @@ class Basket extends Component {
         {
           (this.props.items.length)?(
               <div className="basket-total-panel text-right">
-                  <div className="basket-total">ΣΥΝΟΛΟ: {this.props.total}</div>
+                  <div className="basket-total">ΣΥΝΟΛΟ: {this.props.total.toFixed(2)}</div>
                   <div className="row">
                     <span className="col-xs-5 basket-clear-button" onClick={this.clear}>Καθαρισμα</span>
                     <div className="col-xs-1"></div>
