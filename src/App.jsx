@@ -91,15 +91,15 @@ class App extends Component {
               </div>
           </div>
         </header>
-        <div>
+        <div className="stretch">
           <UIView render={(Component, props) => {
               return <Component {...props} />
           }}/>
         </div>
 
-        <div className="footer text-center">
+        <footer className="footer text-center">
           <span>Mourgos.gr</span>
-        </div>
+        </footer>
       </div>
       </UIRouter>
     );
