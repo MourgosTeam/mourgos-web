@@ -14,7 +14,7 @@ function CalculatePrice(item){
       fprice += parseFloat(item._attributes[i].Price);
     }
   }
-  item.TotalPrice =  parseFloat(fprice)*parseInt(item.quantity);
+  item.TotalPrice =  parseFloat(fprice)*parseInt(item.quantity,10);
   return item.TotalPrice;
 }
 
