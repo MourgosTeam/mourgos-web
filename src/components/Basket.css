@@ -26,8 +26,11 @@
 }
 .basket-item .description{
     font-size:13px;
-    color: #999;
-    
+    color: #444;
+}
+.basket-item-description{
+    font-size:13px;
+    color: #999;    
 }
 .basket-item .price{
     font-size:14px;

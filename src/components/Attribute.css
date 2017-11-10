@@ -2,3 +2,11 @@
 	width: 300px;
 	border: 1px solid #00FF00;
 }
+.attribute-multi{
+	padding-top: 5px;
+	padding-bottom: 7px;
+}
+.attribute-solo{
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
