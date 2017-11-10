@@ -20,7 +20,7 @@ export function ImageCover(props){
 			</div>);
 }
 
-const darkenBackgroundAmount = 0.3;
+const darkenBackgroundAmount = 0.0;
 export function BackgroundImage(imageUrl, logo) { // for logo use contain no-repeat
   if(!imageUrl){
     return {
