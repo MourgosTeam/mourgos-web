@@ -20,6 +20,14 @@ export function ImageCover(props){
 			</div>);
 }
 
+export function loadJS(src) {
+    var ref = window.document.getElementsByTagName("script")[0];
+    var script = window.document.createElement("script");
+    script.src = src;
+    script.async = false;
+    ref.parentNode.insertBefore(script, ref);
+}
+
 const darkenBackgroundAmount = 0.0;
 export function BackgroundImage(imageUrl, logo) { // for logo use contain no-repeat
   if(!imageUrl){

@@ -3,19 +3,21 @@ import './App.css';
 
 import AllCataloguesView from './components/AllCataloguesView.jsx'
 import CatalogueView from './components/CatalogueView.jsx'
+import Home from './components/Home.jsx'
 import { GetIt } from './helpers/helpers.jsx'
-
+import Header  from './components/Header.jsx'
 
 import {UIRouter, UIView, UISref, pushStateLocationPlugin} from '@uirouter/react';
 
-const logo = "/images/mourgos-logo-white.png";
 
 class App extends Component {
   constructor(props){
     super(props);
 
     this.state = {
-      basketItems :  []
+      basketItems :  [],
+      username : "",
+      address : ""
     }
 
     // TO - DO
@@ -24,6 +26,11 @@ class App extends Component {
     this.uistates = [{
       name : "home",
       url  : "/",
+      component: Home
+    },
+    {
+      name : "allcatalogues",
+      url  : "/catalogues",
       component: AllCataloguesView
     },
     {
@@ -56,44 +63,23 @@ class App extends Component {
     }];
   }
 
+  onCredentialChange = () => {
+    var username = localStorage.getItem('username');
+    var address  = localStorage.getItem('user_address');
+    this.setState({
+      username : username,
+      address  : address
+    });
+  }
+
   render() {
     return (
       <UIRouter plugins={[pushStateLocationPlugin]} states={this.uistates}>
       <div className="App">
-        <header className="navbar navbar-default">
-          <div className="container">
-            <UISref to="home" className="pointer">
-              <div className="navbar-header logo-container">
-                <img src={logo}  alt="logo" className="App-logo" />
-                <span className="logo-text">Mourgos.gr</span>
-              </div>
-            </UISref>
-              <div className="pull-right login text-right row">
-                <div className="col-xs-12 login-name">
-                  <span>Δημήτρης</span>
-                </div> 
-                <div className="col-xs-12 login-address">
-                  <span>Άνω Τζουμαγιάς 25</span>
-                </div> 
-                <div className="col-xs-12 login-links">
-                  <ul>
-                    <li>
-                      <span>Το προφίλ μου</span>
-                    </li>
-                    <li>
-                      <span>Οι παραγγελίες μου</span>
-                    </li>
-                    <li>
-                      <span>Αποσύνδεση</span>
-                    </li>
-                  </ul>
-                </div> 
-              </div>
-          </div>
-        </header>
+        <Header username={this.state.username} address={this.state.address}></Header>
         <div className="stretch">
           <UIView render={(Component, props) => {
-              return <Component {...props} />
+              return <Component {...props} onCredentialChange={this.onCredentialChange} />
           }}/>
         </div>
 
