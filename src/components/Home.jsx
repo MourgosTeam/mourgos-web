@@ -3,13 +3,9 @@ import React, { Component } from 'react';
 import './Home.css';
 import Autocomplete from 'react-google-autocomplete';
 
-import {loadJS} from '../helpers/helpers.jsx';
 import {UISref, UISrefActive} from '@uirouter/react'
 
 class Home extends Component {
-  constructor(props){
-    super(props);
-  }
   componentDidMount(){
     this.createMap();
   }

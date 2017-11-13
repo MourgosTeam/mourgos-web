@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
 import './Header.css';
-import { GetIt, BackgroundImage } from '../helpers/helpers.jsx'
-import Attribute from './Attribute.jsx';
-import {Panel} from 'react-bootstrap'
 
 import {UISref} from '@uirouter/react';
 

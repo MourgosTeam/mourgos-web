@@ -7,7 +7,7 @@ import Home from './components/Home.jsx'
 import { GetIt } from './helpers/helpers.jsx'
 import Header  from './components/Header.jsx'
 
-import {UIRouter, UIView, UISref, pushStateLocationPlugin} from '@uirouter/react';
+import {UIRouter, UIView, pushStateLocationPlugin} from '@uirouter/react';
 
 
 class App extends Component {
