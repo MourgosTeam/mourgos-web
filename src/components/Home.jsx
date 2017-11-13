@@ -23,7 +23,7 @@ class Home extends Component {
     var google = window.google;
     this.map = new google.maps.Map(document.getElementById('map'), {
       center: {lat: 40.6212524, lng: 22.9110078},
-      zoom: 13
+      zoom: 14
     });
     var triangleCoords = [
       { lat : 40.63414, lng : 22.93653 },
@@ -43,7 +43,15 @@ class Home extends Component {
       { lat : 40.61772, lng : 22.95293 },
       { lat : 40.62422, lng : 22.95163 }
     ];
-    this.polygon = new google.maps.Polygon({paths: triangleCoords});
+    this.polygon = new google.maps.Polygon({
+          paths: triangleCoords,
+          strokeColor: '#FF0000',
+          strokeOpacity: 0.7,
+          strokeWeight: 2,
+          fillColor: '#FF0000',
+          fillOpacity: 0.11
+          });
+    this.polygon.setMap(this.map);
   }
 
   noNumber = (place) => {
@@ -103,7 +111,6 @@ class Home extends Component {
           <div className="row autocomplete">
             <Autocomplete id="address_input"
                 className="col-xs-12 col-sm-10 col-md-7 col-lg-5"
-                style={{width: '90%'}}
                 onPlaceSelected={this.placeSelected}
                 types={['address']}
                 componentRestrictions={{country: "gr"}}/>
