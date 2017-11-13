@@ -6,9 +6,19 @@ import Autocomplete from 'react-google-autocomplete';
 import {UISref, UISrefActive} from '@uirouter/react'
 
 class Home extends Component {
-  componentDidMount(){
+  
+  constructor(props){
+    super(props);
+
+    if(props.resolves.hasCreds && props.resolves.hasCreds.place){
+      setTimeout( () => this.placeSelected(props.resolves.hasCreds.place), 100);
+    }
+  }
+
+  componentDidMount = () => {
     this.createMap();
   }
+
   createMap = () => {
     var google = window.google;
     this.map = new google.maps.Map(document.getElementById('map'), {
@@ -35,6 +45,7 @@ class Home extends Component {
     ];
     this.polygon = new google.maps.Polygon({paths: triangleCoords});
   }
+
   noNumber = (place) => {
     var comp = place.address_components;
     for(var i in comp){
@@ -42,6 +53,7 @@ class Home extends Component {
     }
     return false;
   }
+
   placeSelected = (place) => {
     var google = window.google;
     document.getElementById('no-service').style.visibility = 'hidden';
@@ -57,13 +69,16 @@ class Home extends Component {
       this.map.setCenter(place.geometry.location);
       if(this.marker)this.marker.setMap(null);
       this.marker = new google.maps.Marker({
-        position: place.geometry.location,
+        position: place.geometry.location, 
         map: this.map
       });
-      var point = {
-        lat: place.geometry.location.lat,
-        lng : place.geometry.location.lng      
-      };
+      
+      let point;
+      if( typeof place.geometry.location.lat === "function" )
+        point = new google.maps.LatLng(place.geometry.location.lat(), place.geometry.location.lng());
+      else 
+        point = new google.maps.LatLng(place.geometry.location.lat, place.geometry.location.lng);
+
       if (google.maps.geometry.poly.containsLocation(point, this.polygon) ){
         document.getElementById('accept').style.visibility = 'visible';
         localStorage.setItem("user_address", place.name);
@@ -77,7 +92,7 @@ class Home extends Component {
     else{
       if(this.marker)this.marker.setMap(null);
     }
-    console.log(place);
+    document.getElementById("address_input").value = place.formatted_address;
   }
 
   render = () => {
@@ -86,7 +101,7 @@ class Home extends Component {
         <div className="map" id="map"></div>
         <div className="container overlay">
           <div className="row autocomplete">
-            <Autocomplete
+            <Autocomplete id="address_input"
                 className="col-xs-12 col-sm-10 col-md-7 col-lg-5"
                 style={{width: '90%'}}
                 onPlaceSelected={this.placeSelected}

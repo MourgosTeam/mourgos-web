@@ -26,7 +26,20 @@ class App extends Component {
     this.uistates = [{
       name : "home",
       url  : "/",
-      component: Home
+      component: Home,
+      resolve : [{
+        token : 'hasCreds',
+        deps  : ['$transition$'],
+        resolveFn : (trans) => {
+          let place = JSON.parse(localStorage.getItem("place"));
+          let address,name;
+          if(place){
+            name = localStorage.getItem("username");
+            address = localStorage.getItem("user_address");
+          }
+          return Promise.resolve({ name : name, address : address, place : place});
+        }
+      }]
     },
     {
       name : "allcatalogues",
