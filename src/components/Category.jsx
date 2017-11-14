@@ -61,11 +61,13 @@ class Category extends Component {
   renderNormal(){
     return (
       <div>
-        <div className="col-xs-12 category-title text-left">
+        <div className="col-12 category-title text-left">
             {this.state.object.Name}
         </div>
-        <div className="col-xs-12 is-flex">
+        <div className="col-12">
+          <div className="row" style={{paddingLeft:"12px", paddingRight:"12px"}}>
             {this.state.products}
+          </div>
         </div>
       </div>
     );
@@ -73,7 +75,7 @@ class Category extends Component {
 
   renderMinimal(){
     return (
-      <div className="col-xs-12">
+      <div className="col-12">
         {this.state.object.Name}
       </div>
     );

@@ -3,11 +3,11 @@ import './EditProduct.css';
 
 
 import Attribute from './Attribute.jsx';
-import {Modal, Button, ButtonGroup} from 'react-bootstrap'
+import { ButtonGroup, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
-function AttributeAdder(props) {
-  return <a target="_new" href={"/attributes.html?id="+props.object.id+"&name="+props.object.Name}>Edit</a>              
-}
+// function AttributeAdder(props) {
+//   return <a target="_new" href={"/attributes.html?id="+props.object.id+"&name="+props.object.Name}>Edit</a>              
+// }
 class EditProduct extends Component {
   constructor(props){
     super(props);
@@ -56,21 +56,22 @@ class EditProduct extends Component {
   }
   render() {
     return (
-      <div>
-      <Modal show={this.props.showModal} onHide={this.closeModal}>
-          <Modal.Header closeButton>
-            <Modal.Title>
-              <div className="modal-title">
-                {this.props.object.Name}  
-                <AttributeAdder object={this.props.object} /> 
-              </div>
-              <div className="modal-title-price">{(this.props.object.Price*this.state.quantity).toFixed(2)} <span className="glyphicon glyphicon-euro"></span></div>
-              <div className="modal-title-description">{this.props.object.Description}</div>
 
-            </Modal.Title>
-          </Modal.Header>
+      <div>
+        <Button color="danger" onClick={this.toggle}>{this.props.buttonLabel}</Button>
+        <Modal isOpen={this.props.showModal} toggle={this.closeModal} fade={true}>
+          <ModalHeader toggle={this.closeModal}>
+            <div className="modal-title">
+              {this.props.object.Name}  
+              {/*
+                <AttributeAdder object={this.props.object} /> 
+              //*/}
+            <div className="modal-title-price">{(this.props.object.Price*this.state.quantity).toFixed(2)} <span className="fa fa-euro"></span></div>
+            </div>
+            <div className="modal-title-description">{this.props.object.Description}</div>
+          </ModalHeader>
           {this.props.attributes.length ? 
-          <Modal.Body>
+          <ModalBody>
             <div className="container-fluid">
             {this.props.attributes.map((object, index) => {
                 return  (<div className="row" key={(index+1)*Math.random()}>
@@ -78,18 +79,18 @@ class EditProduct extends Component {
                           </div>); 
             })}
             </div>
-          </Modal.Body>
+          </ModalBody>
           : ""}
-          <Modal.Footer>
-            <ButtonGroup className="pull-left">
-              <Button bsSize="sm" onClick={this.less}><span className="glyphicon glyphicon-minus"></span></Button>
-              <Button bsSize="sm" disabled>{this.state.quantity}</Button>
-              <Button bsSize="sm" onClick={this.more}><span className="glyphicon glyphicon-plus"></span></Button>
+          <ModalFooter>
+            <ButtonGroup className="other-dir">
+              <Button size="sm" onClick={this.less} className="btn-light"><span className="fa fa-minus"></span></Button>
+              <Button size="sm" disabled  className="btn-light">{this.state.quantity}</Button>
+              <Button size="sm" onClick={this.more} className="btn-light"><span className="fa fa-plus"></span></Button>
             </ButtonGroup>
-            <Button onClick={ () => this.submitItem()} className="btn btn-default">{this.props.buttonText}</Button>
-          </Modal.Footer>
+            <Button onClick={ () => this.submitItem()} className="btn btn-light">{this.props.buttonText}</Button>
+          </ModalFooter>
         </Modal>
-        </div>);
+      </div>);
   }
 
 }

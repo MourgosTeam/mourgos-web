@@ -12,7 +12,7 @@ class Header extends Component {
     return;
   }
   render() {
-    return  <header className="navbar navbar-default">
+    return  <header className="navbar navbar-expand-lg navbar-light bg-first">
               <div className="container">
                 <UISref to="home" className="pointer">
                   <div className="navbar-header logo-container">
@@ -21,25 +21,26 @@ class Header extends Component {
                   </div>
                 </UISref>
                   <div className="pull-right login text-right row">
-                    <div className="col-xs-12 login-name">
+                    <div className="col-12 login-name">
                       <span>{this.props.username}</span>
                     </div> 
-                    <div className="col-xs-12 login-address">
+                    <div className="col-12 login-address">
                       <span>{this.props.address}</span>
                     </div> 
-                    <div className="col-xs-12 login-links">
-                      <ul>
-                        <li>
-                          <span>Το προφίλ μου</span>
-                        </li>
-                        <li>
-                          <span>Οι παραγγελίες μου</span>
-                        </li>
-                        <li>
-                          <span>Αποσύνδεση</span>
-                        </li>
-                      </ul>
-                    </div> 
+                    {// <div className="col-12 login-links">
+                    //   <ul>
+                    //     <li>
+                    //       <span>Το προφίλ μου</span>
+                    //     </li>
+                    //     <li>
+                    //       <span>Οι παραγγελίες μου</span>
+                    //     </li>
+                    //     <li>
+                    //       <span>Αποσύνδεση</span>
+                    //     </li>
+                    //   </ul>
+                    // </div> 
+                  }
                   </div>
               </div>
             </header>;

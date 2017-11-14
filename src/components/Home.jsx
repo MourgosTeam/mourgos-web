@@ -3,7 +3,9 @@ import React, { Component } from 'react';
 import './Home.css';
 import Autocomplete from 'react-google-autocomplete';
 
-import {UISref, UISrefActive} from '@uirouter/react'
+import {UISref, UISrefActive} from '@uirouter/react';
+
+import Partners from './Partners.jsx';
 
 class Home extends Component {
   
@@ -23,7 +25,8 @@ class Home extends Component {
     var google = window.google;
     this.map = new google.maps.Map(document.getElementById('map'), {
       center: {lat: 40.6212524, lng: 22.9110078},
-      zoom: 14
+      zoom: 14,
+      gestureHandling: "cooperative"
     });
     var triangleCoords = [
       { lat : 40.63414, lng : 22.93653 },
@@ -64,12 +67,12 @@ class Home extends Component {
 
   placeSelected = (place) => {
     var google = window.google;
-    document.getElementById('no-service').style.visibility = 'hidden';
-    document.getElementById('accept').style.visibility = 'hidden';
-    document.getElementById('no-number').style.visibility = 'hidden';
+    document.getElementById('no-service').style.display = 'none';
+    document.getElementById('accept').style.display = 'none';
+    document.getElementById('no-number').style.display = 'none';
 
     if(!  this.noNumber(place)){
-      document.getElementById('no-number').style.visibility = 'visible';
+      document.getElementById('no-number').style.display = 'block';
       return;
     }
 
@@ -88,13 +91,13 @@ class Home extends Component {
         point = new google.maps.LatLng(place.geometry.location.lat, place.geometry.location.lng);
 
       if (google.maps.geometry.poly.containsLocation(point, this.polygon) ){
-        document.getElementById('accept').style.visibility = 'visible';
+        document.getElementById('accept').style.display = 'block';
         localStorage.setItem("user_address", place.name);
         localStorage.setItem("place" , JSON.stringify(place));
         this.props.onCredentialChange();
       }
       else{
-        document.getElementById('no-service').style.visibility = 'visible';
+        document.getElementById('no-service').style.display = 'block';
       }
     }
     else{
@@ -105,29 +108,51 @@ class Home extends Component {
 
   render = () => {
     return (
-      <div>
-        <div className="map" id="map"></div>
-        <div className="container overlay">
-          <div className="row autocomplete">
-            <Autocomplete id="address_input"
-                className="col-xs-12 col-sm-10 col-md-7 col-lg-5"
-                onPlaceSelected={this.placeSelected}
-                types={['address']}
-                componentRestrictions={{country: "gr"}}/>
+      <div className="container-fluid home">
+        <div className="row overlay">
+          <div className="container">
+            <div className="row">
+              <div className="col-12 col-md-8 offset-md-2 autocomplete  welcome-panel">
+                <div className="row">
+                  <div className="col-12 slogan d-none d-md-block">
+                    Τι θα σου φέρει ο Μούργος σήμερα;
+                  </div>
+                  <div className="col-12 col-lg-8">
+                    <Autocomplete id="address_input"
+                        style={{width:"100%"}}
+                        onPlaceSelected={this.placeSelected}
+                        types={['address']}
+                        componentRestrictions={{country: "gr"}}/>
+                  </div>
+
+                  <div className="col-12 col-lg-4 accept-button" id="accept">
+                    <UISrefActive class="active">
+                      <UISref to="allcatalogues">
+                        <button className="btn btn-success">Επιλογή Διεύθυνσης</button>
+                      </UISref>
+                    </UISrefActive>
+                  </div>
+                  <div className="col-12 col-md-4 no-service-button" id="no-service">
+                    <button className="btn btn-danger btn-static">Εκτός περιοχής</button>
+                  </div>
+                  <div className="col-12 col-md-4 no-number-button" id="no-number">
+                    <button className="btn btn-warning btn-static">Συμπληρώστε αριθμό</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>  
+        </div> 
+
+        <div className="row">
+          <div className="col-12 map" id="map">test</div>
+        </div>
+
+        <div className="row">
+          <div className="col-12 text-center partners-title">
+            Συνεργαζόμενα Καταστήματα
           </div>
-          <div className="accept-button" id="accept">
-            <UISrefActive class="active">
-              <UISref to="allcatalogues">
-                <button className="btn btn-success">Επιλογή Διεύθυνσης</button>
-              </UISref>
-            </UISrefActive>
-          </div>
-          <div className="no-service-button" id="no-service">
-            <button className="btn btn-error">Προς το παρόν δεν εξυπηρετείται η διεύθυνση σας</button>
-          </div>
-          <div className="no-number-button" id="no-number">
-            <button className="btn btn-warning">Παρακαλώ συμπληρώστε τον αριθμό της διεύθυνσης</button>
-          </div>
+          <Partners></Partners>
         </div>
       </div>
     );

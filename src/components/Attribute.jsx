@@ -1,11 +1,22 @@
 import React, { Component } from 'react';
 import './Attribute.css';
 
-import {ToggleButton,ToggleButtonGroup, ButtonToolbar} from 'react-bootstrap'
-function AttributeOption(props){
-  return (<ToggleButton className="AttributeOption" value={props.key} key={props.key}>
-            {props.optionName}
-          </ToggleButton>);
+import {Button, ButtonGroup, ButtonToolbar} from 'reactstrap'
+class AttributeOption extends Component{
+  
+
+  componentWillReceiveProps(nextProps) {
+    console.log("PROPS")
+    console.log(nextProps);
+  }
+
+  render(){
+    return (
+      <Button className="btn btn-light AttributeOption" onClick={this.props.onSelect}
+              active={this.props.selected === this.props.indexKey}>
+              {this.props.optionName}
+      </Button>);
+  }
 }
 class Attribute extends Component {
   constructor(props){
@@ -13,46 +24,62 @@ class Attribute extends Component {
     
     this.id = props.id;
 
+
     this.object = props.object;
     this.object.Options = (typeof this.object.Options === "string") ? JSON.parse(this.object.Options) : this.object.Options;
     
+    this.isMulti = this.object.Options.length === 1;
 
-    const options = this.object.Options.map( function(data, index){
-      return AttributeOption({optionName : data , key : index});
-    });
-    this.options = options;
+    this.selected = 0;
   }
 
+  choose = (key) => {
+    this.props.attributeSelected(key);
+  }
+
+  toggle = () => {
+    if(this.props.selected === 0){
+      this.props.attributeSelected(-1);
+    }
+    else{
+      this.props.attributeSelected(0);
+    }
+  }
   renderMulti() {
     return (
-      <div className="col-xs-12 attribute-multi">
-        <h4>{this.object.Name} 
+      <div className="col-12 attribute-multi">
+        <h5>{this.object.Name} 
           {((this.object.Price > 0) ? <span className="small-price"> + {this.object.Price}</span> : '' )} 
-        </h4>
+        </h5>
         <div className="">
-          <ToggleButtonGroup type="radio" name="options" defaultValue={this.props.selected === undefined?-1:this.props.selected} onChange={this.props.attributeSelected}>
-            {this.options}
-            <ToggleButton className="AttributeOption" value={[-1]}>
-              <span className="glyphicon glyphicon-minus"></span>
-            </ToggleButton>
-          </ToggleButtonGroup>
+          <ButtonGroup name="options" data-toggle="buttons" size="sm">
+            {this.object.Options.map( (data, index) => {
+              return <AttributeOption optionName={data} key={index} indexKey={index} onSelect={() => this.choose(index)} 
+                    selected={this.props.selected}></AttributeOption>;
+              })
+            }
+            <Button className="btn btn-sm btn-light AttributeOption" onClick={() => this.choose(-1)} value="-1" active={this.props.selected === -1}><span className="fa fa-minus"></span></Button>
+          </ButtonGroup>
         </div>
       </div>
     );
   }
   renderAlone(){
     return (
-      <div className="col-xs-6 col-md-4 attribute-solo">
+      <div className="col-6 col-md-4 attribute-solo">
         <ButtonToolbar>
-          <ToggleButtonGroup type="checkbox" name="options" defaultValue={this.props.selected} onChange={this.props.attributeSelected}>
-            <ToggleButton value={0}>{this.object.Options[0]}</ToggleButton>
-          </ToggleButtonGroup>
+          <ButtonGroup size="sm">
+            <Button className="btn btn-light AttributeOption" onClick={this.toggle}
+              active={this.props.selected === 0} value={this.props.indexKey}>
+              {this.object.Options[0]}
+            </Button>
+          </ButtonGroup>
         </ButtonToolbar>
       </div>
     );
   }
   render() {
-    if(this.object.Options.length === 1){
+    if(this.isMulti){
       return this.renderAlone();
     }
     else{

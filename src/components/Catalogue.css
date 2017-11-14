@@ -25,3 +25,32 @@
 .panel-body {
   background-color: rgba(0, 0, 0, 0.7);
 }
+
+.card-body{
+	background-color: white;
+}
+.card {
+	height: 100%;
+    box-shadow: 0px 0px 2px 0px #cecece;
+}
+
+.hero-image{
+	height: 160px;
+}
+.logo-image{
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: -30px;
+	height: 80px;
+	width:80px;
+}
+.catalogue{
+	cursor: pointer;
+}
+.catalogue{
+	margin-left: auto;
+	margin-right:auto;
+}
+.card:hover{
+    box-shadow: 0px 0px 5px 1px #999;
+}

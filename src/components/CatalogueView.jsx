@@ -119,12 +119,12 @@ class CatalogueView extends Component {
   }
   render() {
     return (
-      <div className="container">
+      <div className="container catalogue-view">
         <div className="row">
-          <div className="col-xs-12 col-sm-7 col-md-8 col-lg-9">
+          <div className="col-12 col-sm-7 col-md-8 col-lg-9">
             <Catalogue id={this.catalogue.id} mode="normal" object={this.catalogue} openForAdd={this.openForAdd}></Catalogue>
           </div>
-          <div className="col-xs-12 col-sm-5 col-md-4 col-lg-3">
+          <div className="col-12 col-sm-5 col-md-4 col-lg-3">
             <Basket items={this.state.basketItems} total={this.state.basketTotal} 
                     onRemoveItem={this.removeBasketItem} onEditItem={this.openForEdit} onClear={this.clearBasket}/>
           </div>

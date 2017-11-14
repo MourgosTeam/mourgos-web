@@ -60,6 +60,9 @@
     color: #EE6055;
     text-transform: uppercase;
     border-radius: 25px;
+    background-color: white;
+    border-color: rgb(204, 204, 204);
+    cursor: pointer;
 }
 
 .basket-add-button:hover {
@@ -90,5 +93,6 @@
 
 .basket-buttons span{
     padding: 5px 6px;
-    font-size: 14px;
+    font-size: 18px;
+    cursor: pointer;
 }

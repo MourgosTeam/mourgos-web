@@ -1,16 +1,15 @@
-.glyphicon{
-	cursor: pointer;
-}
-.glyphicon-edit:hover{
+
+.fa-pencil-square-o:hover{
 	color:cornflowerblue;
 }
-.glyphicon-remove:hover{
+.fa-times:hover{
 	color:red;
 }
 
 .modal-title{
 	font-size:18px;
 	font-weight: bold;
+	width: 100%;
 }
 .modal-title-description{
 	font-size: 14px;
@@ -21,8 +20,22 @@
 .modal-title-price{
 	float: right;
 }
-
+ 
 .small-price{
 	font-size:12px;
 	color:#888;
+}
+.other-dir{
+	flex: 1;
+}
+
+button.btn-light{
+    border: 1px solid #999 !important;
+    background-color: white;
+    color: black;
+}
+button.btn-light.active{
+    border: 1px solid #999 !important;
+    box-shadow: rgba(0, 0, 0, 0.125) 0px 3px 5px 0px inset !important;
+    color: #EE6055 !important;
 }

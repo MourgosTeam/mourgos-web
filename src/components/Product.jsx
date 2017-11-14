@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './Product.css';
 
-import { GetIt, BackgroundImage } from '../helpers/helpers.jsx'
+import { GetIt, BackgroundGradientImage } from '../helpers/helpers.jsx'
 
 import Attribute from './Attribute.jsx';
 import {Panel} from 'react-bootstrap'
@@ -78,22 +78,24 @@ class Product extends Component {
 
   renderNormal(){
     return (
-      <div className="col-xs-12 col-md-6 col-lg-4 sm-pad">
-        <Panel onClick={this.openForAdd} className="full-height pointer product-panel" style={BackgroundImage(this.state.object.Image)}>
-          <div className="col-xs-8 text-left product-title-minimal">
-            <span>{this.state.object.Name}</span>
-          </div>
-          <div className="col-xs-4 text-right product-price-minimal sm-pad">
-            {/*<div>
-              <AddButton></AddButton>
-            </div> */}
-            <div>
-              <span>{this.state.object.Price} <span className="glyphicon glyphicon-euro"></span></span>
+      <div className="col-12 col-md-6 col-lg-4 sm-pad-all ">
+        <Panel onClick={this.openForAdd} className="pointer product-panel" style={BackgroundGradientImage(this.state.object.Image)}>
+          <div className="row nm sm-pad-top">
+            <div className="col-8 text-left product-title-minimal">
+              <span>{this.state.object.Name}</span>
             </div>
-          </div>
-          <div className="col-xs-12 col-md-12 text-left">
-            <div className="product-description-minimal">
-              <span>{this.state.object.Description}</span>
+            <div className="col-4 text-right product-price-minimal">
+              {/*<div>
+                <AddButton></AddButton>
+              </div> */}
+              <div>
+                <span>{this.state.object.Price} <span className="glyphicon glyphicon-euro"></span></span>
+              </div>
+            </div>
+            <div className="col-12 col-md-12 text-left">
+                <div className="product-description-minimal">
+                <span>{this.state.object.Description}</span>
+              </div>
             </div>
           </div>
         </Panel>
@@ -104,7 +106,7 @@ class Product extends Component {
   renderMinimal(){
     return (
       <div className="row">
-        <div className="col-xs-12">
+        <div className="col-12">
           {this.state.attributes}
         </div>
       </div>

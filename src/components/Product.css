@@ -30,9 +30,15 @@
 
 .product-panel{
     box-shadow: 0px 0px 5px 0px #cecece;
-	border: 0
+	border: 0;
+	text-shadow: -1px 1px 2px #000;
 }
-
 .product-panel:hover{
-    box-shadow: 0px 0px 4px 2px #cecece;
+    box-shadow: 0px 0px 2px 1px #3E3449;
+} 
+.panel-body{
+	background: transparent;
+}
+.sm-pad-top{
+	padding-top: 3px;
 }

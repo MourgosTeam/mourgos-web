@@ -80,7 +80,9 @@ button:focus {outline: none !important;}
   min-height: 100vh;
 }
 .App .stretch{
-  min-height: calc(100vh - 202px );
+  min-height: calc(100vh - 162px );
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 .footer{
   padding: 15px;
@@ -92,5 +94,43 @@ button:focus {outline: none !important;}
   bottom:0;
   height:60px;   /* Height of the footer */
   width: 100%;
-  margin-top: 20px;
+}
+
+
+
+
+
+
+
+
+
+.bg-first{
+  background-color: #EE6055;
+}
+.color-first{
+  color: #EE6055;
+}
+.bg-second{
+  background-color: #3E3449;
+}
+.color-second{
+  color: #3E3449;
+}
+.bg-third{
+  background-color: #0D3B66;
+}
+.color-third{
+  color: #0D3B66;
+}
+.bg-fourth{
+  background-color: #FBF5DD;
+}
+.color-fourth{
+  color: #FBF5DD;
+}
+.bg-fifth{
+  background-color: #FCFCFF;
+}
+.color-fifth{
+  color: #FCFCFF;
 }

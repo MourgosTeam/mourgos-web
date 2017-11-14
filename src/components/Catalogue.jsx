@@ -4,8 +4,10 @@ import './Catalogue.css';
 import { GetIt, BackgroundImage} from '../helpers/helpers.jsx'
 import Category from "./Category.jsx"
 
-import {Panel} from 'react-bootstrap'
 import {UISref, UISrefActive} from '@uirouter/react'
+
+
+import { Card, CardText, CardBody, CardTitle } from 'reactstrap';
 
 class Catalogue extends Component {
   constructor(props){
@@ -30,6 +32,9 @@ class Catalogue extends Component {
       case 'normal':
         this.getCategories();
         break;
+      case 'card':
+        
+        break;
     }
     
     
@@ -53,45 +58,55 @@ class Catalogue extends Component {
 
   renderMinimal(){
     return (
-      <div className="col-xs-12 col-sm-6 col-md-4 text-center sm-pad-all" >
+      <div className="col-12 col-sm-6 col-md-4 text-center sm-pad-all" >
         <UISrefActive class="active">
           <UISref to="catalogues" params={{catalogueURL:this.props.object.FriendlyURL}}>
-            <a className="full-height">
-              <Panel
-                className="full-height"
-                style={BackgroundImage(this.props.object.Image, true)}>
-                <div className="col-xs-12 catalogue-title-minimal">
-                  <span>{this.props.object.Name}</span>
-                </div>
-                <div className="col-xs-12 col-md-12" >
-                  <div className="catalogue-description-minimal">
-                    <span>{this.props.object.Description}</span>
-                  </div>
-                </div>
-              </Panel>
-            </a>
+            <Card>
+              <div width="100%" className="hero-image" style={BackgroundImage(this.props.object.Image)} alt={this.props.object.Name}></div>
+              <div width="100%" className="logo-image" style={BackgroundImage(this.props.object.Image)} alt={this.props.object.Name}></div>
+              <CardBody>
+                <CardTitle>{this.props.object.Name}</CardTitle>
+                <CardText>{this.props.object.Description}</CardText>
+              </CardBody>
+            </Card>
           </UISref>
         </UISrefActive>
       </div>
+      
     );
   }
   renderNormal(){
     return (
       <div>
-        <div className="row">
-          <div className="col-xs-12 catalogue-view-title">
+        <div>
+          <div className="col-12 catalogue-view-title">
             <div>{this.props.object.Name}</div>
             <div><img src={this.props.object.Image} className="catalogue-view-image" alt=""/></div>
             <div className="catalogue-view-subtitle">{this.props.object.Description}</div>
           </div>
-          <div className="col-xs-12 catalogue-view-image">
+          <div className="col-12 catalogue-view-image">
           </div>
         </div>
-        <div className="row">
+        <div>
             {this.state.categories}
         </div>
       </div>
     );
+  }
+
+  renderCard(){
+      return (
+        <div className="col-12 col-sm-10 col-md-5 col-lg-5 col-xl-3 text-center sm-pad-all catalogue" >
+           <Card>
+            <div width="100%" className="hero-image" style={BackgroundImage(this.props.object.Image)} alt={this.props.object.Name}></div>
+            <div width="100%" className="logo-image" style={BackgroundImage(this.props.object.Image)} alt={this.props.object.Name}></div>
+            <CardBody>
+              <CardTitle>{this.props.object.Name}</CardTitle>
+              <CardText>{this.props.object.Description}</CardText>
+            </CardBody>
+          </Card>
+        </div>
+      );
   }
 
   render() {
@@ -101,7 +116,8 @@ class Catalogue extends Component {
       default:
       case 'minimal':
         return this.renderMinimal();
-
+      case 'card':
+        return this.renderCard();
     }
   }
 }

@@ -28,7 +28,7 @@ export function loadJS(src) {
     ref.parentNode.insertBefore(script, ref);
 }
 
-const darkenBackgroundAmount = 0.0;
+const darkenBackgroundAmount = 0.3;
 export function BackgroundImage(imageUrl, logo) { // for logo use contain no-repeat
   if(!imageUrl){
     return {
@@ -37,8 +37,22 @@ export function BackgroundImage(imageUrl, logo) { // for logo use contain no-rep
     }
   }
   return {
+    backgroundImage: `url(${imageUrl})`,
+    backgroundSize: (logo)?"contain":"cover",
+    backgroundPosition : "center",
+    backgroundRepeat : "no-repeat"
+  };
+}
+export function BackgroundGradientImage(imageUrl, logo) { // for logo use contain no-repeat
+  if(!imageUrl){
+    return {
+      backgroundColor : '#777',
+      border : '1px solid #cecece'
+    }
+  }
+  return {
     backgroundImage: `linear-gradient(rgba(0, 0, 0, ${darkenBackgroundAmount}),
-                                      rgba(0, 0, 0, ${darkenBackgroundAmount})),
+                                      rgba(0, 0, 0, ${darkenBackgroundAmount-0.2})),
                       url(${imageUrl})`,
     backgroundSize: (logo)?"contain":"cover",
     backgroundPosition : "center",

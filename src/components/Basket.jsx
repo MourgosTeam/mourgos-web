@@ -18,14 +18,14 @@ class BasketItem extends Component{
   }
   render(){
     return (<div className="row basket-item">
-      <span className="description col-xs-12 col-sm-8 col-md-8 text-left">{this.props.item.quantity}x {this.props.item.object.Name}</span>
-      <span className="price col-xs-12 col-sm-4 col-md-4 text-right">{this.props.item.TotalPrice.toFixed(2)} 
-        <span className="glyphicon glyphicon-euro"></span>
+      <span className="description col-12 col-sm-8 col-md-8 text-left">{this.props.item.quantity}x {this.props.item.object.Name}</span>
+      <span className="price col-12 col-sm-4 col-md-4 text-right">{this.props.item.TotalPrice.toFixed(2)} 
+        <span className="fa fa-euro"></span>
       </span>
-      <span className="col-xs-8 text-left"> 
+      <span className="col-8 text-left"> 
         {this.props.item.description.map((data, index) => {return <div className="basket-item-description" key={index}>{data}</div>})}
       </span>
-      <span className="col-xs-4 text-right basket-buttons"><span className="glyphicon glyphicon-edit" onClick={this.editHandler}></span><span className="glyphicon glyphicon-remove" onClick={this.removeHandler}></span></span>
+      <span className="col-4 text-right basket-buttons"><span className="fa fa-pencil-square-o" onClick={this.editHandler}></span><span className="fa fa-times" onClick={this.removeHandler}></span></span>
     </div>);
   }
 }
@@ -60,8 +60,8 @@ class Basket extends Component {
   render() {
     return (<div className={ "row basket " + ((this.state.fixed) ? "basket-fixed" : "") } style={ (this.state.fixed) ? {top:this.state.top} : {}}>
       
-      <div className="col-xs-12 basket-panel">
-        <div className="col-xs-12 title text-center">Το Καλαθι μου</div>
+      <div className="col-12 basket-panel">
+        <div className="col-12 title text-center">Το Καλαθι μου</div>
         {this.props.items.map(function(data,index){
           return <BasketItem key={(index+1)*Math.floor(Math.random()*1000000)} item={data} removeHandler={this.removeBasketItem} editHandler={this.editBasketItem}></BasketItem>
         }.bind(this))}
@@ -71,9 +71,8 @@ class Basket extends Component {
               <div className="basket-total-panel text-right">
                   <div className="basket-total">ΣΥΝΟΛΟ: {this.props.total.toFixed(2)}</div>
                   <div className="row">
-                    <span className="col-xs-5 basket-clear-button" onClick={this.clear}>Καθαρισμα</span>
-                    <div className="col-xs-1"></div>
-                    <Button className="col-xs-5 basket-add-button">Παραγγελια</Button>
+                    <button className="col-12 col-md-5 basket-clear-button m-auto btn btn-link" onClick={this.clear}>Καθαρισμα</button>
+                    <Button className="col-12 col-md-6 col-sm-7 basket-add-button m-auto">Παραγγελια</Button>
                   </div>
               </div>):
           (

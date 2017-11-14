@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 
-import './AllCataloguesView.css';
+import './Partners.css';
 import Catalogue from './Catalogue.jsx'
 
 import {GetIt} from '../helpers/helpers.jsx'
 
-class AllCataloguesView extends Component {
+class Partners extends Component {
   constructor(props){
     super(props);
 
@@ -25,7 +25,7 @@ class AllCataloguesView extends Component {
     .then((data) => {
       this.allData = data;
       return data.map(function(object, index){
-        return <Catalogue id={object.id} object={object} key={index} mode="minimal"></Catalogue>; 
+        return <Catalogue id={object.id} object={object} key={index} mode="card"></Catalogue>; 
       });
     })
     .then(
@@ -33,24 +33,14 @@ class AllCataloguesView extends Component {
     );
   }
 
-
-  onDataChange = ( data ) =>{
-    this.setState({
-      catalogues : data
-    });
-  }
-
   render = () => {
     return (
       <div className="container all-catalogues-view">
-        <div className="row justify-content-start">
-           {/*<div className="col-12 col-md-4 col-lg-3 hidden-xs">
-           <SearchFilters items={this.state.basketItems} onChange={this.onDataChange}/>
-          </div>*/}
-            {this.state.catalogues}
+        <div className="row">
+          {this.state.catalogues}
         </div>
       </div>
     );
   }
 }
-export default AllCataloguesView;
+export default Partners;
