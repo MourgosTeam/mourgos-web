@@ -89,7 +89,7 @@ class Product extends Component {
                 <AddButton></AddButton>
               </div> */}
               <div>
-                <span>{this.state.object.Price} <span className="glyphicon glyphicon-euro"></span></span>
+                <span>{this.state.object.Price} <span className="fa fa-euro"></span></span>
               </div>
             </div>
             <div className="col-12 col-md-12 text-left">

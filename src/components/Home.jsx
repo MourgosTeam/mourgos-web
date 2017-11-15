@@ -24,7 +24,7 @@ class Home extends Component {
   createMap = () => {
     var google = window.google;
     this.map = new google.maps.Map(document.getElementById('map'), {
-      center: {lat: 40.6212524, lng: 22.9110078},
+      center: {lat: 40.63178, lng: 22.95151}, //40.63178, 22.95151 kamara
       zoom: 14,
       gestureHandling: "cooperative"
     });
@@ -115,7 +115,7 @@ class Home extends Component {
               <div className="col-12 col-md-8 offset-md-2 autocomplete  welcome-panel">
                 <div className="row">
                   <div className="col-12 slogan d-none d-md-block">
-                    Τι θα σου φέρει ο Μούργος σήμερα;
+                    Που θες να έρθει ο Μούργος σήμερα;
                   </div>
                   <div className="col-12 col-lg-8">
                     <Autocomplete id="address_input"

@@ -35,7 +35,7 @@ class Partners extends Component {
 
   render = () => {
     return (
-      <div className="container all-catalogues-view">
+      <div className="container partners">
         <div className="row">
           {this.state.catalogues}
         </div>
