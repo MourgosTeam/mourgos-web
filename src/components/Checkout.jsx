@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import './Checkout.css';
 // import {UISref, UISrefActive} from '@uirouter/react';
 
-import { Card, CardText, CardBody, CardTitle } from 'reactstrap';
+import { Card,  CardBody, CardTitle } from 'reactstrap';
 
 
 
@@ -14,9 +14,9 @@ class BasketItem extends Component{
       <span className="price col-12 col-sm-4 col-md-4 text-right">{this.props.item.TotalPrice.toFixed(2)} 
         <span className="fa fa-euro"></span> 
       </span>
-      <span className="col-8 textt-left"> 
+      <div className="col-8 text-left"> 
         {this.props.item.description.map((data, index) => {return <div className="basket-item-description" key={index}>{data}</div>})}
-      </span>
+      </div>
     </div>);
   }
 }
@@ -53,7 +53,7 @@ class Checkout extends Component {
             <Card>
               <CardBody>
                 <CardTitle>Τα στοιχεία μου</CardTitle>
-                <CardText className="pad-top">
+                <div className="pad-top">
                   <div className="col-12">
                     <div>Όνομα</div>
                     <input type="text" className="textfield" />
@@ -70,7 +70,7 @@ class Checkout extends Component {
                     <div>Σχόλια</div>
                     <input type="text" className="textfield" />
                   </div>
-                </CardText>
+                </div>
               </CardBody>
             </Card>
           </div>
@@ -78,16 +78,16 @@ class Checkout extends Component {
             <Card>
               <CardBody>
                 <CardTitle>Η παραγγελία μου</CardTitle>
-                <CardText className="pad-top">
+                <div className="pad-top">
                   <div>
                     {this.state.basketItems.map((data,index) => {
                       return <BasketItem item={data} key={index} />;
                     })}
                   </div>
                   <div className="text-right total">
-                    Σύνολο : {this.state.basketTotal} <span className="fa fa-euro"></span>
+                    Σύνολο : {this.state.basketTotal.toFixed(2)} <span className="fa fa-euro"></span>
                   </div>
-                </CardText>
+                </div>
               </CardBody>
             </Card>
           </div>
@@ -95,11 +95,11 @@ class Checkout extends Component {
             <Card>
               <CardBody>
                 <CardTitle>Επιβεβαίωση παραγγελίας</CardTitle>
-                <CardText className="pad-top">
+                <div className="pad-top">
                   <div className="final">
                     <button className="btn btn-light">Φέρε το φαΐ</button>
                   </div>
-                </CardText>
+                </div>
               </CardBody>
             </Card>
           </div>
