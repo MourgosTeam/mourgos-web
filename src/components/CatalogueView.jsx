@@ -5,7 +5,7 @@ import Catalogue from './Catalogue.jsx'
 import Basket from './Basket.jsx'
 
 import EditProduct from './EditProduct.jsx'
-
+import CheckoutModal from './CheckoutModal.jsx'
 
 function CalculatePrice(item){
   var fprice = parseFloat(item.object.Price);
@@ -19,24 +19,53 @@ function CalculatePrice(item){
 }
 
 class CatalogueView extends Component {
+
   constructor(props){
     super(props);
+    this.redirect = props.transition.router.stateService.go;
     this.catalogue = props.resolves.catalogue || props.catalogue;
     // TO - DO
     //this.loadFromStorage();
+    var local = this.loadFromStorage();
     this.state = {
-      basketItems :  [],
+      basketItems :  local.items,
       showModal   : false,
       editItem    : {},
       editAttributes : [],
       selectedAttributes: [],
       editQuantity: 1,
-      basketTotal : 0,
+      basketTotal : local.total,
       callback    : this.addBasketItem
+    };
+    
+  }
+  loadFromStorage(){
+    var local = JSON.parse(localStorage.getItem('basket'));
+    if(!local){
+      local = {
+        items : [],
+        total : 0,
+        id : -1
+      } 
+    }
+    if(local.id !== this.catalogue.id){
+      localStorage.setItem('basket', null);
+      local.items = [];
+      local.total = 0;
+      local.id = -1;
+    }
+    return local;
+  }
+  componentDidUpdate(){
+    if(this.saveBasketFlag){
+      var a = {id: this.catalogue.id, items: this.state.basketItems, total: this.state.basketTotal};
+      localStorage.setItem("basket", JSON.stringify(a));
+      this.saveBasketFlag = false;
     }
   }
 
   addBasketItem = ( item, description, quantity, prodAttributes, selectedAttributes ) => {
+    this.saveBasketFlag = true;
     var copiedItem = Object.assign({},item);
     copiedItem.__randID = Math.random();
     var newItem = {
@@ -56,6 +85,7 @@ class CatalogueView extends Component {
     }));
   }
   editBasketItem = (item, description, quantity, prodAttributes, selectedAttributes) => {
+    this.saveBasketFlag = true;
     var arr = [...this.state.basketItems];
     var newArr = [];
     for(let i=0,l=arr.length; i < l ;i++){
@@ -79,6 +109,7 @@ class CatalogueView extends Component {
   }
 
   removeBasketItem = (item) => {
+    this.saveBasketFlag = true;
     var array = this.state.basketItems;
     var index = array.indexOf(item);
     if(index > -1)
@@ -89,6 +120,9 @@ class CatalogueView extends Component {
 
   closeModal = () => {
     this.setState({showModal:false});
+  }
+  closeCheckoutModal = () => {
+    this.setState({showCheckoutModal:false});
   }
   openForEdit = (item,quantity,attributes, selectedAttributes) => {
     this.setState({
@@ -117,6 +151,28 @@ class CatalogueView extends Component {
       basketItems: []
     });
   }
+
+  checkout = () => {
+    // check total! 
+    if(this.state.basketTotal < 5){
+      this.setState({
+        showCheckoutModal : true
+      });
+    }
+    else{
+      this.redirect("checkout");
+    }
+    // if total < minimum_order
+    //   showModal
+    // else
+    //   redirect
+  }
+
+  checkoutNow = () => {
+    // check total! 
+    this.redirect("checkout");
+  }
+
   render() {
     return (
       <div className="container catalogue-view">
@@ -126,7 +182,7 @@ class CatalogueView extends Component {
           </div>
           <div className="col-12 col-sm-5 col-md-4 col-lg-3">
             <Basket items={this.state.basketItems} total={this.state.basketTotal} 
-                    onRemoveItem={this.removeBasketItem} onEditItem={this.openForEdit} onClear={this.clearBasket}/>
+                    onRemoveItem={this.removeBasketItem} onEditItem={this.openForEdit} onClear={this.clearBasket} onCheckout={this.checkout}/>
           </div>
         </div>
         {this.state.showModal ?
@@ -135,8 +191,12 @@ class CatalogueView extends Component {
                      object={this.state.editItem} attributes={this.state.editAttributes}
                      selectedAttributes={this.state.selectedAttributes}></EditProduct>
         : ""}
+        {this.state.showCheckoutModal ?
+        <CheckoutModal showModal={this.state.showCheckoutModal} closeModal={this.closeCheckoutModal} onCheckoutNow={this.checkoutNow}></CheckoutModal>
+        : ""}
       </div>
     );
   }
 }
+//const CatalogueViewEx = withRouter(props => <CatalogueView {...props}/>);
 export default CatalogueView;

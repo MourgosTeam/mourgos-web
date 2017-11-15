@@ -72,7 +72,7 @@ class Basket extends Component {
                   <div className="basket-total">ΣΥΝΟΛΟ: {this.props.total.toFixed(2)}<span className="fa fa-euro"></span></div>
                   <div className="row">
                     <button className="col-12 col-md-5 basket-clear-button m-auto btn btn-link" onClick={this.clear}>Καθαρισμα</button>
-                    <Button className="col-12 col-md-6 col-sm-7 basket-add-button m-auto">Παραγγελια</Button>
+                    <Button className="col-12 col-md-6 col-sm-7 basket-add-button m-auto" onClick={this.props.onCheckout}>Παραγγελια</Button>
                   </div>
               </div>):
           (

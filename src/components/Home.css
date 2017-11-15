@@ -29,13 +29,13 @@
 	line-height: 40px;
 	outline: none;
 }
+.autocomplete input:focus{
+    border: 1px solid #EE6055;
+}
 .autocomplete button{
     height: 40px;
     border-radius: 3px;
     width: 100%;
-}
-.autocomplete input:focus{
-	border: 1px solid #EE6055;
 }
 .accept-button{
     display: none;

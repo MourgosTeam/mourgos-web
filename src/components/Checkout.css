@@ -1,0 +1,14 @@
+
+.checkout input.textfield{
+    border-radius: 5px;
+    border: 1px solid #cecece;
+    padding-left: 8px;
+    outline: none;
+    width: 100%;
+}
+.checkout input.textfield:focus{
+    border: 1px solid #EE6055;
+}
+.pad-top{
+    padding-top: 10px;
+}

@@ -77,7 +77,7 @@ class Home extends Component {
     }
 
     if(place.geometry && place.geometry.location){
-      this.map.setCenter(place.geometry.location);
+      //this.map.setCenter(place.geometry.location);
       if(this.marker)this.marker.setMap(null);
       this.marker = new google.maps.Marker({
         position: place.geometry.location, 

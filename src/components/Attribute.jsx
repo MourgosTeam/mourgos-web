@@ -3,13 +3,6 @@ import './Attribute.css';
 
 import {Button, ButtonGroup, ButtonToolbar} from 'reactstrap'
 class AttributeOption extends Component{
-  
-
-  componentWillReceiveProps(nextProps) {
-    console.log("PROPS")
-    console.log(nextProps);
-  }
-
   render(){
     return (
       <Button className="btn btn-light AttributeOption col-4 btn-sm" onClick={this.props.onSelect}

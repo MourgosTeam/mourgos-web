@@ -3,11 +3,12 @@ import './App.css';
 
 import AllCataloguesView from './components/AllCataloguesView.jsx'
 import CatalogueView from './components/CatalogueView.jsx'
+import Checkout from './components/Checkout.jsx'
 import Home from './components/Home.jsx'
 import { GetIt } from './helpers/helpers.jsx'
 import Header  from './components/Header.jsx'
 
-import {UIRouter, UIView, pushStateLocationPlugin} from '@uirouter/react';
+import {UIRouter, UIView, pushStateLocationPlugin,servicesPlugin} from '@uirouter/react';
 
 
 class App extends Component {
@@ -45,6 +46,11 @@ class App extends Component {
       name : "allcatalogues",
       url  : "/catalogues",
       component: AllCataloguesView
+    },
+    {
+      name : "checkout",
+      url  : "/checkout",
+      component: Checkout
     },
     {
       name: 'about',
@@ -87,7 +93,7 @@ class App extends Component {
 
   render() {
     return (
-      <UIRouter plugins={[pushStateLocationPlugin]} states={this.uistates}>
+      <UIRouter plugins={[pushStateLocationPlugin,servicesPlugin]} states={this.uistates}>
       <div className="App">
         <Header username={this.state.username} address={this.state.address}></Header>
         <div className="stretch">

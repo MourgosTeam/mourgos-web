@@ -136,32 +136,32 @@ button:focus {outline: none !important;}
 
 
 .bg-first{
-  background-color: #EE6055;
+  background-color: #EE6055 !important;
 }
 .color-first{
-  color: #EE6055;
+  color: #EE6055 !important;
 }
 .bg-second{
-  background-color: #3E3449;
+  background-color: #3E3449  !important;
 }
 .color-second{
-  color: #3E3449;
+  color: #3E3449  !important;
 }
 .bg-third{
-  background-color: #0D3B66;
+  background-color: #0D3B66 !important;
 }
 .color-third{
-  color: #0D3B66;
+  color: #0D3B66 !important;
 }
 .bg-fourth{
-  background-color: #FBF5DD;
+  background-color: #FBF5DD !important;
 }
 .color-fourth{
-  color: #FBF5DD;
+  color: #FBF5DD !important;
 }
 .bg-fifth{
-  background-color: #FCFCFF;
+  background-color: #FCFCFF !important;
 }
 .color-fifth{
-  color: #FCFCFF;
+  color: #FCFCFF !important;
 }
