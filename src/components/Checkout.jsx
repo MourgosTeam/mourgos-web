@@ -43,7 +43,6 @@ class Checkout extends Component {
       basketItems : local.items,
       basketTotal : local.total
     }
-    this.loadFromStorage();
   }
 
   render = () => {

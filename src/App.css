@@ -6,14 +6,14 @@ button:focus {outline: none !important;}
 
 .App-logo {
   /*animation: App-logo-spin infinite 20s linear;*/
-  height: 90px;
+  height: 60px;
   vertical-align: bottom;
 }
 .logo-text{
     font-family: 'Londrina Solid', cursive;
     letter-spacing: 1px;
     font-weight: normal;
-    font-size: 50px;
+    font-size: 40px;
     color: white;
     padding-left: 2px;
 }
