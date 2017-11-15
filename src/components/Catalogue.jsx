@@ -62,7 +62,7 @@ class Catalogue extends Component {
         <UISrefActive class="active">
           <UISref to="catalogues" params={{catalogueURL:this.props.object.FriendlyURL}}>
             <Card>
-              <div width="100%" className="hero-image" style={BackgroundImage(this.props.object.Image)} alt={this.props.object.Name}></div>
+              <div width="100%" className="hero-image" style={BackgroundImage(this.props.object.HeroImage)} alt={this.props.object.Name}></div>
               <div width="100%" className="logo-image" style={BackgroundImage(this.props.object.Image)} alt={this.props.object.Name}></div>
               <CardBody>
                 <CardTitle>{this.props.object.Name}</CardTitle>
@@ -98,7 +98,7 @@ class Catalogue extends Component {
       return (
         <div className="col-12 col-sm-10 col-md-5 col-lg-5 col-xl-3 text-center sm-pad-all catalogue" >
            <Card>
-            <div width="100%" className="hero-image" style={BackgroundImage(this.props.object.Image)} alt={this.props.object.Name}></div>
+            <div width="100%" className="hero-image" style={BackgroundImage(this.props.object.HeroImage)} alt={this.props.object.Name}></div>
             <div width="100%" className="logo-image" style={BackgroundImage(this.props.object.Image)} alt={this.props.object.Name}></div>
             <CardBody>
               <CardTitle>{this.props.object.Name}</CardTitle>

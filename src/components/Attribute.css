@@ -2,10 +2,23 @@
 	width: 300px;
 	border: 1px solid #00FF00;
 }
+.attribute-multi button{
+	border-radius: 0px;
+	padding-left: 0;
+	padding-right: 0;
+}
 .attribute-multi{
 	padding-top: 5px;
 	padding-bottom: 7px;
 }
+.attribute-multi .no-option{
+	padding-top: 5px;
+}
+
+.AttributeOption{
+	min-width: 50px;
+}
+
 .attribute-solo{
 	padding-top: 5px;
 	padding-bottom: 5px;

@@ -85,21 +85,52 @@ button:focus {outline: none !important;}
   padding-bottom: 20px;
 }
 .footer{
-  padding: 15px;
+  padding: 20px;
   background-color: #3E3449;
   color: white;
   font-family: "Open Sans" , sans-serif;
   border-top:1px solid #18141c; 
   position:relative;
   bottom:0;
-  height:60px;   /* Height of the footer */
+  min-height:60px;   /* Height of the footer */
   width: 100%;
 }
-
-
-
-
-
+.footer .fa{
+    font-size: 28px;
+    padding: 0 3px;
+}
+.footer .who-we-are{
+    font-size: 11px;
+    color: #b9b6c0;
+    opacity: 0.8;
+}
+.footer .who-we-are .title{
+    font-size: 14px;
+    color: #b9b6c0;
+    opacity: 0.9;
+    font-weight: bold;
+}
+.footer .copyright{
+    font-size: 10px;
+    font-weight: lighter;
+    font-family: Londrina , cursive;
+    color : #9c99a5;
+}
+.footer .social{
+    font-size: 14px;
+    color: #b9b6c0;
+    opacity: 0.9;
+    font-weight: bold;
+}
+.footer .fa-facebook-square{
+  color: #4267b2;
+}
+.footer .fa-twitter-square{
+  color: #4ab3f4;
+}
+.footer .fa-youtube-square{
+/*  color: #ff0000;*/
+}
 
 
 
