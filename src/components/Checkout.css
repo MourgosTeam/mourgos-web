@@ -17,7 +17,11 @@
     margin-bottom: 20px;
 }
 .checkout .card{
+    height: auto;
     margin-bottom: 20px;
+}
+.checkout textarea{
+    height: 100px;
 }
 .calltoaction{
     width: 80%;
