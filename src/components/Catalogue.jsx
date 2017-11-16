@@ -58,7 +58,7 @@ class Catalogue extends Component {
 
   renderMinimal(){
     return (
-      <div className="col-12 col-sm-6 col-md-4 text-center sm-pad-all" >
+      <div className="col-12 col-sm-6 col-md-4 text-center sm-pad-all minimal-mode" >
         <UISrefActive class="active">
           <UISref to="catalogues" params={{catalogueURL:this.props.object.FriendlyURL}}>
             <Card>
@@ -96,7 +96,7 @@ class Catalogue extends Component {
 
   renderCard(){
       return (
-        <div className="col-12 col-sm-10 col-md-5 col-lg-5 col-xl-3 text-center sm-pad-all catalogue" >
+        <div className="col-12 col-sm-10 col-md-5 col-lg-5 col-xl-3 text-center sm-pad-all catalogue card-mode" >
            <Card>
             <div width="100%" className="hero-image" style={BackgroundImage(this.props.object.HeroImage)} alt={this.props.object.Name}></div>
             <div width="100%" className="logo-image" style={BackgroundImage(this.props.object.Image)} alt={this.props.object.Name}></div>

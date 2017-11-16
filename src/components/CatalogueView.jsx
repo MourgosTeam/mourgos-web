@@ -154,7 +154,7 @@ class CatalogueView extends Component {
 
   checkout = () => {
     // check total! 
-    if(this.state.basketTotal < 5){
+    if(this.state.basketTotal < parseFloat(window.GlobalData.MinimumOrder) ){
       this.setState({
         showCheckoutModal : true
       });

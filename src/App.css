@@ -88,13 +88,14 @@ button:focus {outline: none !important;}
   padding: 20px;
   background-color: #3E3449;
   color: white;
-  font-family: londrina, cursive;
+  font-family: "Open sans", sans-serif;
   border-top:1px solid #18141c; 
   position:relative;
   bottom:0;
   min-height:60px;   /* Height of the footer */
   width: 100%;
 }
+
 .footer .fa{
     font-size: 28px;
     padding: 0 3px;

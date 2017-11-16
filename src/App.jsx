@@ -10,6 +10,7 @@ import Header  from './components/Header.jsx'
 
 import {UIRouter, UIView, pushStateLocationPlugin,servicesPlugin} from '@uirouter/react';
 
+window.GlobalData = {};
 
 class App extends Component {
   constructor(props){
@@ -21,6 +22,11 @@ class App extends Component {
       address : ""
     }
 
+    GetIt("/globals" , "GET")
+    .then(function(data){
+      return data.json();
+    })
+    .then( (data) => window.GlobalData = data);
     // TO - DO
     //this.loadFromStorage();
 
