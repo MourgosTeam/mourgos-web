@@ -16,10 +16,14 @@ class App extends Component {
   constructor(props){
     super(props);
 
+
+    var user_data = JSON.parse(localStorage.getItem('user_data')) || {};
+    var username = user_data.name;
+    var address  = localStorage.getItem('user_address');
     this.state = {
       basketItems :  [],
-      username : "",
-      address : ""
+      username : username,
+      address : address
     }
 
     GetIt("/globals" , "GET")
@@ -92,7 +96,8 @@ class App extends Component {
   }
 
   onCredentialChange = () => {
-    var username = localStorage.getItem('username');
+    var user_data = JSON.parse(localStorage.getItem('user_data')) || {};
+    var username = user_data.name;
     var address  = localStorage.getItem('user_address');
     this.setState({
       username : username,
