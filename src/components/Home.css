@@ -61,7 +61,7 @@
     padding-bottom: 20px;
     text-align: left;
     font-weight: bold;
-    text-shadow: -2px 2px 2px #3E3449;
+    /*text-shadow: -2px 2px 2px #3E3449;*/
 }
 .home{
     position: relative;
@@ -70,5 +70,6 @@
 .partners-title{
     font-size:24px;
     font-weight: bold;
+    color : #555;
     padding:20px;
 }

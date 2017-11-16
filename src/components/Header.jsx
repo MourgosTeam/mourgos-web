@@ -25,7 +25,7 @@ class Header extends Component {
                       <span>{this.props.username}</span>
                     </div> 
                     <div className="col-12 login-address">
-                      <span>{this.props.address}</span>
+                      <span>{ (this.props.address) ? ("Ο Μούργος θα έρθει " + this.props.address ) : ""}</span>
                     </div> 
                     {// <div className="col-12 login-links">
                     //   <ul>

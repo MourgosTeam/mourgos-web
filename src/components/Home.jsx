@@ -112,30 +112,31 @@ class Home extends Component {
         <div className="row overlay">
           <div className="container">
             <div className="row">
-              <div className="col-12 col-md-8 offset-md-2 autocomplete  welcome-panel">
+              <div className="col-12 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-6 offset-xl-3 autocomplete  welcome-panel">
                 <div className="row">
                   <div className="col-12 slogan d-none d-md-block">
-                    Που θες να έρθει ο Μούργος σήμερα;
+                    Πού θες να έρθει ο Μούργος;
                   </div>
-                  <div className="col-12 col-lg-8">
+                  <div className="col-12 col-lg-12">
                     <Autocomplete id="address_input"
                         style={{width:"100%"}}
                         onPlaceSelected={this.placeSelected}
                         types={['address']}
-                        componentRestrictions={{country: "gr"}}/>
+                        componentRestrictions={{country: "gr"}}
+                        placeholder="Γράψε τη διεύθυνσή σου" />
                   </div>
 
-                  <div className="col-12 col-lg-4 accept-button" id="accept">
+                  <div className="col-12 accept-button" id="accept">
                     <UISrefActive class="active">
                       <UISref to="allcatalogues">
-                        <button className="btn btn-success">Επιλογή Διεύθυνσης</button>
+                        <button className="btn btn-success">Επιλογή διεύθυνσης</button>
                       </UISref>
                     </UISrefActive>
                   </div>
-                  <div className="col-12 col-md-4 no-service-button" id="no-service">
+                  <div className="col-12 no-service-button" id="no-service">
                     <button className="btn btn-danger btn-static">Εκτός περιοχής</button>
                   </div>
-                  <div className="col-12 col-md-4 no-number-button" id="no-number">
+                  <div className="col-12 no-number-button" id="no-number">
                     <button className="btn btn-warning btn-static">Συμπληρώστε αριθμό</button>
                   </div>
                 </div>

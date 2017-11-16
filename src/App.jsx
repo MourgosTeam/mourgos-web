@@ -123,7 +123,7 @@ class App extends Component {
                 <div className="title">Τι είναι ο Mούργος;</div>
                 <div>
                 Ο Μούργος είναι η πρώτη ολοκληρωμένη πλατφόρμα delivery στην Ελλάδα. 
-                Παρέχοντας το δικό του στόλο διανομέων, εξασφαλίζουμε οτι η παραγγελία σου θα φτάσει άμεσα, απαλλάσσοντας παράλληλα τον καταστηματάρχη απο τη διαχείρηση του delivery.
+                Παρέχοντας το δικό μας στόλο διανομέων, εξασφαλίζουμε ότι η παραγγελία σου θα φτάσει άμεσα, απαλλάσσοντας παράλληλα τον καταστηματάρχη από τη διαχείριση του delivery.
                 <br />
                 <br />
                 Ο Μούργος είναι... το delivery όπως θα έπρεπε να είναι.
@@ -131,7 +131,7 @@ class App extends Component {
               </div>
               <div className="social col-12 col-md-4 offset-md-2 text-center text-md-right">
                 <div className="">
-                  Ακολούθησε τον Μούργο!
+                  Ακολούθησε το Μούργο!
                 </div>
                 <div className="">
                   <span className="fa fa-facebook-square"></span>
