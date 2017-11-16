@@ -18,14 +18,14 @@ class BasketItem extends Component{
   }
   render(){
     return (<div className="row basket-item">
-      <span className="description col-12 col-sm-8 col-md-8 text-left">{this.props.item.quantity}x {this.props.item.object.Name}</span>
-      <span className="price col-12 col-sm-4 col-md-4 text-right">{this.props.item.TotalPrice.toFixed(2)} 
+      <span className="description col-8 col-sm-8 col-md-8 text-left">{this.props.item.quantity}x {this.props.item.object.Name}</span>
+      <span className="price col-4 col-sm-4 col-md-4 text-right">{this.props.item.TotalPrice.toFixed(2)} 
         <span className="fa fa-euro"></span>
       </span>
-      <span className="col-8 text-left"> 
+      <span className="col text-left"> 
         {this.props.item.description.map((data, index) => {return <div className="basket-item-description" key={index}>{data}</div>})}
       </span>
-      <span className="col-4 text-right basket-buttons"><span className="fa fa-pencil-square-o" onClick={this.editHandler}></span><span className="fa fa-times" onClick={this.removeHandler}></span></span>
+      <span className="col-3 text-right basket-buttons"><span className="fa fa-pencil-square-o" onClick={this.editHandler}></span><span className="fa fa-times" onClick={this.removeHandler}></span></span>
     </div>);
   }
 }

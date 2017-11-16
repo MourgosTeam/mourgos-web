@@ -90,7 +90,7 @@ class Checkout extends Component {
                     </div>
                     <div className="form-check">
                       <label className="form-check-label">
-                        <input type="checkbox" className="form-check-input" id="diffName" checked={this.state.diffName} onClick={this.toggle}/>
+                        <input type="checkbox" className="form-check-input" id="diffName" checked={this.state.diffName} onChange={this.toggle}/>
                         Έχω άλλο όνομα στο κουδούνι
                       </label>
                     </div>
