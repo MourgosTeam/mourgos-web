@@ -12,3 +12,16 @@
 .pad-top{
     padding-top: 10px;
 }
+
+.checkout>.row>.col-12{
+    margin-bottom: 20px;
+}
+.checkout .card{
+    margin-bottom: 20px;
+}
+.calltoaction{
+    width: 80%;
+    height: 50px;
+    font-size: 20px;
+    font-family: "Passion One" , sans-serif;
+}

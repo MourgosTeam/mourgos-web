@@ -49,59 +49,64 @@ class Checkout extends Component {
     return (
       <div className="container checkout">
         <div className="row">
-          <div className="col-12 col-md-6 col-lg-4">
+          <div className="col-12 col-md-6 col-lg-5">
             <Card>
               <CardBody>
                 <CardTitle>Τα στοιχεία μου</CardTitle>
                 <div className="pad-top">
                   <div className="col-12">
                     <div>Όνομα</div>
-                    <input type="text" className="textfield" />
+                    <input type="text" className="textfield" id="name"/>
+                    <input type="checkbox" className="" />Έχω άλλο όνομα στο κουδούνι
+                    <div>κουδούνι</div>
+                    <input type="text" className="textfield" id="koudouni"/> 
                   </div>
                   <div className="col-12">
                     <div>Διεύθυνση</div>
-                    <input type="text" className="textfield" value={this.state.address}/>
+                    <input type="text" className="textfield" id="address" value={this.state.address}/>
                   </div>
                   <div className="col-12">
                     <div>Τηλέφωνο</div>
-                    <input type="text" className="textfield" />
+                    <input type="text" className="textfield" id="phone" />
                   </div>
                   <div className="col-12">
                     <div>Σχόλια</div>
-                    <input type="text" className="textfield" />
+                    <textarea type="text" className="textfield comments" id="comments">
+                    </textarea>
                   </div>
                 </div>
               </CardBody>
             </Card>
           </div>
-          <div className="col-12 col-md-6 col-lg-4">
-            <Card>
-              <CardBody>
-                <CardTitle>Η παραγγελία μου</CardTitle>
-                <div className="pad-top">
-                  <div>
-                    {this.state.basketItems.map((data,index) => {
-                      return <BasketItem item={data} key={index} />;
-                    })}
+          <div className="col-12 col-md-6 col-lg-7">
+            <div className="">
+              <Card>
+                <CardBody>
+                  <CardTitle>Η παραγγελία μου</CardTitle>
+                  <div className="pad-top">
+                    <div>
+                      {this.state.basketItems.map((data,index) => {
+                        return <BasketItem item={data} key={index} />;
+                      })}
+                    </div>
+                    <div className="text-right total">
+                      Σύνολο : {this.state.basketTotal.toFixed(2)} <span className="fa fa-euro"></span>
+                    </div>
                   </div>
-                  <div className="text-right total">
-                    Σύνολο : {this.state.basketTotal.toFixed(2)} <span className="fa fa-euro"></span>
+                </CardBody>
+              </Card>
+            </div>
+            <div className="">
+              <Card>
+                <CardBody>
+                  <div className="pad-top">
+                    <div className="final">
+                      <button className="btn btn-success calltoaction">Φέρε το φαΐ</button>
+                    </div>
                   </div>
-                </div>
-              </CardBody>
-            </Card>
-          </div>
-          <div className="col-12 col-md-6 col-lg-4">
-            <Card>
-              <CardBody>
-                <CardTitle>Επιβεβαίωση παραγγελίας</CardTitle>
-                <div className="pad-top">
-                  <div className="final">
-                    <button className="btn btn-light">Φέρε το φαΐ</button>
-                  </div>
-                </div>
-              </CardBody>
-            </Card>
+                </CardBody>
+              </Card>
+            </div>
           </div>
         </div>
       </div>
