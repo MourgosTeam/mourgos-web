@@ -10,7 +10,7 @@ import Header  from './components/Header.jsx'
 
 import {UIRouter, UIView, pushStateLocationPlugin,servicesPlugin} from '@uirouter/react';
 
-window.GlobalData = {};
+window.GlobalData = JSON.parse(localStorage.getItem("GlobalData")) || {};
 
 class App extends Component {
   constructor(props){
@@ -26,7 +26,10 @@ class App extends Component {
     .then(function(data){
       return data.json();
     })
-    .then( (data) => window.GlobalData = data);
+    .then( (data) => {
+      localStorage.setItem("GlobalData", JSON.stringify(data));
+      window.GlobalData = data
+    });
     // TO - DO
     //this.loadFromStorage();
 

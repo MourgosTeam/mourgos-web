@@ -26,17 +26,19 @@ class Checkout extends Component {
   
   constructor(props){
     super(props);
-
+    // Get Basket from local storage!
     var local = JSON.parse(localStorage.getItem('basket'));
     if(!local){
-      local = {
-        items : [],
-        total : 0
-      }
+      throw new Error("There is no basket to checkout!");
     }
-    
+    // Get userData from local storage
     var localData = JSON.parse(localStorage.getItem("user_data"));
     if(!localData)localData = {};
+
+    // check if this basket needs extra Charge
+    var hasExtra = parseFloat(local.total) < parseFloat(window.GlobalData.MinimumOrder);
+
+    // init state
     this.state = {
       name    : localData.name || "",
       koudouni: localData.koudouni || "",
@@ -45,10 +47,17 @@ class Checkout extends Component {
       comments: localData.comments || "",
       basketItems : local.items,
       basketTotal : local.total,
-      diffName : localData.diffName || false
+      diffName : localData.diffName || false,
+      extraCharge : hasExtra
     }
   }
 
+  checkForExtra(items){
+    if(!items)return true;
+    for(var i = 0; i < items.length; i++){
+
+    }
+  }
   componentDidUpdate(){
     var storage = {
       name : this.state.name,
@@ -125,8 +134,11 @@ class Checkout extends Component {
                         return <BasketItem item={data} key={index} />;
                       })}
                     </div>
+                    { this.state.extraCharge ? 
+                      <BasketItem item={{quantity : 1, object : { Name : "Έξτρα Χρέωση" }, description: [], TotalPrice: 0.50 }} />
+                    : "" }
                     <div className="text-right total">
-                      Σύνολο : {this.state.basketTotal.toFixed(2)} <span className="fa fa-euro"></span>
+                      Σύνολο : { (this.state.basketTotal + (this.state.extraCharge ? 0.5 : 0) ).toFixed(2)} <span className="fa fa-euro"></span>
                     </div>
                   </div>
                 </CardBody>
