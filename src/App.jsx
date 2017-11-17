@@ -17,14 +17,16 @@ class App extends Component {
   constructor(props){
     super(props);
 
-
+    window.storageUpdated = this.storageUpdated;
+    var lastorder = localStorage.getItem("lastorder");
     var user_data = JSON.parse(localStorage.getItem('user_data')) || {};
     var username = user_data.name;
     var address  = localStorage.getItem('user_address');
     this.state = {
       basketItems :  [],
       username : username,
-      address : address
+      address : address,
+      lastorder: lastorder
     }
 
     GetIt("/globals" , "GET")
@@ -101,6 +103,17 @@ class App extends Component {
     }];
   }
 
+  storageUpdated = () => {
+    var lastorder = localStorage.getItem("lastorder");
+    var user_data = JSON.parse(localStorage.getItem('user_data')) || {};
+    var username = user_data.name;
+    var address  = localStorage.getItem('user_address');
+    this.setState({
+      lastorder : lastorder,
+      username : username,
+      address : address
+    });
+  }
   onCredentialChange = () => {
     var user_data = JSON.parse(localStorage.getItem('user_data')) || {};
     var username = user_data.name;
@@ -115,7 +128,7 @@ class App extends Component {
     return (
       <UIRouter plugins={[pushStateLocationPlugin,servicesPlugin]} states={this.uistates}>
       <div className="App">
-        <Header username={this.state.username} address={this.state.address}></Header>
+        <Header username={this.state.username} address={this.state.address} lastOrder={this.state.lastorder}></Header>
         <div className="stretch">
           <UIView render={(Component, props) => {
               return <Component {...props} onCredentialChange={this.onCredentialChange} />

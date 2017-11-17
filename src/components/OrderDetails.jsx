@@ -12,6 +12,7 @@ class OrderDetails extends Component {
     if(!this.code)this.redirect("allcatalogues");
     localStorage.setItem("lastorder", this.code);
     localStorage.setItem("basket", null);
+    window.storageUpdated();
   }
 
   render(){

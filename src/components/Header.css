@@ -1,0 +1,9 @@
+.links .last-order{
+	font-size:18px;
+	font-weight: bold;
+	color: white;
+	cursor: pointer;
+}
+.links ul{
+	list-style: none;
+}

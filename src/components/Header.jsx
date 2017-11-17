@@ -20,27 +20,25 @@ class Header extends Component {
                     <span className="logo-text">Mourgos.gr</span>
                   </div>
                 </UISref>
-                  <div className="pull-right login text-right row">
+                  <div className="pull-right login text-lg-right text-center row">
                     <div className="col-12 login-name">
                       <span>{this.props.username}</span>
                     </div> 
                     <div className="col-12 login-address">
                       <span>{ (this.props.address) ? ("Ο Μούργος θα έρθει " + this.props.address ) : ""}</span>
                     </div> 
-                    {// <div className="col-12 login-links">
-                    //   <ul>
-                    //     <li>
-                    //       <span>Το προφίλ μου</span>
-                    //     </li>
-                    //     <li>
-                    //       <span>Οι παραγγελίες μου</span>
-                    //     </li>
-                    //     <li>
-                    //       <span>Αποσύνδεση</span>
-                    //     </li>
-                    //   </ul>
-                    // </div> 
-                  }
+                    { this.props.lastOrder ? (
+                    <div className="col-12 links">
+                      <ul>
+                        <li>
+                          <a className="btn btn-primary last-order" href={"/readytoeat/" + this.props.lastOrder}>
+                            <span>Τελευταία παραγγελία</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </div> 
+                    ) :""}
+                  
                   </div>
               </div>
             </header>;
