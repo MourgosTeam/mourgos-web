@@ -31,9 +31,9 @@ class Header extends Component {
                     <div className="col-12 links">
                       <ul>
                         <li>
-                          <a className="btn btn-primary last-order" href={"/readytoeat/" + this.props.lastOrder}>
-                            <span>Τελευταία παραγγελία</span>
-                          </a>
+                          <UISref to="foodiscoming" params={{orderId : this.props.lastOrder}} className="btn btn-primary last-order pointer">
+                              <span>Τελευταία παραγγελία</span>
+                          </UISref>
                         </li>
                       </ul>
                     </div> 

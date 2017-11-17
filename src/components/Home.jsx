@@ -3,13 +3,15 @@ import React, { Component } from 'react';
 import './Home.css';
 import Autocomplete from 'react-google-autocomplete';
 
+import {UISref} from '@uirouter/react'
+
 import Partners from './Partners.jsx';
 
 class Home extends Component {
   
   constructor(props){
     super(props);
-    this.lastresort = localStorage.getItem("lastresort") || "catalogues";
+    this.lastresort = localStorage.getItem("lastresort");
 
     if(props.resolves.hasCreds && props.resolves.hasCreds.place){
       setTimeout( () => this.placeSelected(props.resolves.hasCreds.place), 100);
@@ -126,9 +128,14 @@ class Home extends Component {
                   </div>
 
                   <div className="col-12 accept-button" id="accept">
-                      <a href={"/"+this.lastresort}>
-                        <button className="btn btn-success">Επιλογή διεύθυνσης</button>
-                      </a>
+                      {this.lastresort ? 
+                        <UISref to="catalogues" params={{catalogueURL : this.lastresort}} className="btn btn-primary last-order pointer">
+                          <button className="btn btn-success">Επιλογή διεύθυνσης</button>
+                        </UISref> :
+                        <UISref to="allcatalogues" className="btn btn-primary last-order pointer">
+                          <button className="btn btn-success">Επιλογή διεύθυνσης</button>
+                        </UISref>
+                      }
                   </div>
                   <div className="col-12 no-service-button" id="no-service">
                     <button className="btn btn-danger btn-static">Εκτός περιοχής</button>
