@@ -7,7 +7,7 @@ import { Card,  CardBody, CardTitle } from 'reactstrap';
 
 
 
-class BasketItem extends Component{
+class CheckoutBasketItem extends Component{
   render(){
     return (<div className="row basket-item">
       <span className="description col-12 col-sm-8 col-md-8 text-left">{this.props.item.quantity}x {this.props.item.object.Name}</span>
@@ -16,6 +16,8 @@ class BasketItem extends Component{
       </span>
       <div className="col-8 text-left"> 
         {this.props.item.description.map((data, index) => {return <div className="basket-item-description" key={index}>{data}</div>})}
+        {this.props.item.comments ? 
+          ("Σχόλια :" + this.props.item.comments): ""}
       </div>
     </div>);
   }
@@ -43,6 +45,7 @@ class Checkout extends Component {
       name    : localData.name || "",
       koudouni: localData.koudouni || "",
       address : localStorage.getItem("user_address"),
+      orofos  : localData.orofos || "",
       phone   : localData.phone || "",
       comments: localData.comments || "",
       basketItems : local.items,
@@ -50,6 +53,7 @@ class Checkout extends Component {
       diffName : localData.diffName || false,
       extraCharge : hasExtra
     }
+    console.log(this.state);
   }
 
   checkForExtra(items){
@@ -62,6 +66,7 @@ class Checkout extends Component {
     var storage = {
       name : this.state.name,
       koudouni: this.state.koudouni,
+      orofos  : this.state.orofos,
       phone   : this.state.phone,
       comments: this.state.comments,
       diffName: this.state.diffName
@@ -82,6 +87,40 @@ class Checkout extends Component {
       [t.id] : t.checked
     }));
   }
+
+
+  calculateAttributes(a,s){
+    var r = {};
+    for(var i in s){
+      r[a[i].id] = s[i];
+    }
+    return r;
+  }
+  // SEND ORDER // 
+  sendOrder = () => {
+    let items = [...this.state.basketItems];
+    let nitems = []
+    for(var i=0; i < items; i = i + 1){
+      var newItem = {
+          id      : items[i].object.id,
+          quantity: items[i].quantity,
+          comments: items[i].comments,
+          attributes: this.calculateAttributes(items[i]._attributes,items[i]._selectedAttributes)
+      };
+      nitems.push(newItem);
+    }
+    let order = {
+      name : this.state.name,
+      koudouni: this.state.koudouni,
+      orofos  : this.state.orofos,
+      phone   : this.state.phone,
+      comments: this.state.comments,
+      basketItems : nitems, 
+      basketTotal : this.state.basketTotal
+    };
+    
+  }
+
 
   render = () => {
     return (
@@ -111,6 +150,10 @@ class Checkout extends Component {
                       <input type="text" className="form-control" id="address" value={this.state.address} readOnly/>
                     </div>
                     <div className="form-group">
+                      <label htmlFor="address">Όροφος</label>
+                      <input type="text" className="form-control" id="orofos" value={this.state.orofos} onChange={this.handleChange}/>
+                    </div>
+                    <div className="form-group">
                       <label htmlFor="phone">Τηλέφωνο</label>
                       <input type="text" className="form-control" id="phone" value={this.state.phone} onChange={this.handleChange}/>
                     </div>
@@ -131,11 +174,12 @@ class Checkout extends Component {
                   <div className="pad-top">
                     <div>
                       {this.state.basketItems.map((data,index) => {
-                        return <BasketItem item={data} key={index} />;
+                        return <CheckoutBasketItem item={data} key={index} />;
                       })}
                     </div>
                     { this.state.extraCharge ? 
-                      <BasketItem item={{quantity : 1, object : { Name : "Έξτρα Χρέωση" }, description: [], TotalPrice: 0.50 }} />
+                      <CheckoutBasketItem item={{quantity : 1, object : { Name : "Έξτρα Χρέωση" }, description: [], TotalPrice: 0.50 }} />
+
                     : "" }
                     <div className="text-right total">
                       Σύνολο : { (this.state.basketTotal + (this.state.extraCharge ? 0.5 : 0) ).toFixed(2)} <span className="fa fa-euro"></span>
@@ -149,7 +193,7 @@ class Checkout extends Component {
                 <CardBody>
                   <div className="pad-top">
                     <div className="final">
-                      <button className="btn btn-success calltoaction">Φέρε το φαΐ</button>
+                      <button className="btn btn-success calltoaction" onClick={this.sendOrder}>Φέρε το φαΐ</button>
                     </div>
                   </div>
                 </CardBody>

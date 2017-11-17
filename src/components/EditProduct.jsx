@@ -17,7 +17,8 @@ class EditProduct extends Component {
     var opts = props.selectedAttributes;
     this.state = {
       quantity  : props.quantity,
-      options   : opts
+      options   : opts,
+      comments  : props.comments
     };
   }
 
@@ -34,7 +35,14 @@ class EditProduct extends Component {
     newOptions[index] = data;
     this.setState({ options : newOptions});
   }
-  
+
+  handleChange = (e) => {
+    var target = e.target;
+    this.setState({
+      [target.id]: target.value
+    });
+  }
+
   submitItem = () => { 
     var attributes = this.props.attributes;
     var selected = [];
@@ -43,8 +51,8 @@ class EditProduct extends Component {
       if(data === -1 || data === undefined)return "";
       return this.props.attributes[index].Name + ": " + this.props.attributes[index].Options[data];
     });
-    this.onSubmit(this.props.object,res, this.state.quantity, attributes, selected);
-    this.setState({options : [], quantity : 1});
+    this.onSubmit(this.props.object,res, this.state.quantity, attributes, selected, this.state.comments);
+    this.setState({options : [], quantity : 1, comments : ""});
   }
 
   more = () => {
@@ -54,6 +62,7 @@ class EditProduct extends Component {
   less = () => {
     this.setState({quantity:this.state.quantity-1 || 1});
   }
+
   render() {
     return (
 
@@ -70,17 +79,24 @@ class EditProduct extends Component {
             </div>
             <div className="modal-title-description">{this.props.object.Description}</div>
           </ModalHeader>
-          {this.props.attributes.length ? 
+          
           <ModalBody>
             <div className="container-fluid">
-            {this.props.attributes.map((object, index) => {
+            {this.props.attributes.length ? 
+            (this.props.attributes.map((object, index) => {
                 return  (<div className="row" key={(index+1)*Math.random()}>
                            <Attribute id={object.id} object={object} selected={this.state.options[index]} key={(index+1)*Math.random()} attributeSelected={(data) => this.attributeSelected(data,index)}></Attribute>
                           </div>); 
-            })}
+            }))
+            : ""}
+              <div className="row">
+                <div className="col-12">
+                  <h5>Σχόλια</h5>
+                  <textarea className="form-control" id="comments" onChange={this.handleChange} value={this.state.comments}></textarea>
+                </div>
+              </div>
             </div>
           </ModalBody>
-          : ""}
           <ModalFooter>
             <ButtonGroup className="other-dir">
               <Button size="sm" onClick={this.less} className="btn-light"><span className="fa fa-minus"></span></Button>

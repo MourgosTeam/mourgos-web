@@ -34,6 +34,7 @@ class CatalogueView extends Component {
       editAttributes : [],
       selectedAttributes: [],
       editQuantity: 1,
+      editComments: "",
       basketTotal : local.total,
       callback    : this.addBasketItem
     };
@@ -64,7 +65,7 @@ class CatalogueView extends Component {
     }
   }
 
-  addBasketItem = ( item, description, quantity, prodAttributes, selectedAttributes ) => {
+  addBasketItem = ( item, description, quantity, prodAttributes, selectedAttributes, comments ) => {
     this.saveBasketFlag = true;
     var copiedItem = Object.assign({},item);
     copiedItem.__randID = Math.random();
@@ -73,7 +74,8 @@ class CatalogueView extends Component {
       description : description,
       quantity : quantity,
       _attributes : prodAttributes,
-      _selectedAttributes : selectedAttributes
+      _selectedAttributes : selectedAttributes,
+      comments : comments
     };
     var sum = 0;
     for(var i=0; i < this.state.basketItems.length;i++)sum += CalculatePrice(this.state.basketItems[i])
@@ -84,7 +86,7 @@ class CatalogueView extends Component {
       showModal : false
     }));
   }
-  editBasketItem = (item, description, quantity, prodAttributes, selectedAttributes) => {
+  editBasketItem = (item, description, quantity, prodAttributes, selectedAttributes, comments) => {
     this.saveBasketFlag = true;
     var arr = [...this.state.basketItems];
     var newArr = [];
@@ -94,6 +96,7 @@ class CatalogueView extends Component {
         arr[i].quantity = quantity;
         arr[i]._attributes = prodAttributes;
         arr[i]._selectedAttributes = selectedAttributes;
+        arr[i].comments = comments;
       }      
       newArr.push(arr[i]);
     }
@@ -124,7 +127,7 @@ class CatalogueView extends Component {
   closeCheckoutModal = () => {
     this.setState({showCheckoutModal:false});
   }
-  openForEdit = (item,quantity,attributes, selectedAttributes) => {
+  openForEdit = (item,quantity,attributes, selectedAttributes, comments) => {
     this.setState({
       showModal : true,
       editItem  : item,
@@ -132,6 +135,7 @@ class CatalogueView extends Component {
       selectedAttributes : selectedAttributes,
       modalButtonText : "Αλλαγή",
       editQuantity : quantity || 1,
+      editComments : comments,
       callback  : this.editBasketItem
     });
   }
@@ -140,6 +144,7 @@ class CatalogueView extends Component {
       showModal : true,
       editItem  : item,
       editQuantity : 1,
+      editComments : "",
       editAttributes : attributes,
       selectedAttributes: [],
       modalButtonText : "Προσθήκη",
@@ -186,7 +191,7 @@ class CatalogueView extends Component {
           </div>
         </div>
         {this.state.showModal ?
-        <EditProduct showModal={this.state.showModal} quantity={this.state.editQuantity} buttonText={this.state.modalButtonText}
+        <EditProduct showModal={this.state.showModal} quantity={this.state.editQuantity} comments={this.state.editComments} buttonText={this.state.modalButtonText}
                      closeModal={this.closeModal} onSubmit={this.state.callback} 
                      object={this.state.editItem} attributes={this.state.editAttributes}
                      selectedAttributes={this.state.selectedAttributes}></EditProduct>
