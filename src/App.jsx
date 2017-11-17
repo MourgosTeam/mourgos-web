@@ -4,6 +4,7 @@ import './App.css';
 import AllCataloguesView from './components/AllCataloguesView.jsx'
 import CatalogueView from './components/CatalogueView.jsx'
 import Checkout from './components/Checkout.jsx'
+import OrderDetails from './components/OrderDetails.jsx'
 import Home from './components/Home.jsx'
 import { GetIt } from './helpers/helpers.jsx'
 import Header  from './components/Header.jsx'
@@ -64,6 +65,11 @@ class App extends Component {
       name : "checkout",
       url  : "/checkout",
       component: Checkout
+    },
+    {
+      name : "foodiscoming",
+      url  : "/readytoeat/:orderId",
+      component: OrderDetails
     },
     {
       name: 'about',

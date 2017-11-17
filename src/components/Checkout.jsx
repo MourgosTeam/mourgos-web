@@ -28,10 +28,15 @@ class Checkout extends Component {
   
   constructor(props){
     super(props);
+    this.redirect = props.transition.router.stateService.go;
+
     // Get Basket from local storage!
     var local = JSON.parse(localStorage.getItem('basket'));
     if(!local){
-      throw new Error("There is no basket to checkout!");
+      local = {
+        items : []
+      };
+      this.redirect("allcatalogues");
     }
     // Get userData from local storage
     var localData = JSON.parse(localStorage.getItem("user_data"));
@@ -121,15 +126,13 @@ class Checkout extends Component {
       basketTotal : this.state.basketTotal,
       hasExtra    : this.state.extraCharge
     };
-    console.log("ORDER");
-    console.log(order);
     GetIt("/orders" , "POST", order)
     .then(function(data){
       return data.json();
     })
-    .then(function(data){
-      console.log(data);
-      alert("Complete");
+    .then((data)=>{
+      this.redirect("foodiscoming", { orderId : data.id });
+      return true;
     })
     .catch(function(){
       alert("Order failed!");

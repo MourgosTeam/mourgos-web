@@ -24,9 +24,17 @@ class CatalogueView extends Component {
     super(props);
     this.redirect = props.transition.router.stateService.go;
     this.catalogue = props.resolves.catalogue || props.catalogue;
+    localStorage.removeItem("lastresort");
+    if(!localStorage.getItem("user_address")){
+      localStorage.setItem("lastresort", this.catalogue.FriendlyURL);
+      this.redirect("home");
+    }
     // TO - DO
     //this.loadFromStorage();
     var local = this.loadFromStorage();
+
+
+
     this.state = {
       basketItems :  local.items,
       showModal   : false,

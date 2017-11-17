@@ -8,6 +8,11 @@ import {GetIt} from '../helpers/helpers.jsx'
 class AllCataloguesView extends Component {
   constructor(props){
     super(props);
+    this.redirect = props.transition.router.stateService.go;
+    localStorage.removeItem("lastresort");
+    if(!localStorage.getItem("user_address")){
+      this.redirect("home");
+    }
 
     // TO - DO
     //this.loadFromStorage();
