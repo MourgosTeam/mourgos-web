@@ -5,7 +5,7 @@ import './Checkout.css';
 
 import { Card,  CardBody, CardTitle } from 'reactstrap';
 
-
+import {GetIt} from '../helpers/helpers'
 
 class CheckoutBasketItem extends Component{
   render(){
@@ -92,6 +92,7 @@ class Checkout extends Component {
   calculateAttributes(a,s){
     var r = {};
     for(var i in s){
+      if(s[i] === null || !s[i] || s[i] === -1)continue;
       r[a[i].id] = s[i];
     }
     return r;
@@ -99,8 +100,8 @@ class Checkout extends Component {
   // SEND ORDER // 
   sendOrder = () => {
     let items = [...this.state.basketItems];
-    let nitems = []
-    for(var i=0; i < items; i = i + 1){
+    let nitems = [];
+    for(var i=0; i < items.length; i = i + 1){
       var newItem = {
           id      : items[i].object.id,
           quantity: items[i].quantity,
@@ -114,11 +115,25 @@ class Checkout extends Component {
       koudouni: this.state.koudouni,
       orofos  : this.state.orofos,
       phone   : this.state.phone,
+      address   : this.state.address,
       comments: this.state.comments,
       basketItems : nitems, 
-      basketTotal : this.state.basketTotal
+      basketTotal : this.state.basketTotal,
+      hasExtra    : this.state.extraCharge
     };
-    
+    console.log("ORDER");
+    console.log(order);
+    GetIt("/orders" , "POST", order)
+    .then(function(data){
+      return data.json();
+    })
+    .then(function(data){
+      console.log(data);
+      alert("Complete");
+    })
+    .catch(function(){
+      alert("Order failed!");
+    });
   }
 
 

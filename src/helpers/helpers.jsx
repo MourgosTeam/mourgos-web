@@ -1,18 +1,18 @@
 import React from 'react';
 import 'whatwg-fetch'
 
-export function GetIt(url, method, token, body){
+export function GetIt(url, method, body, token){
   url = "/api" + url;
 
   console.log("Fetching " + url);
-	return fetch(url, {
-		method: method,
-		body: JSON.stringify(body),
-  		headers: {
-    		"Content-Type": "application/json",
-    		"Token" : token
-  		}
-	});
+  return fetch(url, {
+    method: method,
+    body: JSON.stringify(body),
+      headers: {
+        "Content-Type": "application/json",
+        "Token" : token
+      }
+  });
 }
 
 export function ImageCover(props){
