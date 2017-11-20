@@ -151,7 +151,7 @@ class Checkout extends Component {
                 <div className="pad-top">
                   <form>
                     <div className="form-group">
-                      <label htmlFor="name">Όνομα</label>
+                      <label htmlFor="name">Όνομα*</label>
                       <input type="text" className="form-control" id="name" placeholder="Όνομα" value={this.state.name} onChange={this.handleChange}/>
                     </div>
                     <div className="form-check">
@@ -164,15 +164,15 @@ class Checkout extends Component {
                       <input type="text" className="form-control" id="koudouni" placeholder="Όνομα στο κουδούνι" value={this.state.koudouni} onChange={this.handleChange}/>
                     </div>
                     <div className="form-group">
-                      <label htmlFor="address">Διεύθυνση</label>
+                      <label htmlFor="address">Διεύθυνση*</label>
                       <input type="text" className="form-control" id="address" value={this.state.address} readOnly/>
                     </div>
                     <div className="form-group">
-                      <label htmlFor="address">Όροφος</label>
+                      <label htmlFor="address">Όροφος*</label>
                       <input type="text" className="form-control" id="orofos" value={this.state.orofos} onChange={this.handleChange}/>
                     </div>
                     <div className="form-group">
-                      <label htmlFor="phone">Τηλέφωνο</label>
+                      <label htmlFor="phone">Τηλέφωνο*</label>
                       <input type="text" className="form-control" id="phone" value={this.state.phone} onChange={this.handleChange}/>
                     </div>
                     <div className="form-group">

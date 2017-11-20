@@ -23,6 +23,12 @@ class OrderDetails extends Component {
             <Card>
               <CardBody>
                 <CardTitle>Ο Μούργος έρχεται!</CardTitle>
+                <div className="success-circle">
+                  <span className="fa fa-check"></span>
+                </div>
+                <div class="col-12 col-md-8 offset-md-2 alert alert-primary" role="alert">
+                  Το φαγητό σου ετοιμάζεται και ο μούργος πάει να το παραλάβει 
+                </div>
                 <div className="row justify-content-center content">
                   <div className="col-12">Κωδικός παραγγελίας</div>
                   <div className="order-code col-10 col-sm-7 col-md-5 col-lg-4">

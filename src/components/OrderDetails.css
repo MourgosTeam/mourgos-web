@@ -12,3 +12,9 @@
 .up-code{
     text-transform: uppercase;
 }
+
+.success-circle{
+    font-size: 60px;
+    border-radius: 50px;
+    color: #01bf00;
+}
