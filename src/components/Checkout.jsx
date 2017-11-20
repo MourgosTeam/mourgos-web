@@ -7,7 +7,7 @@ import { Card,  CardBody, CardTitle } from 'reactstrap';
 
 import {GetIt} from '../helpers/helpers'
 
-class CheckoutBasketItem extends Component{
+export class CheckoutBasketItem extends Component{
   render(){
     return (<div className="row basket-item">
       <span className="description col-12 col-sm-8 col-md-8 text-left">{this.props.item.quantity}x {this.props.item.object.Name}</span>
@@ -191,9 +191,9 @@ class Checkout extends Component {
                   <CardTitle>Η παραγγελία μου</CardTitle>
                   <div className="pad-top">
                     <div>
-                      {this.state.basketItems.map((data,index) => {
-                        return <CheckoutBasketItem item={data} key={index} />;
-                      })}
+                    {this.state.basketItems.map((data,index) => {
+                      return <CheckoutBasketItem item={data} key={index} />;
+                    })}
                     </div>
                     { this.state.extraCharge ? 
                       <CheckoutBasketItem item={{quantity : 1, object : { Name : "Έξτρα Χρέωση" }, description: [], TotalPrice: 0.50 }} />

@@ -2,7 +2,22 @@ import React, { Component } from 'react';
 import './OrderDetails.css';
 import { Card,  CardBody, CardTitle } from 'reactstrap';
 
-//import {GetIt} from '../helpers/helpers'
+import {GetIt} from '../helpers/helpers'
+
+class OrderItem extends Component{
+  render(){
+    return (<div className="row basket-item">
+      <span className="description col-12 col-sm-8 col-md-8 text-left">{this.props.item.quantity}x {this.props.item.object.Name}</span>
+      <span className="price col-12 col-sm-4 col-md-4 text-right">{this.props.item.TotalPrice.toFixed(2)} 
+        <span className="fa fa-euro"></span> 
+      </span>
+      <div className="col-8 text-left"> 
+        {this.props.item.comments ? 
+          ("Σχόλια :" + this.props.item.comments): ""}
+      </div>
+    </div>);
+  }
+}
 
 class OrderDetails extends Component {  
   constructor(props){
@@ -13,6 +28,40 @@ class OrderDetails extends Component {
     localStorage.setItem("lastorder", this.code);
     localStorage.setItem("basket", null);
     window.storageUpdated();
+
+    this.getOrder();
+    this.state = {
+      order : {
+        Items : []
+      }
+    }
+  }
+
+  getOrder = () => {
+    var resorder;
+    GetIt("/orders/"+this.code, "GET").then(function(data) {
+      return data.json();
+    }).then((data) => {
+      data.Items = JSON.parse(data.Items) || [];
+      resorder = data;
+      var promises = [];
+      for(var i=0; i < data.Items.length ; i += 1){
+        promises.push(GetIt("/products/"+data.Items[i].id, "GET").then((data) => data.json()));
+      }
+      return Promise.all(promises);
+    }).then( (data) => {
+      var prods = {};
+      for(let i=0;i<data.length;i++){
+        prods[data[i].id] = data[i];
+      }
+      for(let i=0;i<resorder.Items.length;i++){
+        resorder.Items[i].object = prods[resorder.Items[i].id];
+        resorder.Items[i].TotalPrice = resorder.Items[i].quantity * resorder.Items[i].object.Price;
+      }
+      // fix totalprice
+      resorder.hasExtra = resorder.Extra;
+      return resorder;
+    }).then( (order) => this.setState({order : order}));
   }
 
   render(){
@@ -26,7 +75,7 @@ class OrderDetails extends Component {
                 <div className="success-circle">
                   <span className="fa fa-check"></span>
                 </div>
-                <div class="col-12 col-md-8 offset-md-2 alert alert-primary" role="alert">
+                <div className="col-12 col-md-8 offset-md-2 alert alert-primary" role="alert">
                   Το φαγητό σου ετοιμάζεται και ο μούργος πάει να το παραλάβει 
                 </div>
                 <div className="row justify-content-center content">
@@ -34,6 +83,14 @@ class OrderDetails extends Component {
                   <div className="order-code col-10 col-sm-7 col-md-5 col-lg-4">
                     <div className="up-code">{this.code}</div>
                   </div>
+                </div>
+                <div className="col-8 col-md-6 offset-md-3 alert alert-secondary">
+                    {this.state.order.Items.map((data,index) => {
+                      return <OrderItem item={data} key={index} />;
+                    })}
+                    { this.state.extraCharge ? 
+                      <OrderItem item={{quantity : 1, object : { Name : "Έξτρα Χρέωση" }, description: [], TotalPrice: 0.50 }} />
+                    : ""}
                 </div>
               </CardBody>
             </Card>
