@@ -67,7 +67,7 @@ class CatalogueView extends Component {
   }
   componentDidUpdate(){
     if(this.saveBasketFlag){
-      var a = {id: this.catalogue.id, items: this.state.basketItems, total: this.state.basketTotal};
+      var a = {catalogue: this.catalogue.id, items: this.state.basketItems, total: this.state.basketTotal};
       localStorage.setItem("basket", JSON.stringify(a));
       this.saveBasketFlag = false;
     }

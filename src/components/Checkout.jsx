@@ -56,7 +56,8 @@ class Checkout extends Component {
       basketItems : local.items,
       basketTotal : local.total,
       diffName : localData.diffName || false,
-      extraCharge : hasExtra
+      extraCharge : hasExtra,
+      catalogue : local.catalogue
     }
     console.log(this.state);
   }
@@ -104,6 +105,7 @@ class Checkout extends Component {
   }
   // SEND ORDER // 
   sendOrder = () => {
+    if(!this.checkFields())return;
     let items = [...this.state.basketItems];
     let nitems = [];
     for(var i=0; i < items.length; i = i + 1){
@@ -111,6 +113,7 @@ class Checkout extends Component {
           id      : items[i].object.id,
           quantity: items[i].quantity,
           comments: items[i].comments,
+          TotalPrice : items[i].TotalPrice,
           attributes: this.calculateAttributes(items[i]._attributes,items[i]._selectedAttributes)
       };
       nitems.push(newItem);
@@ -124,7 +127,8 @@ class Checkout extends Component {
       comments: this.state.comments,
       basketItems : nitems, 
       basketTotal : this.state.basketTotal,
-      hasExtra    : this.state.extraCharge
+      hasExtra    : this.state.extraCharge,
+      catalogue   : this.state.catalogue
     };
     GetIt("/orders" , "POST", order)
     .then(function(data){
@@ -134,9 +138,21 @@ class Checkout extends Component {
       this.redirect("foodiscoming", { orderId : data.id });
       return true;
     })
-    .catch(function(){
-      alert("Order failed!");
+    .catch(()=>{
+      this.checkFields();
     });
+  }
+  checkFields(){
+    var reqs = ['name', 'address','orofos','phone'];
+    var flag = true;
+    for(var i in reqs){
+      if(document.getElementById(reqs[i]).value.length < 1){
+        document.getElementById(reqs[i]).classList.add('required');
+        flag = false;
+      }
+      else document.getElementById(reqs[i]).classList.remove('required');
+    }
+    return flag;
   }
 
 

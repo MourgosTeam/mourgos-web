@@ -32,7 +32,8 @@ class OrderDetails extends Component {
     this.getOrder();
     this.state = {
       order : {
-        Items : []
+        Items : [],
+        Total : 0
       }
     }
   }
@@ -56,7 +57,6 @@ class OrderDetails extends Component {
       }
       for(let i=0;i<resorder.Items.length;i++){
         resorder.Items[i].object = prods[resorder.Items[i].id];
-        resorder.Items[i].TotalPrice = resorder.Items[i].quantity * resorder.Items[i].object.Price;
       }
       // fix totalprice
       resorder.hasExtra = resorder.Extra;
@@ -88,9 +88,12 @@ class OrderDetails extends Component {
                     {this.state.order.Items.map((data,index) => {
                       return <OrderItem item={data} key={index} />;
                     })}
-                    { this.state.extraCharge ? 
+                    { this.state.order.hasExtra ? 
                       <OrderItem item={{quantity : 1, object : { Name : "Έξτρα Χρέωση" }, description: [], TotalPrice: 0.50 }} />
                     : ""}
+                    <div >
+                      Σύνολο : { ( parseFloat(this.state.order.Total) + (this.state.order.hasExtra ? 0.5 : 0)).toFixed(2)} <span className="fa fa-euro"></span>
+                    </div>
                 </div>
               </CardBody>
             </Card>
