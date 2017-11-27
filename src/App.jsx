@@ -149,7 +149,7 @@ class App extends Component {
                 </div>
               </div>
               <div className="social col-12 col-md-4 offset-md-2 text-center text-md-right">
-                <div className="">
+                <div style={{fontWeight:100}}>
                   Ακολούθησε το Μούργο!
                 </div>
                 <div className="">

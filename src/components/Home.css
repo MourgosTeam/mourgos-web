@@ -11,10 +11,10 @@
     width: 100%;
     z-index: 99;
 }
-@media(max-width: 576px){
+@media(max-width: 768px){
     .overlay{
         position: relative;
-        width:100vw;
+        width:100%;
         margin-top: -40px;
     }
     #map{
@@ -60,7 +60,7 @@
     padding-top: 10px;
     padding-bottom: 20px;
     text-align: left;
-    font-weight: bold;
+    font-weight: 100;
     /*text-shadow: -2px 2px 2px #3E3449;*/
 }
 .home{
@@ -69,7 +69,17 @@
 
 .partners-title{
     font-size:24px;
-    font-weight: bold;
+    font-weight: 100;
     color : #555;
     padding:20px;
+}
+
+.no-pad-lr{
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.p-ud-md{
+    padding-bottom: 10px;
+    padding-top: 10px;
 }

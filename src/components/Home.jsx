@@ -20,6 +20,40 @@ class Home extends Component {
 
   componentDidMount = () => {
     this.createMap();
+
+    (function pacSelectFirst(input) {
+        // store the original event binding function
+        var _addEventListener = (input.addEventListener) ? input.addEventListener : input.attachEvent;
+
+        function addEventListenerWrapper(type, listener) {
+            // Simulate a 'down arrow' keypress on hitting 'return' when no pac suggestion is selected,
+            // and then trigger the original listener.
+            if (type === "keydown") {
+                var orig_listener = listener;
+                listener = function(event) {
+                    var suggestion_selected = document.getElementsByClassName("pac-item-selected").length > 0;
+                    if (event.which === 13 && !suggestion_selected) {
+ var e = new Event("keydown");
+e.keyCode=40;
+e.which=e.keyCode;
+e.altKey=false;
+e.ctrlKey=true;
+e.shiftKey=false;
+e.metaKey=false;
+                        orig_listener.apply(input, [e]);
+                    }
+
+                    orig_listener.apply(input, [event]);
+                };
+            }
+
+            _addEventListener.apply(input, [type, listener]);
+        }
+
+        input.addEventListener = addEventListenerWrapper;
+        input.attachEvent = addEventListenerWrapper;
+
+    })(document.getElementById('address_input'));
   }
 
   createMap = () => {
@@ -110,12 +144,12 @@ class Home extends Component {
   render = () => {
     return (
       <div className="container-fluid home">
-        <div className="row overlay">
-          <div className="container">
+        <div className="row">
+          <div className="container-fluid overlay">
             <div className="row">
-              <div className="col-12 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-6 offset-xl-3 autocomplete  welcome-panel">
+              <div className="col-12 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4 autocomplete  welcome-panel">
                 <div className="row">
-                  <div className="col-12 slogan d-none d-md-block">
+                  <div className="col-12 slogan d-none d-md-block text-center">
                     Πού θες να έρθει ο Μούργος;
                   </div>
                   <div className="col-12 col-lg-12">
@@ -127,7 +161,7 @@ class Home extends Component {
                         placeholder="Γράψε τη διεύθυνσή σου" />
                   </div>
 
-                  <div className="col-12 accept-button" id="accept">
+                  <div className="col-12 col-lg-6 offset-lg-3 accept-button p-ud-md" id="accept">
                       {this.lastresort ? 
                         <UISref to="catalogues" params={{catalogueURL : this.lastresort}} className="btn btn-primary last-order pointer">
                           <button className="btn btn-success">Επιλογή διεύθυνσης</button>
@@ -137,10 +171,10 @@ class Home extends Component {
                         </UISref>
                       }
                   </div>
-                  <div className="col-12 no-service-button" id="no-service">
+                  <div className="col-12 col-lg-6 offset-lg-3 p-ud-md no-service-button" id="no-service">
                     <button className="btn btn-danger btn-static">Εκτός περιοχής</button>
                   </div>
-                  <div className="col-12 no-number-button" id="no-number">
+                  <div className="col-12 col-lg-6 offset-lg-3 p-ud-md no-number-button" id="no-number">
                     <button className="btn btn-warning btn-static">Συμπληρώστε αριθμό</button>
                   </div>
                 </div>

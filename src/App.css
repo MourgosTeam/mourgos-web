@@ -114,7 +114,7 @@ button:focus {outline: none !important;}
 .footer .copyright{
     font-size: 10px;
     font-weight: lighter;
-    font-family: Londrina , cursive;
+    font-family: "Open-sans", sans-serif;
     color : #9c99a5;
 }
 .footer .social{

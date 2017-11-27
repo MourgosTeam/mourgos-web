@@ -25,7 +25,7 @@ class BasketItem extends Component{
       <div className="col text-left"> 
         { this.props.item.description.map((data, index) => {return <div className="basket-item-description" key={index}>{data}</div>})}
       </div>
-      <span className="col-3 text-right basket-buttons"><span className="fa fa-pencil-square-o" onClick={this.editHandler}></span><span className="fa fa-times" onClick={this.removeHandler}></span></span>
+      <span className="col-4 text-right basket-buttons"><span className="fa fa-pencil-square-o" onClick={this.editHandler}></span><span className="fa fa-times" onClick={this.removeHandler}></span></span>
     </div>);
   }
 }

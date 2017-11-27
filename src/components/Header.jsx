@@ -25,20 +25,19 @@ class Header extends Component {
                       <span>{this.props.username}</span>
                     </div> 
                     <div className="col-12 login-address">
-                      <span>{ (this.props.address) ? ("Ο Μούργος θα έρθει " + this.props.address ) : ""}</span>
+                      <span>{ (this.props.address) ? ("Ο Μούργος θα έρθει : " + this.props.address ) : ""}</span>
                     </div> 
                     { this.props.lastOrder ? (
                     <div className="col-12 links">
                       <ul>
                         <li>
-                          <UISref to="foodiscoming" params={{orderId : this.props.lastOrder}} className="btn btn-primary last-order pointer">
+                          <UISref to="foodiscoming" params={{ orderId : this.props.lastOrder}} className="btn btn-primary last-order pointer">
                               <span>Τελευταία παραγγελία</span>
                           </UISref>
                         </li>
                       </ul>
-                    </div> 
-                    ) :""}
-                  
+                    </div>
+                    ) :""}                
                   </div>
               </div>
             </header>;
