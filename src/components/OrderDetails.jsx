@@ -33,7 +33,8 @@ class OrderDetails extends Component {
     this.state = {
       order : {
         Items : [],
-        Total : 0
+        Total : 0,
+        Status: -1
       }
     }
   }
@@ -60,6 +61,7 @@ class OrderDetails extends Component {
       }
       // fix totalprice
       resorder.hasExtra = resorder.Extra;
+      resorder.Status = parseInt(resorder.Status, 10);
       return resorder;
     }).then( (order) => this.setState({order : order}));
   }
@@ -75,9 +77,21 @@ class OrderDetails extends Component {
                 <div className="success-circle">
                   <span className="fa fa-check"></span>
                 </div>
+                {this.state.order.Status === 0 ?  
                 <div className="col-12 col-md-8 offset-md-2 alert alert-primary" role="alert">
                   Το φαγητό σου ετοιμάζεται και ο μούργος πάει να το παραλάβει 
                 </div>
+                : '' }
+                {this.state.order.Status === 1 ?  
+                <div className="col-12 col-md-8 offset-md-2 alert alert-success" role="alert">
+                  Ο Μούργος παρέλαβε το φαγητό σου και έρχεται
+                </div>
+                : '' }
+                {this.state.order.Status === 99 ?  
+                <div className="col-12 col-md-8 offset-md-2 alert alert-danger" role="alert">
+                  Η παραγγελία απορρίφθηκε απο το κατάστημα 
+                </div>
+                : '' }
                 <div className="row justify-content-center content">
                   <div className="col-12">Κωδικός παραγγελίας</div>
                   <div className="order-code col-10 col-sm-7 col-md-5 col-lg-4">
