@@ -127,7 +127,8 @@ e.metaKey=false;
 
       if (google.maps.geometry.poly.containsLocation(point, this.polygon) ){
         document.getElementById('accept').style.display = 'block';
-        localStorage.setItem("user_address", place.name);
+        localStorage.setItem("user_address", place.name );
+        localStorage.setItem("formatted_address", place.formatted_address );
         localStorage.setItem("place" , JSON.stringify(place));
         this.props.onCredentialChange();
       }

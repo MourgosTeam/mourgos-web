@@ -49,7 +49,7 @@ class Checkout extends Component {
     this.state = {
       name    : localData.name || "",
       koudouni: localData.koudouni || "",
-      address : localStorage.getItem("user_address"),
+      address : localStorage.getItem("formatted_address"),
       orofos  : localData.orofos || "",
       phone   : localData.phone || "",
       comments: localData.comments || "",
@@ -59,7 +59,18 @@ class Checkout extends Component {
       extraCharge : hasExtra,
       catalogue : local.catalogue
     }
+    let place =  JSON.parse(localStorage.getItem('place'));
+    if(!place)alert("Υπάρχει κάποιο πρόβλημα! Παρακάλω μεταφερθείτε στην αρχική σελίδα και διαλέξτε διεύθυνση!");
+    this.latitude  = place.geometry.location.lat;
+    this.longitude = place.geometry.location.lng;
     console.log(this.state);
+  }
+
+  componentWillUpdate(){
+    let place =  JSON.parse(localStorage.getItem('place'));
+    if(!place)alert("Υπάρχει κάποιο πρόβλημα! Παρακάλω μεταφερθείτε στην αρχική σελίδα και διαλέξτε διεύθυνση!");
+    this.latitude  = place.geometry.location.lat;
+    this.longitude = place.geometry.location.lng;
   }
 
   checkForExtra(items){
@@ -128,7 +139,9 @@ class Checkout extends Component {
       basketItems : nitems, 
       basketTotal : this.state.basketTotal,
       hasExtra    : this.state.extraCharge,
-      catalogue   : this.state.catalogue
+      catalogue   : this.state.catalogue,
+      latitude : this.latitude,
+      longitude: this.longitude
     };
     GetIt("/orders" , "POST", order)
     .then(function(data){
