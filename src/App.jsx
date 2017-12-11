@@ -153,9 +153,10 @@ class App extends Component {
                   Ακολούθησε το Μούργο!
                 </div>
                 <div className="">
-                  <span className="fa fa-facebook-square"></span>
-                  <span className="fa fa-twitter-square"></span>
-                  <span className="fa fa-youtube-square"></span>
+                <a href="https://www.facebook.com/mourgos.gr/">
+                  <span className="fa fa-facebook-square">
+                  </span>
+                </a>
                 </div>
                 <br />
                 <div className="copyright">
