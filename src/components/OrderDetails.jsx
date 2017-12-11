@@ -66,8 +66,7 @@ class OrderDetails extends Component {
       resorder.Status = parseInt(resorder.Status, 10);
 
       return resorder;
-    }).
-    then( (order) => this.setState({order : order}));
+    }).then( (order) => this.setState({order : order}));
   }
 
   render(){

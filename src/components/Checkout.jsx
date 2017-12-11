@@ -108,8 +108,8 @@ class Checkout extends Component {
       document.getElementById('coupon').classList.remove('required');
       return;
     }
-    GetIt('/campaigns/'+coupon+'/', 'GET').then((data) => data.json()).
-    then((data) => {
+    GetIt('/campaigns/'+coupon+'/', 'GET').then((data) => data.json())
+    .then((data) => {
       if(data.code){
         throw data.code;
       }
