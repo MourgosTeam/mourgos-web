@@ -64,7 +64,8 @@ class OrderDetails extends Component {
       // fix totalprice
       resorder.hasExtra = resorder.Extra;
       resorder.Status = parseInt(resorder.Status, 10);
-
+      resorder.Hashtag = '';
+      resorder.HashtagFormula = 0;
       return resorder;
     }).then( (order) => this.setState({order : order}));
   }
