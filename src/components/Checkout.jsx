@@ -57,7 +57,8 @@ class Checkout extends Component {
       basketTotal : local.total,
       diffName : localData.diffName || false,
       extraCharge : hasExtra,
-      catalogue : local.catalogue
+      catalogue : local.catalogue,
+      coupon : ''
     }
     let place =  JSON.parse(localStorage.getItem('place'));
     if(!place)alert("Υπάρχει κάποιο πρόβλημα! Παρακάλω μεταφερθείτε στην αρχική σελίδα και διαλέξτε διεύθυνση!");
@@ -141,7 +142,8 @@ class Checkout extends Component {
       hasExtra    : this.state.extraCharge,
       catalogue   : this.state.catalogue,
       latitude : this.latitude,
-      longitude: this.longitude
+      longitude: this.longitude,
+      coupon : this.state.coupon
     };
     GetIt("/orders" , "POST", order)
     .then(function(data){
@@ -197,7 +199,7 @@ class Checkout extends Component {
                       <input type="text" className="form-control" id="address" value={this.state.address} readOnly/>
                     </div>
                     <div className="form-group">
-                      <label htmlFor="address">Όροφος*</label>
+                      <label htmlFor="orofos">Όροφος*</label>
                       <input type="text" className="form-control" id="orofos" value={this.state.orofos} onChange={this.handleChange}/>
                     </div>
                     <div className="form-group">
@@ -205,8 +207,13 @@ class Checkout extends Component {
                       <input type="text" className="form-control" id="phone" value={this.state.phone} onChange={this.handleChange}/>
                     </div>
                     <div className="form-group">
-                      <label htmlFor="phone">Σχόλια</label>
+                      <label htmlFor="comments">Σχόλια</label>
                       <textarea type="text" className="form-control" id="comments" value={this.state.comments} onChange={this.handleChange}></textarea>
+                    </div>
+
+                    <div className="form-group">
+                      <label htmlFor="coupon">Κουπόνι</label>
+                      <textarea type="text" className="form-control" id="coupon" value={this.state.coupon} onChange={this.handleChange}></textarea>
                     </div>
                   </form>
                 </div>
