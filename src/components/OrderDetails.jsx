@@ -34,7 +34,9 @@ class OrderDetails extends Component {
       order : {
         Items : [],
         Total : 0,
-        Status: -1
+        Status: -1,
+        Hashtag: '',
+        HashtagFormula: 0
       }
     }
   }
@@ -62,8 +64,10 @@ class OrderDetails extends Component {
       // fix totalprice
       resorder.hasExtra = resorder.Extra;
       resorder.Status = parseInt(resorder.Status, 10);
+
       return resorder;
-    }).then( (order) => this.setState({order : order}));
+    }).
+    then( (order) => this.setState({order : order}));
   }
 
   render(){
@@ -105,8 +109,12 @@ class OrderDetails extends Component {
                     { this.state.order.hasExtra ? 
                       <OrderItem item={{quantity : 1, object : { Name : "Έξτρα Χρέωση" }, description: [], TotalPrice: 0.50 }} />
                     : ""}
+
+                    { this.state.order.Hashtag.length > 3 ? 
+                      <OrderItem item={{quantity : 1, object : { Name : "Έκπτωση " }, description: [], TotalPrice: -this.state.order.HashtagFormula }} />
+                    : ""}
                     <div >
-                      Σύνολο : { ( parseFloat(this.state.order.Total) + (this.state.order.hasExtra ? 0.5 : 0)).toFixed(2)} <span className="fa fa-euro"></span>
+                      Σύνολο : { ( parseFloat(this.state.order.Total) + (this.state.order.hasExtra ? 0.5 : 0) - (this.state.order.HashtagFormula !== 0 ? Math.min(this.state.order.HashtagFormula, parseFloat(this.state.order.Total) + (this.state.order.hasExtra ? 0.5 : 0)) : 0)).toFixed(2)} <span className="fa fa-euro"></span>
                     </div>
                 </div>
               </CardBody>

@@ -9,8 +9,7 @@ export function GetIt(url, method, body, token){
     method: method,
     body: JSON.stringify(body),
       headers: {
-        "Content-Type": "application/json",
-        "Token" : token
+        "Content-Type": "application/json"
       }
   });
 }

@@ -7,6 +7,8 @@ import { Card,  CardBody, CardTitle } from 'reactstrap';
 
 import {GetIt} from '../helpers/helpers'
 
+
+
 export class CheckoutBasketItem extends Component{
   render(){
     return (<div className="row basket-item">
@@ -58,7 +60,8 @@ class Checkout extends Component {
       diffName : localData.diffName || false,
       extraCharge : hasExtra,
       catalogue : local.catalogue,
-      coupon : ''
+      coupon : '',
+      formula: 0
     }
     let place =  JSON.parse(localStorage.getItem('place'));
     if(!place)alert("Υπάρχει κάποιο πρόβλημα! Παρακάλω μεταφερθείτε στην αρχική σελίδα και διαλέξτε διεύθυνση!");
@@ -96,6 +99,36 @@ class Checkout extends Component {
     var target = e.target;
     this.setState({
       [target.id]: target.value
+    });
+  }
+
+  handleCoupon = () => {
+    const coupon = this.state.coupon;
+    if(coupon.length < 3){
+      document.getElementById('coupon').classList.remove('required');
+      return;
+    }
+    GetIt('/campaigns/'+coupon+'/', 'GET').then((data) => data.json()).
+    then((data) => {
+      if(data.code){
+        throw data.code;
+      }
+      document.getElementById('coupon').disabled = true;
+      document.getElementById('coupon').classList.add('success');
+
+      this.setState({
+        formula: data.Formula
+      })
+
+    }).catch((err) => {
+      if(err === 'No more'){
+        alert('Άργησες! Το κουπόνι έχει ήδη χρησιμοποιηθεί αρκετές φορές.');
+        document.getElementById('coupon').value = '';
+        document.getElementById('coupon').classList.remove('required');
+      }
+      else{
+        document.getElementById('coupon').classList.add('required');
+      }
     });
   }
 
@@ -213,7 +246,7 @@ class Checkout extends Component {
 
                     <div className="form-group">
                       <label htmlFor="coupon">Κουπόνι</label>
-                      <textarea type="text" className="form-control" id="coupon" value={this.state.coupon} onChange={this.handleChange}></textarea>
+                      <input type="text" className="form-control" id="coupon" value={this.state.coupon} onChange={this.handleChange} onBlur={this.handleCoupon}/>
                     </div>
                   </form>
                 </div>
@@ -235,8 +268,11 @@ class Checkout extends Component {
                       <CheckoutBasketItem item={{quantity : 1, object : { Name : "Έξτρα Χρέωση" }, description: [], TotalPrice: 0.50 }} />
 
                     : "" }
+                    { this.state.formula !== 0 ? 
+                      <CheckoutBasketItem item={{quantity : 1, object : { Name : "Έκπτωση" }, description: [], TotalPrice: -this.state.formula }} />
+                    : "" }
                     <div className="text-right total">
-                      Σύνολο : { (this.state.basketTotal + (this.state.extraCharge ? 0.5 : 0) ).toFixed(2)} <span className="fa fa-euro"></span>
+                      Σύνολο : { (this.state.basketTotal + (this.state.extraCharge ? 0.5 : 0) - (this.state.formula !== 0 ? Math.min(this.state.formula, this.state.basketTotal + (this.state.extraCharge ? 0.5 : 0)) : 0) ).toFixed(2)} <span className="fa fa-euro"></span>
                     </div>
                   </div>
                 </CardBody>
