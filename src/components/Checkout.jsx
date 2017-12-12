@@ -118,7 +118,7 @@ class Checkout extends Component {
 
       this.setState({
         formula: data.Formula
-      })
+      });
 
     }).catch((err) => {
       if(err === 'No more'){
@@ -182,12 +182,15 @@ class Checkout extends Component {
     .then(function(data){
       return data.json();
     })
-    .then((data)=>{
+    .then((data) => {
       this.redirect("foodiscoming", { orderId : data.id });
       return true;
     })
-    .catch(()=>{
+    .catch((err) => {
       this.checkFields();
+      if (err.status === 503) {
+        alert('Δεν μπορείς να κάνεις παραγγελίες όσο ο Μούργος είναι κλειστός!');
+      }
     });
   }
   checkFields(){

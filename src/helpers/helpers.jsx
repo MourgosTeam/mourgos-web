@@ -11,6 +11,12 @@ export function GetIt(url, method, body, token){
       headers: {
         "Content-Type": "application/json"
       }
+  }).then((resp) => {
+    if (resp.status === 200) {
+      return resp;
+    } else {
+      throw resp;
+    }
   });
 }
 

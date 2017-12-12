@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import './Header.css';
 
 import {UISref} from '@uirouter/react';
+import {GetIt} from '../helpers/helpers'
+
 
 
 const logo = "/images/mourgos-logo-white.png";
@@ -9,7 +11,25 @@ const logo = "/images/mourgos-logo-white.png";
 class Header extends Component {
   constructor(props){
     super(props);
-    return;
+
+    this.state = {
+      isSiteOpen: true
+    };
+
+    GetIt('/globals/MourgosIsLive/', 'GET').then((data) => data.json())
+    .then( (data) => {
+      if (data.Value === '1') {
+        this.setState({
+          isSiteOpen: true
+        });
+      }
+      else {
+        this.setState({
+          isSiteOpen: false
+        });
+      }
+    });
+    
   }
   render() {
     return  <header className="navbar navbar-expand-lg navbar-light bg-first">
@@ -20,6 +40,12 @@ class Header extends Component {
                     <span className="logo-text">Mourgos.gr</span>
                   </div>
                 </UISref>
+                  {this.state.isSiteOpen === false ? 
+                    <div id='siteStatus' className="text-center alert alert-warning col-lg-5 offset-lg-1">
+                      Ο Μούργος είναι κλειστός!<br />
+                      Μπορείς να πλοηγηθείς αλλά δεν μπορείς να κάνεις νέες παραγγελίες 
+                    </div>
+                  : ''}
                   <div className="pull-right login text-lg-right text-center row">
                     <div className="col-12 login-name">
                       <span>{this.props.username}</span>
