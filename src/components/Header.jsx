@@ -32,7 +32,16 @@ class Header extends Component {
     
   }
   render() {
-    return  <header className="navbar navbar-expand-lg navbar-light bg-first">
+    return[  
+          <div className="container-fluid text-center alert-warning mb-0">
+            {this.state.isSiteOpen === false ? 
+              <div id='siteStatus' className="pt-4 pb-4">
+                Ο Μούργος είναι κλειστός!<br />
+                Μπορείς να πλοηγηθείς αλλά δεν μπορείς να κάνεις νέες παραγγελίες 
+              </div>
+            : ''}
+          </div>,
+          <header className="navbar navbar-expand-lg navbar-light bg-first">
               <div className="container">
                 <UISref to="home" className="pointer">
                   <div className="navbar-header logo-container">
@@ -40,12 +49,6 @@ class Header extends Component {
                     <span className="logo-text">Mourgos.gr</span>
                   </div>
                 </UISref>
-                  {this.state.isSiteOpen === false ? 
-                    <div id='siteStatus' className="text-center alert alert-warning col-lg-5 offset-lg-1">
-                      Ο Μούργος είναι κλειστός!<br />
-                      Μπορείς να πλοηγηθείς αλλά δεν μπορείς να κάνεις νέες παραγγελίες 
-                    </div>
-                  : ''}
                   <div className="pull-right login text-lg-right text-center row">
                     <div className="col-12 login-name">
                       <span>{this.props.username}</span>
@@ -66,7 +69,7 @@ class Header extends Component {
                     ) :""}                
                   </div>
               </div>
-            </header>;
+            </header>];
   }
 }
 
