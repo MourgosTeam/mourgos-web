@@ -95,7 +95,9 @@ button:focus {outline: none !important;}
   min-height:60px;   /* Height of the footer */
   width: 100%;
 }
-
+.footer a {
+  color: #aca8b3 !important;
+}
 .footer .fa{
     font-size: 28px;
     padding: 0 3px;
