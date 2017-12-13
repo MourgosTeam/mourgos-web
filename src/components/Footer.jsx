@@ -26,7 +26,7 @@ class Footer extends Component {
                   </a>
                   </div>
                   <div style={{fontWeight:700}}>
-                    <a href="/about.html">Έχεις κατάστημα;</a>
+                    <a href="/about">Έχεις κατάστημα;</a>
                   </div>
                   <div className="copyright">
                     Copyright © 2017 Mourgos.gr
