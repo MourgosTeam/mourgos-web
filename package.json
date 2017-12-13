@@ -36,6 +36,5 @@
     "cross-env": "^5.1.1",
     "eslint": "^4.10.0",
     "eslint-plugin-react": "^7.4.0"
-  },
-  "homepage": "/app/"
+  }
 }

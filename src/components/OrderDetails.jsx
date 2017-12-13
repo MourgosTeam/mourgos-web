@@ -102,6 +102,11 @@ class OrderDetails extends Component {
                     <div className="up-code">{this.code}</div>
                   </div>
                 </div>
+
+                <div className="col-12 col-md-8 offset-md-2" style={{padding:10}} role="alert">
+                  Τηλέφωνο καταστήματος: {this.state.order.ShopPhone}
+                </div>
+
                 <div className="col-8 col-md-6 offset-md-3 alert alert-secondary">
                     {this.state.order.Items.map((data,index) => {
                       return <OrderItem item={data} key={index} />;
