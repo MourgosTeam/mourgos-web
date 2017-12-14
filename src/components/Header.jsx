@@ -33,7 +33,7 @@ class Header extends Component {
   }
   render() {
     return[  
-          <div className="container-fluid text-center alert-warning mb-0">
+          <div key={'closedSite'} className="container-fluid text-center alert-warning mb-0">
             {this.state.isSiteOpen === false ? 
               <div id='siteStatus' className="pt-4 pb-4">
                 Ο Μούργος είναι κλειστός!<br />
@@ -41,7 +41,7 @@ class Header extends Component {
               </div>
             : ''}
           </div>,
-          <header className="navbar navbar-expand-lg navbar-light bg-first">
+          <header key={'siteHeader'} className="navbar navbar-expand-lg navbar-light bg-first">
               <div className="container">
                 <UISref to="home" className="pointer">
                   <div className="navbar-header logo-container">

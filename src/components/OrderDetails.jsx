@@ -64,8 +64,6 @@ class OrderDetails extends Component {
       // fix totalprice
       resorder.hasExtra = resorder.Extra;
       resorder.Status = parseInt(resorder.Status, 10);
-      resorder.Hashtag = '';
-      resorder.HashtagFormula = 0;
       return resorder;
     }).then( (order) => this.setState({order : order}));
   }
@@ -114,8 +112,7 @@ class OrderDetails extends Component {
                     { this.state.order.hasExtra ? 
                       <OrderItem item={{quantity : 1, object : { Name : "Έξτρα Χρέωση" }, description: [], TotalPrice: 0.50 }} />
                     : ""}
-
-                    { this.state.order.Hashtag.length > 3 ? 
+                    { this.state.order.Hashtag && this.state.order.Hashtag.length > 3 ? 
                       <OrderItem item={{quantity : 1, object : { Name : "Έκπτωση " }, description: [], TotalPrice: -this.state.order.HashtagFormula }} />
                     : ""}
                     <div >
