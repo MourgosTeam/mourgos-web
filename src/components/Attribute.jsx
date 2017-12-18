@@ -3,11 +3,34 @@ import './Attribute.css';
 
 import {Button, ButtonGroup, ButtonToolbar} from 'reactstrap'
 class AttributeOption extends Component{
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      fontSize : 14
+    };
+    this.rid = Math.random() * 123;
+  }
+
+  componentDidMount(){
+    let buttonSize = document.getElementById(this.rid).clientWidth;
+    let elem = document.getElementById('span' + this.rid);
+    let spanSize = elem.clientWidth;
+    let maxFontSize = 14
+    if(spanSize == 0)return;
+    const ratio = maxFontSize * ((buttonSize - 10) / spanSize);
+
+    this.setState({
+      fontSize: ratio > maxFontSize ? maxFontSize : ratio
+    });      
+  }
+
   render(){
     return (
-      <Button className="btn btn-light AttributeOption col-4 btn-sm" onClick={this.props.onSelect}
+      <Button className="btn btn-light AttributeOption col-4 btn-sm" id={this.rid} onClick={this.props.onSelect}
               active={this.props.selected === this.props.indexKey}>
-              {this.props.optionName}
+              <span className="attribute-text" id={'span' + this.rid} style={{fontSize: this.state.fontSize}}>{this.props.optionName}</span>
       </Button>);
   }
 }

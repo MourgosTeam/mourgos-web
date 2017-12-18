@@ -18,7 +18,8 @@ class EditProduct extends Component {
     this.state = {
       quantity  : props.quantity,
       options   : opts,
-      comments  : props.comments
+      comments  : props.comments,
+      hasRequirements: true
     };
   }
 
@@ -30,10 +31,23 @@ class EditProduct extends Component {
   }
 
   attributeSelected = (data,index) => {
-    if(data instanceof Array)data = data[0];
+    if (data instanceof Array) data = data[0];
+
     var newOptions = [...this.state.options];
     newOptions[index] = data;
-    this.setState({ options : newOptions});
+    
+    let flag = newOptions.length !== this.props.attributes.length;
+    for (var i = 0; i < newOptions.length; i++) {
+      if( isNaN(newOptions[i]) || newOptions[i] === undefined || newOptions[i] == -1 ){
+        flag = true;
+        break;
+      }
+    }
+    
+    this.setState({ 
+      options: newOptions,
+      hasRequirements: flag
+    });
   }
 
   handleChange = (e) => {
@@ -103,7 +117,7 @@ class EditProduct extends Component {
               <Button size="sm" disabled  className="btn-light">{this.state.quantity}</Button>
               <Button size="sm" onClick={this.more} className="btn-light"><span className="fa fa-plus"></span></Button>
             </ButtonGroup>
-            <Button onClick={ () => this.submitItem()} className="btn btn-light">{this.props.buttonText}</Button>
+            <Button onClick={ () => this.submitItem()} disabled={this.state.hasRequirements} className="btn btn-light">{ this.state.hasRequirements ? 'Επέλεξε υλικά' : this.props.buttonText}</Button>
           </ModalFooter>
         </Modal>
       </div>);
