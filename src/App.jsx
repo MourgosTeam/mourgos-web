@@ -11,14 +11,19 @@ import Header  from './components/Header.jsx'
 
 import Footer from './components/Footer.jsx'
 
-import {UIRouter, UIView, pushStateLocationPlugin,servicesPlugin} from '@uirouter/react';
+import {UIRouterReact, UIRouter, UIView, pushStateLocationPlugin,servicesPlugin} from '@uirouter/react';
+
+import ReactGA from 'react-ga';
+ReactGA.initialize('UA-111431659-1'); //Unique Google Analytics tracking number
+
 
 window.GlobalData = JSON.parse(localStorage.getItem("GlobalData")) || {};
 
 class App extends Component {
   constructor(props){
     super(props);
-
+    
+    
     window.storageUpdated = this.storageUpdated;
     var lastorder = localStorage.getItem("lastorder");
     var user_data = JSON.parse(localStorage.getItem('user_data')) || {};
@@ -76,11 +81,6 @@ class App extends Component {
       component: OrderDetails
     },
     {
-      name: 'about',
-      url: '/about',
-      component: () => <h3>Its the UI-Router hello world app!</h3>
-    },
-    {
       name : "catalogues",
       url  : "/:catalogueURL",
       component: CatalogueView,
@@ -103,6 +103,24 @@ class App extends Component {
         }
       }]
     }];
+
+
+    this.router = new UIRouterReact();
+    this.router.plugin(servicesPlugin);
+    this.router.plugin(pushStateLocationPlugin);
+
+    this.router.urlService.rules.initial({ 
+      state: 'home' 
+    });
+
+    this.router.transitionService.onSuccess({}, (trans) => {
+      console.log("Transitioned to " + trans.to().url);
+      ReactGA.pageview(trans.to().url);
+    });
+
+    // Register the initial (eagerly loaded) states
+    this.uistates.forEach(state => this.router.stateRegistry.register(state));
+
   }
 
   storageUpdated = () => {
@@ -128,7 +146,7 @@ class App extends Component {
 
   render() {
     return (
-      <UIRouter plugins={[pushStateLocationPlugin,servicesPlugin]} states={this.uistates}>
+      <UIRouter router={this.router}>
       <div className="App">
         <Header username={this.state.username} address={this.state.address} lastOrder={this.state.lastorder}></Header>
         <div className="stretch">
