@@ -18,7 +18,7 @@ class AttributeOption extends Component{
     let elem = document.getElementById('span' + this.rid);
     let spanSize = elem.clientWidth;
     let maxFontSize = 14
-    if(spanSize == 0)return;
+    if(spanSize === 0)return;
     const ratio = maxFontSize * ((buttonSize - 10) / spanSize);
 
     this.setState({
