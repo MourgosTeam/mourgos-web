@@ -104,7 +104,7 @@ class Checkout extends Component {
   }
 
   handleCoupon = () => {
-    const coupon = this.state.coupon.replace('#','');
+    const coupon = this.state.coupon.split('#').join('');
     if(coupon.length < 3){
       document.getElementById('coupon').classList.remove('required');
       return;
