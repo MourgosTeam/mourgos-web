@@ -24,7 +24,6 @@ after_success:
   fi
 - if [$TRAVIS_BRANCH=='development']; then
     scp -o stricthostkeychecking=no -r ./build $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH_DEV;
-    ssh -o stricthostkeychecking=no $DEPLOY_USER@$DEPLOY_HOST "./deploy_web.sh";
   fi
 notifications:
   slack:
