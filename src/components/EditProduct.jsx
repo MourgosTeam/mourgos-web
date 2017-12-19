@@ -19,7 +19,7 @@ class EditProduct extends Component {
       quantity  : props.quantity,
       options   : opts,
       comments  : props.comments,
-      hasRequirements: true
+      hasRequirements: props.attributes.length > 0
     };
   }
 

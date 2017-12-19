@@ -82,7 +82,7 @@ class App extends Component {
     },
     {
       name : "catalogues",
-      url  : "/:catalogueURL",
+      url  : "/:catalogueURL/",
       component: CatalogueView,
       resolve:[{
         token: "catalogueURL",
