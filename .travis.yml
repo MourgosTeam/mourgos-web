@@ -18,11 +18,11 @@ after_success:
 - chmod 600 .travis/mourgos_deploy
 - eval "$(ssh-agent -s)"
 - ssh-add .travis/mourgos_deploy
-- if [$TRAVIS_BRANCH=='master']; then
+- if [$TRAVIS_BRANCH='master']; then
     scp -o stricthostkeychecking=no -r ./build $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH;
     ssh -o stricthostkeychecking=no $DEPLOY_USER@$DEPLOY_HOST "./deploy_web.sh";
   fi
-- if [$TRAVIS_BRANCH=='development']; then
+- if [$TRAVIS_BRANCH='development']; then
     scp -o stricthostkeychecking=no -r ./build $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH_DEV;
   fi
 notifications:
