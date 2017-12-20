@@ -16,7 +16,7 @@
     "react-scripts": "1.0.16",
     "reactstrap": "^5.0.0-alpha.3",
     "whatwg-fetch": "^2.0.3"
-  },
+  }, 
   "scripts": {
     "start": "cross-env PORT=3001 react-scripts start",
     "build": "react-scripts build",
