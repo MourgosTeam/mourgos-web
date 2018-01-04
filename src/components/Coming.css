@@ -1,0 +1,33 @@
+.mourgosiscoming {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-direction: column;
+  background: #ee6055;
+}
+.mourgosiscoming span {
+  font-size: 20px;
+  font-weight: bold;
+  font-family: "Open Sans", sans-serif;
+  color: white;
+}
+
+.mourgosiscoming img {
+  width: 200px
+}
+
+.countdown {
+  display: flex;
+  justify-content: space-between;
+  padding: 40px;
+}
+.cd { 
+  padding:5px 25px;
+  text-align: center;
+  border-radius: 1px;
+  border: 1px solid;
+  margin: 0 10px;
+}

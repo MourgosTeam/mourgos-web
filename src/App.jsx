@@ -8,7 +8,6 @@ import OrderDetails from './components/OrderDetails.jsx'
 import Home from './components/Home.jsx'
 import { GetIt } from './helpers/helpers.jsx'
 import Header  from './components/Header.jsx'
-
 import Footer from './components/Footer.jsx'
 
 import {UIRouterReact, UIRouter, UIView, pushStateLocationPlugin,servicesPlugin} from '@uirouter/react';
@@ -104,13 +103,11 @@ class App extends Component {
       }]
     }];
 
-
     this.router = new UIRouterReact();
     this.router.plugin(servicesPlugin);
     this.router.plugin(pushStateLocationPlugin);
-
-    this.router.urlService.rules.initial({ 
-      state: 'home' 
+    this.router.urlService.rules.initial({
+      state: 'home'
     });
 
     this.router.transitionService.onSuccess({}, (trans) => {
@@ -134,6 +131,7 @@ class App extends Component {
       address : address
     });
   }
+
   onCredentialChange = () => {
     var user_data = JSON.parse(localStorage.getItem('user_data')) || {};
     var username = user_data.name;
@@ -154,7 +152,6 @@ class App extends Component {
               return <Component {...props} onCredentialChange={this.onCredentialChange} />
           }}/>
         </div>
-
         <Footer />
       </div>
       </UIRouter>

@@ -2,7 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import Coming from './components/Coming.jsx';
 //import registerServiceWorker from './registerServiceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+
+let rightnow = new Date();
+let aftermath = new Date( 2018, 1, 8, 11, 0, 0, 0);
+
+if (rightnow < aftermath) {
+	ReactDOM.render(<Coming />, document.getElementById('root'));
+}
+else{
+	ReactDOM.render(<App />, document.getElementById('root'));
+}
 //registerServiceWorker();

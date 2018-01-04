@@ -58,7 +58,7 @@ class Category extends Component {
     );
   }
 
-  renderNormal(){
+  renderNormal() {
     return (
       <div>
         <div className="col-12 category-title text-left">
@@ -73,7 +73,7 @@ class Category extends Component {
     );
   }
 
-  renderMinimal(){
+  renderMinimal() {
     return (
       <div className="col-12">
         {this.state.object.Name}
@@ -88,7 +88,6 @@ class Category extends Component {
       default:
       case 'minimal':
         return this.renderMinimal();
-
     }
   }
 }
