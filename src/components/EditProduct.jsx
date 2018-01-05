@@ -117,7 +117,7 @@ class EditProduct extends Component {
               <Button size="sm" disabled  className="btn-light">{this.state.quantity}</Button>
               <Button size="sm" onClick={this.more} className="btn-light"><span className="fa fa-plus"></span></Button>
             </ButtonGroup>
-            <Button onClick={ () => this.submitItem()} disabled={this.state.hasRequirements} className="btn btn-light">{ this.state.hasRequirements ? 'Επέλεξε υλικά' : this.props.buttonText}</Button>
+            <Button onClick={ () => this.submitItem()} disabled={this.state.hasRequirements} className="btn btn-light">{ this.state.hasRequirements ? 'Επίλεξε υλικά' : this.props.buttonText}</Button>
           </ModalFooter>
         </Modal>
       </div>);
