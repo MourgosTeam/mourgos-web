@@ -1,10 +1,8 @@
 .mourgosiscoming {
-  width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-
   flex-direction: column;
   background: #ee6055;
 }
@@ -29,5 +27,4 @@
   text-align: center;
   border-radius: 1px;
   border: 1px solid;
-  margin: 0 10px;
 }

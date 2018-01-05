@@ -50,13 +50,13 @@ class Coming extends Component {
 
   render() {
     return (
-      <div className="mourgosiscoming">
+      <div className="mourgosiscoming container-fluid">
         <img src={'/images/mourgos-logo-white.png'} alt={'logo'}/>
-        <div className="countdown">
-          <span className="cd days">{this.state.days} <br /> Ημέρες</span>
-          <span className="cd hours">{this.state.hours} <br /> Ώρες</span>
-          <span className="cd minutes">{this.state.mins} <br /> Λεπτά</span>
-          <span className="cd minutes">{this.state.seconds} <br />  Δευτερόλεπτα</span>
+        <div className="countdown container row">
+          <span className="cd days col-12 col-sm-6 col-md-3">{this.state.days} <br /> Ημέρες</span>
+          <span className="cd hours col-12 col-sm-6 col-md-3">{this.state.hours} <br /> Ώρες</span>
+          <span className="cd minutes col-12 col-sm-6 col-md-3">{this.state.mins} <br /> Λεπτά</span>
+          <span className="cd minutes col-12 col-sm-6 col-md-3">{this.state.seconds} <br />  Δευτερόλεπτα</span>
         </div>
         <span>Ο ΜΟΥΡΓΟΣ ΕΡΧΕΤΑΙ...</span>
       </div>
