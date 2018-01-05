@@ -105,7 +105,7 @@ class Checkout extends Component {
 
   handleCoupon = () => {
     const coupon = this.state.coupon.split('#').join('');
-    if(coupon.length < 3){
+    if (coupon.length < 3) {
       document.getElementById('coupon').classList.remove('required');
       return;
     }
@@ -116,12 +116,11 @@ class Checkout extends Component {
       }
       document.getElementById('coupon').disabled = true;
       document.getElementById('coupon').classList.add('success');
-
+      document.getElementById('couponbutton').disabled = true;
       this.setState({
         formula: data.Formula,
         hashtag: coupon
       });
-
     }).catch((err) => {
       if(err === 'No more'){
         alert('Άργησες! Το κουπόνι έχει ήδη χρησιμοποιηθεί αρκετές φορές.');
@@ -252,7 +251,8 @@ class Checkout extends Component {
 
                     <div className="form-group">
                       <label htmlFor="coupon">Κουπόνι</label>
-                      <input type="text" className="form-control" id="coupon" value={this.state.coupon} onChange={this.handleChange} onBlur={this.handleCoupon}/>
+                      <input type="text" className="form-control" id="coupon" value={this.state.coupon} onChange={this.handleChange} />
+                      <button type="button" className="btn form-control btn-light" id="couponbutton" onClick={this.handleCoupon}>Εφαρμογή κουπονιού</button>
                     </div>
                   </form>
                 </div>
