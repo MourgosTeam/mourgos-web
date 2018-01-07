@@ -77,7 +77,7 @@ class OrderDetails extends Component {
               <CardBody>
                 <CardTitle>Ο Μούργος έρχεται!</CardTitle>
                 <div className="success-circle">
-                  <span className="fa fa-check"></span>
+                  <span className="fa fa-check" style={{fontSize: 125, padding: 30}}></span>
                 </div>
                 {this.state.order.Status === 0 ?  
                 <div className="col-12 col-md-8 offset-md-2 alert alert-primary" role="alert">
