@@ -166,6 +166,7 @@ class Checkout extends Component {
     }
     let order = {
       name : this.state.name,
+      email : this.state.email,
       koudouni: this.state.koudouni,
       orofos  : this.state.orofos,
       phone   : this.state.phone,
@@ -223,6 +224,10 @@ class Checkout extends Component {
                       <label htmlFor="name">Όνομα*</label>
                       <input type="text" className="form-control" id="name" placeholder="Όνομα" value={this.state.name} onChange={this.handleChange}/>
                     </div>
+                    <div className="form-group">
+                      <label htmlFor="email">Email*</label>
+                      <input type="text" className="form-control" id="email" value={this.state.email} onChange={this.handleChange}/>
+                    </div>
                     <div className="form-check">
                       <label className="form-check-label">
                         <input type="checkbox" className="form-check-input" id="diffName" checked={this.state.diffName} onChange={this.toggle}/>
@@ -252,7 +257,7 @@ class Checkout extends Component {
                     <div className="form-group">
                       <label htmlFor="coupon">Κουπόνι</label>
                       <input type="text" className="form-control" id="coupon" value={this.state.coupon} onChange={this.handleChange} />
-                      <button type="button" className="btn form-control btn-light" id="couponbutton" onClick={this.handleCoupon}>Εφαρμογή κουπονιού</button>
+                      <button type="button" className="btn btn-light" style={{marginTop:10}} id="couponbutton" onClick={this.handleCoupon}>Εφαρμογή κουπονιού</button>
                     </div>
                   </form>
                 </div>
@@ -272,7 +277,6 @@ class Checkout extends Component {
                     </div>
                     { this.state.extraCharge ? 
                       <CheckoutBasketItem item={{quantity : 1, object : { Name : "Έξτρα Χρέωση" }, description: [], TotalPrice: 0.50 }} />
-
                     : "" }
                     { this.state.formula !== 0 ? 
                       <CheckoutBasketItem item={{quantity : 1, object : { Name : "Έκπτωση" }, description: [], TotalPrice: -this.state.formula }} />
