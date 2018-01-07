@@ -9,7 +9,7 @@ import Coming from './components/Coming.jsx';
 let rightnow = new Date();
 let aftermath = new Date( 2018, 1, 8, 11, 0, 0, 0);
 
-if (rightnow < aftermath) {
+if (rightnow < aftermath && localStorage.getItem('dev') !== '1') {
 	ReactDOM.render(<Coming />, document.getElementById('root'));
 }
 else{
