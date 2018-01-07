@@ -1,9 +1,9 @@
 .foodiscoming .order-code{
     box-shadow: inset 0px 0px 8px 0px #ccc;
     background-color: rgba(106,104,104,0.02);
-    margin:20px;
-    padding: 20px;
-    font-size:55px;
+    margin: 10px;
+    padding: 5px;
+    font-size: 25px;
     font-weight: bold;
 }
 .foodiscoming .content{
