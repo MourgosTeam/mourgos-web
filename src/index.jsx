@@ -10,7 +10,7 @@ let rightnow = new Date();
 let aftermath = new Date( 2018, 0, 9, 11, 0, 0, 0);
 
 if (rightnow < aftermath && localStorage.getItem('dev') !== '1') {
-	ReactDOM.render(<Coming />, document.getElementById('root'));
+	ReactDOM.render(<Coming countdown={aftermath}/>, document.getElementById('root'));
 }
 else{
 	ReactDOM.render(<App />, document.getElementById('root'));

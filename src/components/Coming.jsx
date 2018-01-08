@@ -10,7 +10,7 @@ class Coming extends Component {
     var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
     var oneHour = 60*60*1000;
     var oneMinute = 60*1000;
-    this.aftermath = new Date(2018, 0, 8, 11, 0, 0, 0);
+    this.aftermath = props.countdown;
 
     var diffDays = Math.floor(Math.abs((Date.now() - this.aftermath.getTime())/(oneDay)));
     var diffHours = Math.floor(Math.abs((Date.now() - this.aftermath.getTime())/(oneHour))) - diffDays * 24;
@@ -35,7 +35,7 @@ class Coming extends Component {
     var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
     var oneHour = 60*60*1000;
     var oneMinute = 60*1000;
-    this.aftermath = new Date(2018, 0, 8, 11, 0, 0, 0);
+    this.aftermath = this.props.countdown;
     var diffDays = Math.floor(Math.abs((Date.now() - this.aftermath.getTime())/(oneDay)));
     var diffHours = Math.floor(Math.abs((Date.now() - this.aftermath.getTime())/(oneHour))) - diffDays * 24;
     var diffMinutes = Math.floor(Math.abs((Date.now() - this.aftermath.getTime())/(oneMinute))) - diffDays * 24 * 60 - diffHours * 60;
