@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import './Checkout.css';
 // import {UISref, UISrefActive} from '@uirouter/react';
 
+import Constants from '../helpers/constants';
+
 import { Card,  CardBody, CardTitle } from 'reactstrap';
 
 import {GetIt} from '../helpers/helpers'
@@ -117,8 +119,13 @@ class Checkout extends Component {
       document.getElementById('coupon').disabled = true;
       document.getElementById('coupon').classList.add('success');
       document.getElementById('couponbutton').disabled = true;
+
+      let formula = data.Formula;
+      if (parseInt(formula, 10) === 100) {
+        formula = (formula - 100) * (this.state.basketTotal + this.state.extraCharge * Constants.extraCharge);
+      }
       this.setState({
-        formula: data.Formula,
+        formula: formula,
         hashtag: coupon
       });
     }).catch((err) => {
@@ -276,13 +283,13 @@ class Checkout extends Component {
                     })}
                     </div>
                     { this.state.extraCharge ? 
-                      <CheckoutBasketItem item={{quantity : 1, object : { Name : "Έξτρα Χρέωση" }, description: [], TotalPrice: 0.50 }} />
+                      <CheckoutBasketItem item={{quantity : 1, object : { Name : "Έξτρα Χρέωση" }, description: [], TotalPrice: Constants.extraCharge }} />
                     : "" }
                     { this.state.formula !== 0 ? 
                       <CheckoutBasketItem item={{quantity : 1, object : { Name : "Έκπτωση" }, description: [], TotalPrice: -this.state.formula }} />
                     : "" }
                     <div className="text-right total">
-                      Σύνολο : { (this.state.basketTotal + (this.state.extraCharge ? 0.5 : 0) - (this.state.formula !== 0 ? Math.min(this.state.formula, this.state.basketTotal + (this.state.extraCharge ? 0.5 : 0)) : 0) ).toFixed(2)} <span className="fa fa-euro"></span>
+                      Σύνολο : { (this.state.basketTotal + (this.state.extraCharge ? Constants.extraCharge : 0) - (this.state.formula !== 0 ? Math.min(this.state.formula, this.state.basketTotal + (this.state.extraCharge ? Constants.extraCharge : 0)) : 0) ).toFixed(2)} <span className="fa fa-euro"></span>
                     </div>
                   </div>
                 </CardBody>

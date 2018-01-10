@@ -64,6 +64,21 @@ class OrderDetails extends Component {
       // fix totalprice
       resorder.hasExtra = resorder.Extra;
       resorder.Status = parseInt(resorder.Status, 10);
+
+      const total = parseFloat(resorder.Total);
+      const extra = resorder.Extra ? 0.5 : 0;
+      const final = total + extra;
+      const formula = parseFloat(resorder.HashtagFormula) || 0;
+      const discount = parseInt(formula, 10) === 100 ? (formula - 100) * final : Math.min(formula, final);
+
+      console.log(total);
+      console.log(extra);
+      console.log(final);
+      console.log(formula);
+      console.log(discount);
+
+      resorder.LocalDiscount = discount;
+      resorder.LocalTotalPrice =  (final - discount).toFixed(2);
       return resorder;
     }).then( (order) => this.setState({order : order}));
   }
@@ -113,10 +128,10 @@ class OrderDetails extends Component {
                       <OrderItem item={{quantity : 1, object : { Name : "Έξτρα Χρέωση" }, description: [], TotalPrice: 0.50 }} />
                     : ""}
                     { this.state.order.Hashtag && this.state.order.Hashtag.length > 3 ? 
-                      <OrderItem item={{quantity : 1, object : { Name : "Έκπτωση " }, description: [], TotalPrice: -this.state.order.HashtagFormula }} />
+                      <OrderItem item={{quantity : 1, object : { Name : "Έκπτωση " }, description: [], TotalPrice: -this.state.order.LocalDiscount }} />
                     : ""}
                     <div >
-                      Σύνολο : { ( parseFloat(this.state.order.Total) + (this.state.order.hasExtra ? 0.5 : 0) - (this.state.order.HashtagFormula !== 0 ? Math.min(this.state.order.HashtagFormula, parseFloat(this.state.order.Total) + (this.state.order.hasExtra ? 0.5 : 0)) : 0)).toFixed(2)} <span className="fa fa-euro"></span>
+                      Σύνολο : {this.state.order.LocalTotalPrice} <span className="fa fa-euro"></span>
                     </div>
                 </div>
               </CardBody>
