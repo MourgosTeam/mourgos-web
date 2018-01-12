@@ -36,8 +36,15 @@ class Header extends Component {
           <div key={'closedSite'} className="container-fluid text-center alert-warning mb-0">
             {this.state.isSiteOpen === false ? 
               <div id='siteStatus' className="pt-4 pb-4">
+                <p>
                 Ο Μούργος είναι κλειστός!<br />
-                Μπορείς να πλοηγηθείς αλλά δεν μπορείς να κάνεις νέες παραγγελίες 
+                Μπορείς να πλοηγηθείς αλλά δεν μπορείς να κάνεις νέες παραγγελίες.<br />
+                </p>
+                <b>
+                Ανοιχτά<br />
+                Δευτέρα - Παρασκευή <br />
+                11:00 - 17:00
+                </b>
               </div>
             : ''}
           </div>,
