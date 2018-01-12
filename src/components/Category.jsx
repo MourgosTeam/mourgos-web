@@ -59,6 +59,9 @@ class Category extends Component {
   }
 
   renderNormal() {
+    if(!this.state.products.length) {
+      return <div></div>;
+    }
     return (
       <div>
         <div className="col-12 category-title text-left">
