@@ -151,7 +151,7 @@ class Checkout extends Component {
   calculateAttributes(a,s){
     var r = {};
     for(var i in s){
-      if(s[i] === null || !s[i] || s[i] === -1)continue;
+      if(s[i] === null || (!s[i] && s[i] !== 0) || s[i] === -1)continue;
       r[a[i].id] = s[i];
     }
     return r;
@@ -300,7 +300,8 @@ class Checkout extends Component {
                 <CardBody>
                   <div className="pad-top">
                     <div className="final">
-                      <button className="btn btn-success calltoaction" onClick={this.sendOrder}>Φέρε το φαΐ</button>
+                      {JSON.stringify(this.state.basketItems[0])}
+                      <button className="btn btn-success calltoaction" onClick={this.sendOrder}>Φέρε το φαΐ</button>                  
                     </div>
                   </div>
                 </CardBody>
