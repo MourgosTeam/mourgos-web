@@ -38,7 +38,7 @@ class EditProduct extends Component {
     
     let flag = newOptions.length !== this.props.attributes.length;
     for (var i = 0; i < newOptions.length; i++) {
-      if( isNaN(newOptions[i]) || newOptions[i] === undefined || newOptions[i] === -1 ){
+      if( isNaN(newOptions[i]) || newOptions[i] === undefined){
         flag = true;
         break;
       }
