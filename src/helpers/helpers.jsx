@@ -3,6 +3,9 @@ import 'whatwg-fetch'
 
 export function GetIt(url, method, body, token){
   url = "/api" + url;
+  if (localStorage.getItem("dev") === "devmode") {
+    url += "?dev=devmode";
+  }
 
   console.log("Fetching " + url);
   return fetch(url, {
