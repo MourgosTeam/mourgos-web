@@ -11,7 +11,7 @@ function CalculatePrice(item){
   var fprice = parseFloat(item.object.Price);
   for(var i=0; i < item._selectedAttributes.length;i++){
     if(item._selectedAttributes[i] > -1){
-      fprice += parseFloat(item._attributes[i].Price);
+      fprice += isNaN(item._attributes[i].Price) ? JSON.parse(item._attributes[i].Price)[item._selectedAttributes[i]] : parseFloat(item._attributes[i].Price);
     }
   }
   item.TotalPrice =  parseFloat(fprice)*parseInt(item.quantity,10);
