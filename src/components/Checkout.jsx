@@ -300,7 +300,6 @@ class Checkout extends Component {
                 <CardBody>
                   <div className="pad-top">
                     <div className="final">
-                      {JSON.stringify(this.state.basketItems[0])}
                       <button className="btn btn-success calltoaction" onClick={this.sendOrder}>Φέρε το φαΐ</button>                  
                     </div>
                   </div>
