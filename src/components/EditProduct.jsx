@@ -77,6 +77,16 @@ class EditProduct extends Component {
     this.setState({quantity:this.state.quantity-1 || 1});
   }
 
+  calculateExtra = () => {
+    return this.state.options.map((data,index) => {
+      if(data === -1 || data === undefined)return 0;
+      return isNaN(this.props.attributes[index].Price) ? parseFloat(JSON.parse(this.props.attributes[index].Price)[data]) : parseFloat(this.props.attributes[index].Price);
+    }).reduce((a,b) => {
+      return a+b;
+    }, 0);
+  }
+
+
   render() {
     return (
 
@@ -89,7 +99,7 @@ class EditProduct extends Component {
               {/*
                 <AttributeAdder object={this.props.object} /> 
               //*/}
-            <div className="modal-title-price">{(this.props.object.Price*this.state.quantity).toFixed(2)} <span className="fa fa-euro"></span></div>
+            <div className="modal-title-price">{(this.props.object.Price*this.state.quantity + this.calculateExtra() ).toFixed(2)} <span className="fa fa-euro"></span></div>
             </div>
             <div className="modal-title-description">{this.props.object.Description}</div>
           </ModalHeader>
