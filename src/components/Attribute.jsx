@@ -73,7 +73,10 @@ class Attribute extends Component {
                     selected={this.props.selected}></AttributeOption>;
               })
             }
-            <Button className="btn btn-sm btn-light AttributeOption col-4 no-option" onClick={() => this.choose(-1)} value="-1" active={this.props.selected === -1}><span className="fa fa-minus"></span></Button>
+            {
+            this.object.Required === "1" ? "" 
+            :<Button className="btn btn-sm btn-light AttributeOption col-4 no-option" onClick={() => this.choose(-1)} value="-1" active={this.props.selected === -1}><span className="fa fa-minus"></span></Button>
+            }
         </div>
       </div>
     );
