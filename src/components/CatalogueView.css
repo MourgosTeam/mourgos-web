@@ -9,3 +9,11 @@
 .catalogue-view-image{
 	max-height: 100px;
 }
+.back-icon{
+	position: absolute;
+    left: 30px;
+    font-size: 30px;
+    z-index: 100;
+    cursor: pointer;
+    color: #767676;
+}

@@ -3,7 +3,7 @@ import './Basket.css';
 
 
 
-// import { GetIt, ImageCover } from '../helpers/helpers.jsx'
+import { GetIt } from '../helpers/helpers.jsx'
 
 // import Attribute from './Attribute.jsx';
 import {Button} from 'react-bootstrap'
@@ -30,6 +30,19 @@ class BasketItem extends Component{
   }
 }
 
+class CatalogueBasket extends Component {
+  render() {
+    if(!('items' in this.props.data))return false;
+    return (
+      <div>
+        {this.props.data.items.map((data,index) => 
+        <BasketItem key={(index+1)*Math.floor(Math.random()*1000000)} item={data} removeHandler={this.removeBasketItem} editHandler={this.editBasketItem}></BasketItem>
+        )}
+      </div>
+    );
+  }
+}
+
 class Basket extends Component {
   constructor(props){
     super(props);
@@ -38,8 +51,27 @@ class Basket extends Component {
     this.clear = props.onClear;
     this.state = {
       fixed : 0,
-      top : 0
-    }
+      top : 0,
+      data: [],
+      catalogues: {}
+    };
+    this.loadCatalogues();
+  }
+
+  loadCatalogues = () => {
+     GetIt("/catalogues/" , "GET")
+    .then(function(data){
+      return data.json();
+    })
+    .then((data) => {
+      return data.reduce(function(a, b){
+        a[b.id] = b;
+        return a;
+      }, {});
+    })
+    .then(
+     (data) => { this.setState({catalogues : data}) }
+    );
   }
 
   onScroll = (e) => {
@@ -51,23 +83,14 @@ class Basket extends Component {
     });
   }
 
-  componentDidMount(){
-    //window.addEventListener('scroll',this.onScroll);
-  }
-  componentWillUnmount(){
-    //window.removeEventListener('scroll',this.onScroll);
-  }
   render() {
-    return (<div className={ "row basket " + ((this.state.fixed) ? "basket-fixed" : "") } style={ (this.state.fixed) ? {top:this.state.top} : {}}>
-      
+    return (
+    <div className={ "row basket " + ((this.state.fixed) ? "basket-fixed" : "") } style={ (this.state.fixed) ? {top:this.state.top} : {}}>  
       <div className="col-12 basket-panel">
         <div className="col-12 title text-center">Το Καλαθι μου</div>
-        {this.props.items.map(function(data,index){
-          return <BasketItem key={(index+1)*Math.floor(Math.random()*1000000)} item={data} removeHandler={this.removeBasketItem} editHandler={this.editBasketItem}></BasketItem>
-        }.bind(this))}
-
+        <CatalogueBasket data={this.state.data[0] || {}} />
         {
-          (this.props.items.length)?(
+          (this.state.data.length)?(
               <div className="basket-total-panel text-right">
                   <div className="basket-total">ΣΥΝΟΛΟ: {this.props.total.toFixed(2)}<span className="fa fa-euro"></span></div>
                   <div className="row">
@@ -81,7 +104,7 @@ class Basket extends Component {
               </div>
           )
         }
-        </div>
+      </div>
     </div>);
   }
 }

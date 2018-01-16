@@ -54,14 +54,14 @@ class CatalogueView extends Component {
       local = {
         items : [],
         total : 0,
-        id : -1
+        catalogue : -1
       } 
     }
-    if(local.id !== this.catalogue.id){
+    if(local.catalogue !== this.catalogue.id){
       localStorage.setItem('basket', null);
       local.items = [];
       local.total = 0;
-      local.id = -1;
+      local.catalogue = -1;
     }
     return local;
   }
@@ -191,6 +191,7 @@ class CatalogueView extends Component {
       <div className="container catalogue-view">
         <div className="row">
           <div className="col-12 col-sm-7 col-md-8 col-lg-9">
+            <i className="fa fa-arrow-left back-icon" aria-hidden="true" onClick={() => this.redirect("allcatalogues")}></i>
             <Catalogue id={this.catalogue.id} mode="normal" object={this.catalogue} openForAdd={this.openForAdd}></Catalogue>
           </div>
           <div className="col-12 col-sm-5 col-md-4 col-lg-3">
