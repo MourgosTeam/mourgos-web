@@ -27,10 +27,16 @@ class AttributeOption extends Component{
   }
 
   render(){
+    const price = parseFloat(this.props.price);
     return (
       <Button className="btn btn-light AttributeOption col-4 btn-sm" id={this.rid} onClick={this.props.onSelect}
               active={this.props.selected === this.props.indexKey}>
               <span className="attribute-text" id={'span' + this.rid} style={{fontSize: this.state.fontSize}}>{this.props.optionName}</span>
+              { price !== 0 ?
+              <small>
+              ({price >= 0 ? '+ ' + price.toFixed(2) : '- ' + (-price.toFixed(2))}€) 
+              </small>
+              :''}
       </Button>);
   }
 }
@@ -62,6 +68,7 @@ class Attribute extends Component {
     }
   }
   renderMulti() {
+    const prices = isNaN(this.object.Price) ? JSON.parse(this.object.Price) : parseFloat(this.object.Price);
     return (
       <div className="col-12 attribute-multi">
         <h5>{this.object.Name} 
@@ -69,13 +76,13 @@ class Attribute extends Component {
         </h5>
         <div className="">
             {this.object.Options.map( (data, index) => {
-              return <AttributeOption optionName={data} key={index} indexKey={index} onSelect={() => this.choose(index)} 
+              return <AttributeOption optionName={data} price={isNaN(prices) ? prices[index] : prices} key={index} indexKey={index} onSelect={() => this.choose(index)} 
                     selected={this.props.selected}></AttributeOption>;
               })
             }
             {
             this.object.Required === "1" ? "" 
-            :<Button className="btn btn-sm btn-light AttributeOption col-4 no-option" onClick={() => this.choose(-1)} value="-1" active={this.props.selected === -1}><span className="fa fa-minus"></span></Button>
+            : <Button className="btn btn-sm btn-light AttributeOption col-4 no-option" onClick={() => this.choose(-1)} value="-1" active={this.props.selected === -1}><span className="fa fa-minus"></span></Button>
             }
         </div>
       </div>

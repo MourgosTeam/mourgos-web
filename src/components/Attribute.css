@@ -19,6 +19,10 @@
 	min-width: 50px;
 }
 
+.AttributeOption small{
+	line-height: 19px;
+}
+
 .attribute-solo{
 	padding-top: 5px;
 	padding-bottom: 5px;
