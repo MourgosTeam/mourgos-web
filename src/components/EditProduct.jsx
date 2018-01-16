@@ -23,6 +23,27 @@ class EditProduct extends Component {
     };
   }
 
+  componentDidMount() {
+    // copy of attribute selected! for default values
+    var newOptions = [...this.state.options];
+    for(let i=0; i < this.props.attributes.length; i++) {
+      if(this.props.attributes[i].Required && this.props.attributes[i].DefaultOption === -1) continue;
+      newOptions[i] = this.props.attributes[i].DefaultOption;
+    }
+    let flag = newOptions.length !== this.props.attributes.length;
+    for (var i = 0; i < newOptions.length && !flag; i++) {
+      if( isNaN(newOptions[i]) || newOptions[i] === undefined){
+        flag = true;
+      }
+    }
+    
+    this.setState({ 
+      options: newOptions,
+      hasRequirements: flag
+    });
+  }
+
+
   componentWillReceiveProps(nextProps){
     this.setState({
       quantity : nextProps.quantity,
@@ -37,10 +58,9 @@ class EditProduct extends Component {
     newOptions[index] = data;
     
     let flag = newOptions.length !== this.props.attributes.length;
-    for (var i = 0; i < newOptions.length; i++) {
+    for (var i = 0; i < newOptions.length && !flag; i++) {
       if( isNaN(newOptions[i]) || newOptions[i] === undefined){
         flag = true;
-        break;
       }
     }
     

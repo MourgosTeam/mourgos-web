@@ -30,13 +30,13 @@ class AttributeOption extends Component{
     const price = parseFloat(this.props.price);
     return (
       <Button className="btn btn-light AttributeOption col-4 btn-sm" id={this.rid} onClick={this.props.onSelect}
-              active={this.props.selected === this.props.indexKey}>
-              <span className="attribute-text" id={'span' + this.rid} style={{fontSize: this.state.fontSize}}>{this.props.optionName}</span>
-              { price !== 0 ?
-              <small>
-              ({price >= 0 ? '+ ' + price.toFixed(2) : '- ' + (-price.toFixed(2))}€) 
-              </small>
-              :''}
+          active={this.props.selected === this.props.indexKey}>
+          <span className="attribute-text" id={'span' + this.rid} style={{fontSize: this.state.fontSize}}>{this.props.optionName}</span>
+          { price !== 0 ?
+          <small>
+          ({price >= 0 ? '+ ' + price.toFixed(2) : '- ' + (-price.toFixed(2))}€) 
+          </small>
+          :''}
       </Button>);
   }
 }
