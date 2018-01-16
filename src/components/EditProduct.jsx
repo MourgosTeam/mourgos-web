@@ -27,7 +27,7 @@ class EditProduct extends Component {
     // copy of attribute selected! for default values
     var newOptions = [...this.state.options];
     for(let i=0; i < this.props.attributes.length; i++) {
-      if(this.props.attributes[i].Required && this.props.attributes[i].DefaultOption === -1) continue;
+      if(this.props.attributes[i].Required === "1" && this.props.attributes[i].DefaultOption === -1) continue;
       newOptions[i] = this.props.attributes[i].DefaultOption;
     }
     let flag = newOptions.length !== this.props.attributes.length;
