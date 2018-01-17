@@ -36,12 +36,13 @@ class CatalogueBasket extends Component {
     if(!('items' in this.props.data))return false;
     return (
       <div>
-        <b><a href={"/" + this.props.catalogue.FriendlyURL + "/"}>{this.props.catalogue.Name || ""}</a></b><br />
+        <b className="basket-catalogue-name"><a href={"/" + this.props.catalogue.FriendlyURL + "/"}>{this.props.catalogue.Name || ""}</a></b><br />
         {this.props.data.items.map((data,index) => 
-        <BasketItem key={(index+1)*Math.floor(Math.random()*1000000)} item={data} removeHandler={this.removeBasketItem} editHandler={this.editBasketItem}></BasketItem>
+        <BasketItem key={(index+1)*Math.floor(Math.random()*1000000)} item={data} 
+                    removeHandler={this.props.removeHandler} editHandler={this.props.editHandler}></BasketItem>
         )}
         <div className="part-price">
-          <span>Μερικό Σύνολο: {this.props.data.items.reduce((a,b) => a+b.TotalPrice, 0).toFixed(2)}<span class="fa fa-euro"></span></span>
+          <span>Μερικό Σύνολο: {this.props.data.items.reduce((a,b) => a+b.TotalPrice, 0).toFixed(2)}<span className="fa fa-euro"></span></span>
         </div>
       </div>
     );
@@ -63,8 +64,8 @@ class Basket extends Component {
     this.state = {
       fixed : 0,
       top : 0,
-      data: [],
-      total: 0,
+      data: JSON.parse(localStorage.getItem("localbasket")) || [],
+      total: parseFloat(localStorage.getItem("localbaskettotal")) || 0,
       catalogues: {},
 
       showEditModal   : false,
@@ -85,13 +86,14 @@ class Basket extends Component {
   componentDidUpdate() {
     this.updateBasketTotal();
     this.save();
-    console.log("UP");
   }
 
 
   load(){
-    this.state.data = JSON.parse(localStorage.getItem("localbasket")) || [];
-    this.state.total = parseFloat(localStorage.getItem("localbaskettotal"));
+    this.setState({
+      data: JSON.parse(localStorage.getItem("localbasket")) || [],
+      total: parseFloat(localStorage.getItem("localbaskettotal") || 0)
+    });
   }
   save(){
     localStorage.setItem('localbasket', JSON.stringify(this.state.data));
@@ -129,7 +131,7 @@ class Basket extends Component {
     for (let i = 0; i < shops.length; i++) {
       total += shops[i].total;
     }
-    if(total!=this.state.total)
+    if(total!==this.state.total)
       this.setState({
         total: total
       });
@@ -181,6 +183,7 @@ class Basket extends Component {
     var copiedItem = Object.assign({},item);
     copiedItem.__randID = Math.random();
     var newItem = {
+      CatalogueID: item.CatalogueID,
       object : copiedItem, 
       description : description,
       quantity : quantity,
@@ -195,10 +198,11 @@ class Basket extends Component {
     this.setState({
       showEditModal: false
     });
+    this.forceUpdate();
   }
   editBasketItem = (item, description, quantity, prodAttributes, selectedAttributes, comments) => {
-    this.saveBasketFlag = true;
-    var arr = [...this.state.basketItems];
+    let basket = this.checkOrCreateBasket(item.CatalogueID);
+    var arr = [...basket.items];
     var newArr = [];
     for(let i=0,l=arr.length; i < l ;i++){
       if(arr[i].object === item){
@@ -210,25 +214,35 @@ class Basket extends Component {
       }      
       newArr.push(arr[i]);
     }
-
+    
+    basket.items = newArr;
     var sum = 0;  
     for(var i=0; i < newArr.length;i++)sum += CalculatePrice(newArr[i]);
-    this.setState(prevState => ({
-      basketItems: newArr,
-      basketTotal: sum,
-      showModal : false
-    })); 
+    basket.total = sum;
+
+    this.setState({
+      showEditModal : false
+    }); 
+    this.forceUpdate();
     return;
   }
 
   removeBasketItem = (item) => {
-    this.saveBasketFlag = true;
-    var array = this.state.basketItems;
-    var index = array.indexOf(item);
+    let basket = this.checkOrCreateBasket(item.CatalogueID);
+    var index = basket.items.indexOf(item);
     if(index > -1)
-      array.splice(index, 1);
-    var sum = this.state.basketTotal - CalculatePrice(item);
-    this.setState({basketItems: array, basketTotal: sum });
+      basket.items.splice(index, 1);
+
+    var sum = 0;
+    for(var i=0; i < basket.items.length;i++)
+      sum += CalculatePrice(basket.items[i]);
+    basket.total = sum;
+
+    if (basket.items.length === 0) {
+      var dex = this.state.data.indexOf(basket);
+      this.state.data.splice(dex,1);
+    }
+    this.forceUpdate();
   }
 
   closeModal = () => {
@@ -239,7 +253,7 @@ class Basket extends Component {
   }
   checkout = () => {
     // check total! 
-    if(this.state.basketTotal < parseFloat(window.GlobalData.MinimumOrder) ){
+    if(this.state.total < parseFloat(window.GlobalData.MinimumOrder) ){
       this.setState({
         showCheckoutModal : true
       });
@@ -293,7 +307,8 @@ class Basket extends Component {
       <div className="col-12 basket-panel">
         <div className="col-12 title text-center">Το Καλαθι μου</div>
         {this.state.data.map((data, index) => {
-          return <CatalogueBasket data={data || {}} catalogue={this.state.catalogues[data.catalogue] || {}}/>
+          return <CatalogueBasket data={data || {}} key={index} catalogue={this.state.catalogues[data.catalogue] || {}}
+                                  removeHandler={this.removeBasketItem} editHandler={this.openForEdit}/>
         })}
         {
           (this.state.data.length)?(
@@ -301,7 +316,7 @@ class Basket extends Component {
                   <div className="basket-total">ΣΥΝΟΛΟ: {this.state.total.toFixed(2)}<span className="fa fa-euro"></span></div>
                   <div className="row">
                     <button className="col-12 col-md-5 basket-clear-button m-auto btn btn-link" onClick={this.clear}>Καθαρισμα</button>
-                    <Button className="col-12 col-md-6 col-sm-7 basket-add-button m-auto" onClick={this.props.onCheckout}>Παραγγελια</Button>
+                    <Button className="col-12 col-md-6 col-sm-7 basket-add-button m-auto" onClick={this.checkout}>Παραγγελια</Button>
                   </div>
               </div>):
           (

@@ -47,6 +47,10 @@ class AllCataloguesView extends Component {
     });
   }
 
+  checkout = () => {
+    this.redirect("checkout");
+  }
+
   render = () => {
     return (
       <div className="container all-catalogues-view">

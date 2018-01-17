@@ -35,7 +35,8 @@ class Checkout extends Component {
     this.redirect = props.transition.router.stateService.go;
 
     // Get Basket from local storage!
-    var local = JSON.parse(localStorage.getItem('basket'));
+    var local = JSON.parse(localStorage.getItem('localbasket'));
+    var localtotal = parseFloat(localStorage.getItem('localbaskettotal'));
     if(!local){
       local = {
         items : []
@@ -47,7 +48,7 @@ class Checkout extends Component {
     if(!localData)localData = {};
 
     // check if this basket needs extra Charge
-    var hasExtra = parseFloat(local.total) < parseFloat(window.GlobalData.MinimumOrder);
+    var hasExtra = parseFloat(localtotal) < parseFloat(window.GlobalData.MinimumOrder);
 
     // init state
     this.state = {
@@ -57,22 +58,37 @@ class Checkout extends Component {
       orofos  : localData.orofos || "",
       phone   : localData.phone || "",
       comments: localData.comments || "",
-      basketItems : local.items,
-      basketTotal : local.total,
+      baskets : local,
+      total : localtotal,
       diffName : localData.diffName || false,
       extraCharge : hasExtra,
       catalogue : local.catalogue,
       coupon : '',
       formula: 0,
-      hashtag: ''
+      hashtag: '',
+      catalogues: {}
     }
     let place =  JSON.parse(localStorage.getItem('place'));
     if(!place)alert("Υπάρχει κάποιο πρόβλημα! Παρακάλω μεταφερθείτε στην αρχική σελίδα και διαλέξτε διεύθυνση!");
     this.latitude  = place.geometry.location.lat;
     this.longitude = place.geometry.location.lng;
-    console.log(this.state);
+    this.loadCatalogues();
   }
-
+  loadCatalogues = () => {
+     GetIt("/catalogues/" , "GET")
+    .then(function(data){
+      return data.json();
+    })
+    .then((data) => {
+      return data.reduce(function(a, b){
+        a[b.id] = b;
+        return a;
+      }, {});
+    })
+    .then(
+     (data) => { this.setState({catalogues : data}) }
+    );
+  }
   componentWillUpdate(){
     let place =  JSON.parse(localStorage.getItem('place'));
     if(!place)alert("Υπάρχει κάποιο πρόβλημα! Παρακάλω μεταφερθείτε στην αρχική σελίδα και διαλέξτε διεύθυνση!");
@@ -278,8 +294,11 @@ class Checkout extends Component {
                   <CardTitle>Η παραγγελία μου</CardTitle>
                   <div className="pad-top">
                     <div>
-                    {this.state.basketItems.map((data,index) => {
-                      return <CheckoutBasketItem item={data} key={index} />;
+                    {this.state.baskets.map((basket,basketindex) => {
+                      return <div key={basketindex}>
+                        <b>{(this.state.catalogues[basket.catalogue] || {}).Name}</b><br />
+                        {basket.items.map((data,index) => <CheckoutBasketItem item={data} key={index} />)}
+                      </div>
                     })}
                     </div>
                     { this.state.extraCharge ? 
@@ -289,7 +308,7 @@ class Checkout extends Component {
                       <CheckoutBasketItem item={{quantity : 1, object : { Name : "Έκπτωση" }, description: [], TotalPrice: -this.state.formula }} />
                     : "" }
                     <div className="text-right total">
-                      Σύνολο : { (this.state.basketTotal + (this.state.extraCharge ? Constants.extraCharge : 0) - (this.state.formula !== 0 ? Math.min(this.state.formula, this.state.basketTotal + (this.state.extraCharge ? Constants.extraCharge : 0)) : 0) ).toFixed(2)} <span className="fa fa-euro"></span>
+                      Σύνολο : {this.calculateTotal()} <span className="fa fa-euro"></span>
                     </div>
                   </div>
                 </CardBody>

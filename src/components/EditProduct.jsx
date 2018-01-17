@@ -45,9 +45,19 @@ class EditProduct extends Component {
 
 
   componentWillReceiveProps(nextProps){
+    this.onSubmit = nextProps.onSubmit;
+    let newOptions = nextProps.selectedAttributes;
+    let flag = newOptions.length !== this.props.attributes.length;
+    for (var i = 0; i < newOptions.length && !flag; i++) {
+      if( isNaN(newOptions[i]) || newOptions[i] === undefined){
+        flag = true;
+      }
+    }
     this.setState({
       quantity : nextProps.quantity,
-      options  : nextProps.selectedAttributes
+      options  : nextProps.selectedAttributes,
+      comments  : nextProps.comments,
+      hasRequirements: flag
     });
   }
 
