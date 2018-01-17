@@ -96,3 +96,9 @@
     font-size: 18px;
     cursor: pointer;
 }
+
+.part-price {
+    line-height: 50px;
+    text-align: right;
+    font-size: 14px;
+}

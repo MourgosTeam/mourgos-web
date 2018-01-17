@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import './Basket.css';
 
-
+import EditProduct from './EditProduct.jsx'
+import CheckoutModal from './CheckoutModal.jsx'
 
 import { GetIt } from '../helpers/helpers.jsx'
 
@@ -35,29 +36,68 @@ class CatalogueBasket extends Component {
     if(!('items' in this.props.data))return false;
     return (
       <div>
+        <b><a href={"/" + this.props.catalogue.FriendlyURL + "/"}>{this.props.catalogue.Name || ""}</a></b><br />
         {this.props.data.items.map((data,index) => 
         <BasketItem key={(index+1)*Math.floor(Math.random()*1000000)} item={data} removeHandler={this.removeBasketItem} editHandler={this.editBasketItem}></BasketItem>
         )}
+        <div className="part-price">
+          <span>Μερικό Σύνολο: {this.props.data.items.reduce((a,b) => a+b.TotalPrice, 0).toFixed(2)}<span class="fa fa-euro"></span></span>
+        </div>
       </div>
     );
   }
 }
-
+function CalculatePrice(item){
+  var fprice = parseFloat(item.object.Price);
+  for(var i=0; i < item._selectedAttributes.length;i++){
+    if(item._selectedAttributes[i] > -1){
+      fprice += isNaN(item._attributes[i].Price) ? JSON.parse(item._attributes[i].Price)[item._selectedAttributes[i]] : parseFloat(item._attributes[i].Price);
+    }
+  }
+  item.TotalPrice =  parseFloat(fprice)*parseInt(item.quantity,10);
+  return item.TotalPrice;
+}
 class Basket extends Component {
   constructor(props){
     super(props);
-    this.removeBasketItem = props.onRemoveItem;
-    this.editBasketItem = props.onEditItem;
-    this.clear = props.onClear;
     this.state = {
       fixed : 0,
       top : 0,
       data: [],
-      catalogues: {}
+      total: 0,
+      catalogues: {},
+
+      showEditModal   : false,
+      editModalOptions: {
+        editItem    : {},
+        editAttributes : [],
+        selectedAttributes: [],
+        editQuantity: 1,
+        editComments: "",
+        callback    : this.addBasketItem
+      }
     };
     this.loadCatalogues();
+    this.load();
   }
 
+
+  componentDidUpdate() {
+    this.updateBasketTotal();
+    this.save();
+    console.log("UP");
+  }
+
+
+  load(){
+    this.state.data = JSON.parse(localStorage.getItem("localbasket")) || [];
+    this.state.total = parseFloat(localStorage.getItem("localbaskettotal"));
+  }
+  save(){
+    localStorage.setItem('localbasket', JSON.stringify(this.state.data));
+    localStorage.setItem('localbaskettotal', this.state.total);
+  }
+  
   loadCatalogues = () => {
      GetIt("/catalogues/" , "GET")
     .then(function(data){
@@ -83,16 +123,182 @@ class Basket extends Component {
     });
   }
 
+  updateBasketTotal = () => {
+    let shops = this.state.data;
+    let total = 0;
+    for (let i = 0; i < shops.length; i++) {
+      total += shops[i].total;
+    }
+    if(total!=this.state.total)
+      this.setState({
+        total: total
+      });
+    return total;
+  }
+
+
+  getShopBasket = (id) => {
+    for (let i = 0; i < this.state.data.length;i += 1 ) {
+      if (this.state.data[i].catalogue === id) return this.state.data[i];
+    }
+    return false;
+  } 
+
+  createShopBasket = (id) => {
+    let newBasket = {
+      catalogue: id,
+      items: [],
+      total: 0
+    };
+    this.setState({
+      data: [
+        ...this.state.data,
+        newBasket
+      ]
+    });
+    return newBasket;
+  }
+
+  checkOrCreateBasket = (id) => {
+    const shop = this.getShopBasket(id);
+    if (!shop) {
+      return this.createShopBasket(id);
+    }
+    return shop;
+  }
+
+  addItemToBasket(item, basket) {
+    basket.items.push(item);
+    var sum = 0;
+    for(var i=0; i < basket.items.length;i++)
+      sum += CalculatePrice(basket.items[i]);
+    basket.total = sum;
+  }
+
+  addBasketItem = (item, description, quantity, prodAttributes, selectedAttributes, comments ) => {
+    let basket = this.checkOrCreateBasket(item.CatalogueID);
+
+    var copiedItem = Object.assign({},item);
+    copiedItem.__randID = Math.random();
+    var newItem = {
+      object : copiedItem, 
+      description : description,
+      quantity : quantity,
+      _attributes : prodAttributes,
+      _selectedAttributes : selectedAttributes,
+      comments : comments
+    };
+    
+    this.addItemToBasket(newItem, basket);
+    
+    //close Modal
+    this.setState({
+      showEditModal: false
+    });
+  }
+  editBasketItem = (item, description, quantity, prodAttributes, selectedAttributes, comments) => {
+    this.saveBasketFlag = true;
+    var arr = [...this.state.basketItems];
+    var newArr = [];
+    for(let i=0,l=arr.length; i < l ;i++){
+      if(arr[i].object === item){
+        arr[i].description = description;
+        arr[i].quantity = quantity;
+        arr[i]._attributes = prodAttributes;
+        arr[i]._selectedAttributes = selectedAttributes;
+        arr[i].comments = comments;
+      }      
+      newArr.push(arr[i]);
+    }
+
+    var sum = 0;  
+    for(var i=0; i < newArr.length;i++)sum += CalculatePrice(newArr[i]);
+    this.setState(prevState => ({
+      basketItems: newArr,
+      basketTotal: sum,
+      showModal : false
+    })); 
+    return;
+  }
+
+  removeBasketItem = (item) => {
+    this.saveBasketFlag = true;
+    var array = this.state.basketItems;
+    var index = array.indexOf(item);
+    if(index > -1)
+      array.splice(index, 1);
+    var sum = this.state.basketTotal - CalculatePrice(item);
+    this.setState({basketItems: array, basketTotal: sum });
+  }
+
+  closeModal = () => {
+    this.setState({showEditModal:false});
+  }
+  closeCheckoutModal = () => {
+    this.setState({showCheckoutModal:false});
+  }
+  checkout = () => {
+    // check total! 
+    if(this.state.basketTotal < parseFloat(window.GlobalData.MinimumOrder) ){
+      this.setState({
+        showCheckoutModal : true
+      });
+    }
+    else{
+      this.props.onCheckout();
+    }
+  }
+
+  openForEdit = (item,quantity,attributes, selectedAttributes, comments) => {
+    this.setState({
+      showEditModal : true,
+      editModalOptions: {
+        ...this.state.editModalOptions,
+        editItem  : item,
+        editAttributes : attributes,
+        selectedAttributes : selectedAttributes,
+        modalButtonText : "Αλλαγή",
+        editQuantity : quantity || 1,
+        editComments : comments,
+        callback  : this.editBasketItem
+      }
+    });
+  }
+  addItem = (item,attributes) => {
+    this.setState({
+      showEditModal : true,
+      editModalOptions: {
+        ...this.state.editModalOptions,
+        editItem  : item,
+        editQuantity : 1,
+        editComments : "",
+        editAttributes : attributes,
+        selectedAttributes: [],
+        modalButtonText : "Προσθήκη",
+        callback  : this.addBasketItem
+      }
+    });
+  }
+  
+  clear = () => {
+    this.setState({
+      data: [],
+      total: 0
+    })
+  }
+
   render() {
     return (
     <div className={ "row basket " + ((this.state.fixed) ? "basket-fixed" : "") } style={ (this.state.fixed) ? {top:this.state.top} : {}}>  
       <div className="col-12 basket-panel">
         <div className="col-12 title text-center">Το Καλαθι μου</div>
-        <CatalogueBasket data={this.state.data[0] || {}} />
+        {this.state.data.map((data, index) => {
+          return <CatalogueBasket data={data || {}} catalogue={this.state.catalogues[data.catalogue] || {}}/>
+        })}
         {
           (this.state.data.length)?(
               <div className="basket-total-panel text-right">
-                  <div className="basket-total">ΣΥΝΟΛΟ: {this.props.total.toFixed(2)}<span className="fa fa-euro"></span></div>
+                  <div className="basket-total">ΣΥΝΟΛΟ: {this.state.total.toFixed(2)}<span className="fa fa-euro"></span></div>
                   <div className="row">
                     <button className="col-12 col-md-5 basket-clear-button m-auto btn btn-link" onClick={this.clear}>Καθαρισμα</button>
                     <Button className="col-12 col-md-6 col-sm-7 basket-add-button m-auto" onClick={this.props.onCheckout}>Παραγγελια</Button>
@@ -105,6 +311,12 @@ class Basket extends Component {
           )
         }
       </div>
+      <EditProduct showModal={this.state.showEditModal} quantity={this.state.editModalOptions.editQuantity}
+                   comments={this.state.editModalOptions.editComments} buttonText={this.state.editModalOptions.modalButtonText}
+                   closeModal={this.closeModal} onSubmit={this.state.editModalOptions.callback} 
+                   object={this.state.editModalOptions.editItem} attributes={this.state.editModalOptions.editAttributes}
+                   selectedAttributes={this.state.editModalOptions.selectedAttributes} />
+      <CheckoutModal showModal={this.state.showCheckoutModal} closeModal={this.closeCheckoutModal} onCheckoutNow={this.props.onCheckout}></CheckoutModal>
     </div>);
   }
 }

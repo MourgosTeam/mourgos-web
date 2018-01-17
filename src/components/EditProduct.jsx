@@ -111,7 +111,6 @@ class EditProduct extends Component {
     return (
 
       <div>
-        <Button color="danger" onClick={this.toggle}>{this.props.buttonLabel}</Button>
         <Modal isOpen={this.props.showModal} toggle={this.closeModal} fade={true}>
           <ModalHeader toggle={this.closeModal}>
             <div className="modal-title">
