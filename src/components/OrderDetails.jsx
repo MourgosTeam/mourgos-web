@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './OrderDetails.css';
 import { Card,  CardBody, CardTitle } from 'reactstrap';
 
+import Constants from '../helpers/constants'
 import {GetIt} from '../helpers/helpers'
 
 class OrderItem extends Component{
@@ -26,10 +27,12 @@ class OrderDetails extends Component {
     this.code = props.transition.params().orderId;
     if(!this.code)this.redirect("allcatalogues");
     localStorage.setItem("lastorder", this.code);
-    localStorage.setItem("basket", null);
+    localStorage.setItem("localbasket", null);
+    localStorage.setItem("localbaskettotal", 0);
     window.storageUpdated();
 
-    this.getOrder();
+    this.codes = this.code.split('-');
+    this.getOrders();
     this.state = {
       order : {
         Items : [],
@@ -37,15 +40,15 @@ class OrderDetails extends Component {
         Status: -1,
         Hashtag: '',
         HashtagFormula: 0
-      }
+      },
+      orders: []
     }
   }
 
-  getOrder = () => {
+  getOrder = (code) => {
     var resorder;
-    GetIt("/orders/"+this.code, "GET").then(function(data) {
-      return data.json();
-    }).then((data) => {
+    return GetIt("/orders/"+code, "GET").then((data) => data.json())
+    .then((data) => {
       data.Items = JSON.parse(data.Items) || [];
       resorder = data;
       var promises = [];
@@ -66,22 +69,31 @@ class OrderDetails extends Component {
       resorder.Status = parseInt(resorder.Status, 10);
 
       const total = parseFloat(resorder.Total);
-      const extra = resorder.Extra ? 0.5 : 0;
+      const extra = resorder.Extra ? Constants.extraCharge : 0;
       const final = total + extra;
       const formula = parseFloat(resorder.HashtagFormula) || 0;
       const discount = parseInt(formula, 10) === 100 ? (formula - 100) * final : Math.min(formula, final);
 
-      console.log(total);
-      console.log(extra);
-      console.log(final);
-      console.log(formula);
-      console.log(discount);
-
       resorder.LocalDiscount = discount;
-      resorder.LocalTotalPrice =  (final - discount).toFixed(2);
+      resorder.LocalTotalPrice =  parseFloat((final - discount).toFixed(2));
       return resorder;
-    }).then( (order) => this.setState({order : order}));
+    });
   }
+
+  getOrders = () => {
+    const proms = [];
+    for(var i=0;i<this.codes.length;i+=1){
+      proms.push(this.getOrder(this.codes[i]));
+    }
+
+    Promise.all(proms).then((values) => {
+      console.log(values);
+      this.setState({
+        orders: values
+      });
+    });
+  }
+
 
   render(){
     return (
@@ -94,45 +106,51 @@ class OrderDetails extends Component {
                 <div className="success-circle">
                   <span className="fa fa-check" style={{fontSize: 125, padding: 30}}></span>
                 </div>
-                {this.state.order.Status === 0 ?  
-                <div className="col-12 col-md-8 offset-md-2 alert alert-primary" role="alert">
-                  Το φαγητό σου ετοιμάζεται και ο μούργος πάει να το παραλάβει 
-                </div>
-                : '' }
-                {this.state.order.Status === 1 ?  
-                <div className="col-12 col-md-8 offset-md-2 alert alert-success" role="alert">
-                  Ο Μούργος παρέλαβε το φαγητό σου και έρχεται
-                </div>
-                : '' }
-                {this.state.order.Status === 99 ?  
-                <div className="col-12 col-md-8 offset-md-2 alert alert-danger" role="alert">
-                  Η παραγγελία απορρίφθηκε απο το κατάστημα 
-                </div>
-                : '' }
-                <div className="row justify-content-center content">
-                  <div className="col-12">Κωδικός παραγγελίας</div>
-                  <div className="order-code col-10 col-sm-7 col-md-5 col-lg-4">
-                    <div className="up-code">{this.code}</div>
-                  </div>
-                </div>
-
-                <div className="col-12 col-md-8 offset-md-2" style={{padding:10}} role="alert">
-                  Τηλέφωνο καταστήματος: {this.state.order.ShopPhone}
-                </div>
-
-                <div className="col-8 col-md-6 offset-md-3 alert alert-secondary">
-                    {this.state.order.Items.map((data,index) => {
-                      return <OrderItem item={data} key={index} />;
-                    })}
-                    { this.state.order.hasExtra ? 
-                      <OrderItem item={{quantity : 1, object : { Name : "Έξτρα Χρέωση" }, description: [], TotalPrice: 0.50 }} />
-                    : ""}
-                    { this.state.order.Hashtag && this.state.order.Hashtag.length > 3 ? 
-                      <OrderItem item={{quantity : 1, object : { Name : "Έκπτωση " }, description: [], TotalPrice: -this.state.order.LocalDiscount }} />
-                    : ""}
-                    <div >
-                      Σύνολο : {this.state.order.LocalTotalPrice} <span className="fa fa-euro"></span>
+                {this.state.orders.map((order, index) => 
+                    <div className="col-12 col-lg-6 offset-lg-3 alert alert-secondary" key={index}>
+                        <div className="row">
+                          <div className="col-12 text-left">
+                            <b>{order.ShopName} #{order.id.toUpperCase()}</b> 
+                            <small className="pull-right">Τηλέφωνο καταστήματος: {order.ShopPhone}</small>
+                          </div>
+                        </div>
+                        {order.Items.map((data,index) => {
+                          return <OrderItem item={data} key={index} />;
+                        })}
+                        {order.hasExtra ? 
+                          <OrderItem item={{quantity : 1, object : { Name : "Έξτρα Χρέωση" }, description: [], TotalPrice: 0.50 }} />
+                        : ""}
+                        {order.Hashtag && order.Hashtag.length > 3 ? 
+                          <OrderItem item={{quantity : 1, object : { Name : "Έκπτωση " }, description: [], TotalPrice: -order.LocalDiscount }} />
+                        : ""}
+                        <div >
+                        Μερικό Σύνολο : {order.FinalPrice.toFixed(2)} <span className="fa fa-euro"></span>
+                        </div>
+                          {order.Status in [1,2] && order.Status !== 0 ?  
+                          <div className="col-12 alert alert-primary" role="alert">
+                            Το φαγητό σου ετοιμάζεται και ο μούργος πάει να το παραλάβει 
+                          </div>
+                          : '' }
+                          {order.Status === 3 ?  
+                          <div className="col-12 alert alert-info" role="alert">
+                            Ο Μούργος παρέλαβε το φαγητό σου και έρχεται
+                          </div>
+                          : '' }
+                          {order.Status === 99 ?  
+                          <div className="col-12 alert alert-danger" role="alert">
+                            Η παραγγελία απορρίφθηκε απο το κατάστημα 
+                          </div>
+                          : '' }
+                          {order.Status === 10 ?  
+                          <div className="col-12 alert alert-success" role="alert">
+                            Η παραγγελία σας παραδόθηκε
+                          </div>
+                        : '' }
                     </div>
+                  )
+                }
+                <div>
+                  <b>Σύνολο : {this.state.orders.reduce((a,b) => a + b.LocalTotalPrice, 0).toFixed(2)} <span className="fa fa-euro"></span></b>
                 </div>
               </CardBody>
             </Card>

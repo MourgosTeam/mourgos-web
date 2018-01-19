@@ -37,10 +37,8 @@ class Checkout extends Component {
     // Get Basket from local storage!
     var local = JSON.parse(localStorage.getItem('localbasket'));
     var localtotal = parseFloat(localStorage.getItem('localbaskettotal'));
-    if(!local){
-      local = {
-        items : []
-      };
+    if(!local) {
+      local = [];
       this.redirect("allcatalogues");
     }
     // Get userData from local storage
@@ -48,7 +46,14 @@ class Checkout extends Component {
     if(!localData)localData = {};
 
     // check if this basket needs extra Charge
-    var hasExtra = parseFloat(localtotal) < parseFloat(window.GlobalData.MinimumOrder);
+    this.extraItem = {
+      object: {
+        Name: 'Έξτρα Χρέωση',
+      },
+      TotalPrice: Constants.extraCharge,
+      quantity: 1,
+      description: []
+    };
 
     // init state
     this.state = {
@@ -61,8 +66,6 @@ class Checkout extends Component {
       baskets : local,
       total : localtotal,
       diffName : localData.diffName || false,
-      extraCharge : hasExtra,
-      catalogue : local.catalogue,
       coupon : '',
       formula: 0,
       hashtag: '',
@@ -89,11 +92,13 @@ class Checkout extends Component {
      (data) => { this.setState({catalogues : data}) }
     );
   }
-  componentWillUpdate(){
+  componentWillUpdate(props,state){
     let place =  JSON.parse(localStorage.getItem('place'));
     if(!place)alert("Υπάρχει κάποιο πρόβλημα! Παρακάλω μεταφερθείτε στην αρχική σελίδα και διαλέξτε διεύθυνση!");
     this.latitude  = place.geometry.location.lat;
     this.longitude = place.geometry.location.lng;
+
+    this.formulaItem = {quantity : 1, object : { Name : "Έκπτωση" }, description: [], TotalPrice: -state.formula };
   }
 
   checkForExtra(items){
@@ -127,7 +132,7 @@ class Checkout extends Component {
       document.getElementById('coupon').classList.remove('required');
       return;
     }
-    GetIt('/campaigns/'+coupon+'/', 'GET').then((data) => data.json())
+    GetIt('/campaigns/'+coupon+'/'+this.state.baskets.length+'/', 'GET').then((data) => data.json())
     .then((data) => {
       if(data.code){
         throw data.code;
@@ -138,7 +143,10 @@ class Checkout extends Component {
 
       let formula = data.Formula;
       if (parseInt(formula, 10) === 100) {
-        formula = (formula - 100) * (this.state.basketTotal + this.state.extraCharge * Constants.extraCharge);
+        formula = (formula - 100) * this.calculateTotalPrice();
+      }
+      else {
+        formula = formula * this.state.baskets.reduce((a,b) => a+(b.total < window.GlobalData.MinimumOrder),0);
       }
       this.setState({
         formula: formula,
@@ -172,44 +180,57 @@ class Checkout extends Component {
     }
     return r;
   }
+
+  castOrders() {
+    const orders = [];
+    for(var bi=0; bi < this.state.baskets.length; bi += 1) {
+      let items = [...this.state.baskets[bi].items];
+      let nitems = [];
+      for(var i=0; i < items.length; i = i + 1){
+        var newItem = {
+            id      : items[i].object.id,
+            quantity: items[i].quantity,
+            comments: items[i].comments,
+            TotalPrice : items[i].TotalPrice,
+            attributes: this.calculateAttributes(items[i]._attributes,items[i]._selectedAttributes)
+        };
+        nitems.push(newItem);
+      }
+      let order = {
+        name : this.state.name,
+        email : this.state.email,
+        koudouni: this.state.koudouni,
+        orofos  : this.state.orofos,
+        phone   : this.state.phone,
+        address   : this.state.address,
+        comments: this.state.comments,
+        basketItems : nitems, 
+        basketTotal : this.state.baskets[bi].total,
+        hasExtra    : (this.state.baskets[bi].total < window.GlobalData.MinimumOrder),
+        catalogue   : this.state.baskets[bi].catalogue,
+        latitude : this.latitude,
+        longitude: this.longitude,
+        coupon : this.state.coupon,
+        hashtag: this.state.hashtag
+      };
+      orders.push(order);
+    }  
+    return orders;
+  }
   // SEND ORDER // 
   sendOrder = () => {
     if(!this.checkFields())return;
-    let items = [...this.state.basketItems];
-    let nitems = [];
-    for(var i=0; i < items.length; i = i + 1){
-      var newItem = {
-          id      : items[i].object.id,
-          quantity: items[i].quantity,
-          comments: items[i].comments,
-          TotalPrice : items[i].TotalPrice,
-          attributes: this.calculateAttributes(items[i]._attributes,items[i]._selectedAttributes)
-      };
-      nitems.push(newItem);
-    }
-    let order = {
-      name : this.state.name,
-      email : this.state.email,
-      koudouni: this.state.koudouni,
-      orofos  : this.state.orofos,
-      phone   : this.state.phone,
-      address   : this.state.address,
-      comments: this.state.comments,
-      basketItems : nitems, 
-      basketTotal : this.state.basketTotal,
-      hasExtra    : this.state.extraCharge,
-      catalogue   : this.state.catalogue,
-      latitude : this.latitude,
-      longitude: this.longitude,
-      coupon : this.state.coupon,
-      hashtag: this.state.hashtag
-    };
-    GetIt("/orders" , "POST", order)
+    
+    const orders = this.castOrders();
+
+
+    GetIt("/orders/multi/" , "POST", orders)
     .then(function(data){
       return data.json();
     })
-    .then((data) => {
-      this.redirect("foodiscoming", { orderId : data.id });
+    .then((values) => {
+      const orderID = values.map((data,i) => data.id).join('-');
+      this.redirect("foodiscoming", { orderId : orderID });
       return true;
     })
     .catch((err) => {
@@ -219,7 +240,8 @@ class Checkout extends Component {
       }
     });
   }
-  checkFields(){
+
+  checkFields() {
     var reqs = ['name', 'address','orofos','phone'];
     var flag = true;
     for(var i in reqs){
@@ -232,6 +254,13 @@ class Checkout extends Component {
     return flag;
   }
 
+  calculateTotalPrice() {
+    const baskets = this.state.baskets.reduce((a,b) => a+b.total,0);
+    const extras = this.state.baskets.reduce((a,b) => a + (b.total < parseFloat(window.GlobalData.MinimumOrder)? parseFloat(Constants.extraCharge) : 0)
+      ,0)
+    const formula = this.state.formula;
+    return parseFloat(baskets + extras - formula).toFixed(2);
+  }
 
   render = () => {
     return (
@@ -298,17 +327,17 @@ class Checkout extends Component {
                       return <div key={basketindex}>
                         <b>{(this.state.catalogues[basket.catalogue] || {}).Name}</b><br />
                         {basket.items.map((data,index) => <CheckoutBasketItem item={data} key={index} />)}
+                        {
+                          basket.total < parseFloat(window.GlobalData.MinimumOrder) ? <CheckoutBasketItem item={this.extraItem}/> : ''
+                        }
                       </div>
                     })}
                     </div>
-                    { this.state.extraCharge ? 
-                      <CheckoutBasketItem item={{quantity : 1, object : { Name : "Έξτρα Χρέωση" }, description: [], TotalPrice: Constants.extraCharge }} />
-                    : "" }
-                    { this.state.formula !== 0 ? 
-                      <CheckoutBasketItem item={{quantity : 1, object : { Name : "Έκπτωση" }, description: [], TotalPrice: -this.state.formula }} />
-                    : "" }
+                    {
+                      this.state.formula !== 0 ? <CheckoutBasketItem item={this.formulaItem}/> : ''
+                    }
                     <div className="text-right total">
-                      Σύνολο : {this.calculateTotal()} <span className="fa fa-euro"></span>
+                      Σύνολο : {this.calculateTotalPrice()} <span className="fa fa-euro"></span>
                     </div>
                   </div>
                 </CardBody>

@@ -66,7 +66,7 @@ class Basket extends Component {
       top : 0,
       data: JSON.parse(localStorage.getItem("localbasket")) || [],
       total: parseFloat(localStorage.getItem("localbaskettotal")) || 0,
-      catalogues: {},
+      catalogues: JSON.parse(sessionStorage.getItem("catalogues")) || {},
 
       showEditModal   : false,
       editModalOptions: {
@@ -78,8 +78,9 @@ class Basket extends Component {
         callback    : this.addBasketItem
       }
     };
-    this.loadCatalogues();
-    this.load();
+    if(!sessionStorage.getItem("catalogues")) {
+      this.loadCatalogues();
+    }
   }
 
 
@@ -102,7 +103,7 @@ class Basket extends Component {
   
   loadCatalogues = () => {
      GetIt("/catalogues/" , "GET")
-    .then(function(data){
+    .then(function(data) {
       return data.json();
     })
     .then((data) => {
@@ -112,7 +113,10 @@ class Basket extends Component {
       }, {});
     })
     .then(
-     (data) => { this.setState({catalogues : data}) }
+     (data) => {
+        sessionStorage.setItem("catalogues", JSON.stringify(data));
+        this.setState({catalogues : data});
+      }
     );
   }
 
