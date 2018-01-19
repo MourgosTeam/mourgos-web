@@ -256,8 +256,8 @@ class Basket extends Component {
     this.setState({showCheckoutModal:false});
   }
   checkout = () => {
-    // check total! 
-    if(this.state.total < parseFloat(window.GlobalData.MinimumOrder) ){
+    const flag = this.state.data.reduce((a,b) => a || b.total < parseFloat(window.GlobalData.MinimumOrder), false); // sweet ;)
+    if(flag){
       this.setState({
         showCheckoutModal : true
       });
