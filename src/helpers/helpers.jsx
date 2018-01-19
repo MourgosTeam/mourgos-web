@@ -7,7 +7,7 @@ export function GetIt(url, method, body, token){
     url += "?dev=devmode";
   }
 
-  console.log("Fetching " + url);
+  //console.log("Fetching " + url);
   return fetch(url, {
     method: method,
     body: JSON.stringify(body),

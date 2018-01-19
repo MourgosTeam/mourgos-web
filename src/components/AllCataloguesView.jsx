@@ -5,6 +5,8 @@ import Catalogue from './Catalogue.jsx'
 
 import {GetIt} from '../helpers/helpers.jsx'
 
+import Basket from './Basket.jsx'
+
 class AllCataloguesView extends Component {
   constructor(props){
     super(props);
@@ -45,14 +47,24 @@ class AllCataloguesView extends Component {
     });
   }
 
+  checkout = () => {
+    this.redirect("checkout");
+  }
+
   render = () => {
     return (
       <div className="container all-catalogues-view">
         <div className="row justify-content-start">
-           {/*<div className="col-12 col-md-4 col-lg-3 hidden-xs">
-           <SearchFilters items={this.state.basketItems} onChange={this.onDataChange}/>
-          </div>*/}
-            {this.state.catalogues}
+          <div className="col-12 col-md-8 col-lg-9">
+            <div className="row">
+              {this.state.catalogues}
+            </div>
+          </div>
+          <div className="col-12 col-md-4 col-lg-3">
+            <Basket auto={true} items={[]} total={this.state.basketTotal} 
+                    onRemoveItem={this.removeBasketItem} onEditItem={this.openForEdit}
+                    onClear={this.clearBasket} onCheckout={this.checkout}/>
+          </div>
         </div>
       </div>
     );

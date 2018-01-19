@@ -45,9 +45,19 @@ class EditProduct extends Component {
 
 
   componentWillReceiveProps(nextProps){
+    this.onSubmit = nextProps.onSubmit;
+    let newOptions = nextProps.selectedAttributes;
+    let flag = newOptions.length !== nextProps.attributes.length;
+    for (var i = 0; i < newOptions.length && !flag; i++) {
+      if( isNaN(newOptions[i]) || newOptions[i] === undefined){
+        flag = true;
+      }
+    }
     this.setState({
       quantity : nextProps.quantity,
-      options  : nextProps.selectedAttributes
+      options  : nextProps.selectedAttributes,
+      comments  : nextProps.comments,
+      hasRequirements: flag
     });
   }
 
@@ -111,7 +121,6 @@ class EditProduct extends Component {
     return (
 
       <div>
-        <Button color="danger" onClick={this.toggle}>{this.props.buttonLabel}</Button>
         <Modal isOpen={this.props.showModal} toggle={this.closeModal} fade={true}>
           <ModalHeader toggle={this.closeModal}>
             <div className="modal-title">
