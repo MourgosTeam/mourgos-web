@@ -14,13 +14,13 @@ class CheckoutModal extends Component {
         <Modal isOpen={this.props.showModal} toggle={this.props.closeModal} fade={true}>
           <ModalHeader toggle={this.props.closeModal}>
             <div className="modal-title">
-              Δεν έχεις ξεπεράσει την ελάχιστη παραγγελία των {this.minimumOrder} ανα κατάστημα<span className="fa fa-euro"></span>
+              Δεν έχεις ξεπεράσει την ελάχιστη παραγγελία των {this.minimumOrder}<span className="fa fa-euro"></span> ανα κατάστημα
             </div>
           </ModalHeader>
           <ModalBody>
             <div className="container-fluid">
               <div className="modal-title-description">
-                Μπορείς να επιλέξεις χρέωση 0.50 ανα κατάστημα<span className="fa fa-euro"></span> ή να επιστρέψεις και να προσθέσεις προϊόντα στο καλάθι.
+                Μπορείς να επιλέξεις χρέωση 0.50<span className="fa fa-euro"> ανα κατάστημα</span> ή να επιστρέψεις και να προσθέσεις προϊόντα στο καλάθι.
               </div>
             </div>
           </ModalBody>
