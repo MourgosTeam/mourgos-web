@@ -12,7 +12,7 @@ class CheckoutModal extends Component {
     return (
       <div>
         <Modal isOpen={this.props.showModal} toggle={this.props.closeModal} fade={true}>
-          <ModalHeader toggle={this.props.closeModal}>
+          <ModalHeader>
             <div className="modal-title">
               Δεν έχεις ξεπεράσει την ελάχιστη παραγγελία των {this.minimumOrder}<span className="fa fa-euro"></span> ανα κατάστημα
             </div>

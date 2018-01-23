@@ -32,7 +32,7 @@ class AllCataloguesView extends Component {
     .then((data) => {
       this.allData = data;
       return data.map(function(object, index){
-        return <Catalogue id={object.id} object={object} key={index} mode="minimal"></Catalogue>; 
+        return object.Ruleset > 0 && <Catalogue id={object.id} object={object} key={index} mode="minimal"></Catalogue>; 
       });
     })
     .then(
@@ -63,7 +63,7 @@ class AllCataloguesView extends Component {
           <div className="col-12 col-md-4 col-lg-3">
             <Basket auto={true} items={[]} total={this.state.basketTotal} 
                     onRemoveItem={this.removeBasketItem} onEditItem={this.openForEdit}
-                    onClear={this.clearBasket} onCheckout={this.checkout}/>
+                    onClear={this.clearBasket} onCheckout={this.checkout} redirect={this.redirect}/>
           </div>
         </div>
       </div>

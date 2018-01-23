@@ -36,7 +36,7 @@ class CatalogueView extends Component {
             <Catalogue id={this.catalogue.id} mode="normal" object={this.catalogue} openForAdd={this.openForAdd}></Catalogue>
           </div>
           <div className="col-12 col-sm-5 col-md-4 col-lg-3">
-            <Basket ref={instance => { this.basket = instance; }} auto={true} onCheckout={this.checkout}/>
+            <Basket ref={instance => { this.basket = instance; }} auto={true} onCheckout={this.checkout} redirect={this.redirect}/>
           </div>
         </div>
       </div>

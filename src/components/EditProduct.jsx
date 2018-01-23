@@ -122,7 +122,7 @@ class EditProduct extends Component {
 
       <div>
         <Modal isOpen={this.props.showModal} toggle={this.closeModal} fade={true}>
-          <ModalHeader toggle={this.closeModal}>
+          <ModalHeader>
             <div className="modal-title">
               {this.props.object.Name}  
               {/*

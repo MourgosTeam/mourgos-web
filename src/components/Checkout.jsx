@@ -101,12 +101,6 @@ class Checkout extends Component {
     this.formulaItem = {quantity : 1, object : { Name : "Έκπτωση" }, description: [], TotalPrice: -state.formula };
   }
 
-  checkForExtra(items){
-    if(!items)return true;
-    for(var i = 0; i < items.length; i++){
-
-    }
-  }
   componentDidUpdate(){
     var storage = {
       name : this.state.name,
@@ -206,7 +200,8 @@ class Checkout extends Component {
         comments: this.state.comments,
         basketItems : nitems, 
         basketTotal : this.state.baskets[bi].total,
-        hasExtra    : (this.state.baskets[bi].total < window.GlobalData.MinimumOrder),
+        hasExtra    : (this.state.baskets[bi].total < window.GlobalData.MinimumOrder) 
+                && (this.state.catalogues[this.state.baskets[bi].catalogue].Ruleset > 0),
         catalogue   : this.state.baskets[bi].catalogue,
         latitude : this.latitude,
         longitude: this.longitude,
@@ -254,15 +249,20 @@ class Checkout extends Component {
     return flag;
   }
 
-  calculateTotalPrice() {
+  calculateTotalPrice = () => {
     const baskets = this.state.baskets.reduce((a,b) => a+b.total,0);
-    const extras = this.state.baskets.reduce((a,b) => a + (b.total < parseFloat(window.GlobalData.MinimumOrder)? parseFloat(Constants.extraCharge) : 0)
-      ,0)
+    const extras = this.state.baskets.
+    reduce((a,b) => a + (b.total < parseFloat(window.GlobalData.MinimumOrder) 
+            && this.state.catalogues[b.catalogue] 
+            && this.state.catalogues[b.catalogue].Ruleset > 0) 
+            ? parseFloat(Constants.extraCharge) : 0
+    ,0)
     const formula = this.state.formula;
     return parseFloat(baskets + extras - formula).toFixed(2);
   }
 
   render = () => {
+    const totalPrice = this.calculateTotalPrice();
     return (
       <div className="container checkout">
         <div className="row">
@@ -328,7 +328,8 @@ class Checkout extends Component {
                         <b>{(this.state.catalogues[basket.catalogue] || {}).Name}</b><br />
                         {basket.items.map((data,index) => <CheckoutBasketItem item={data} key={index} />)}
                         {
-                          basket.total < parseFloat(window.GlobalData.MinimumOrder) ? <CheckoutBasketItem item={this.extraItem}/> : ''
+                          basket.total < parseFloat(window.GlobalData.MinimumOrder)
+                          && (this.state.catalogues[basket.catalogue] && this.state.catalogues[basket.catalogue].Ruleset > 0) ? <CheckoutBasketItem item={this.extraItem}/> : ''
                         }
                       </div>
                     })}
@@ -337,7 +338,7 @@ class Checkout extends Component {
                       this.state.formula !== 0 ? <CheckoutBasketItem item={this.formulaItem}/> : ''
                     }
                     <div className="text-right total">
-                      Σύνολο : {this.calculateTotalPrice()} <span className="fa fa-euro"></span>
+                      Σύνολο : {totalPrice} <span className="fa fa-euro"></span>
                     </div>
                   </div>
                 </CardBody>
