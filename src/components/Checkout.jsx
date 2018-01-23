@@ -251,8 +251,8 @@ class Checkout extends Component {
 
   calculateTotalPrice = () => {
     const baskets = this.state.baskets.reduce((a,b) => a+b.total,0);
-    const extras = this.state.baskets.
-    reduce((a,b) => a + (b.total < parseFloat(window.GlobalData.MinimumOrder) 
+    const extras = this.state.baskets
+    .reduce((a,b) => a + (b.total < parseFloat(window.GlobalData.MinimumOrder) 
             && this.state.catalogues[b.catalogue] 
             && this.state.catalogues[b.catalogue].Ruleset > 0) 
             ? parseFloat(Constants.extraCharge) : 0

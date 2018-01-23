@@ -308,9 +308,15 @@ class Basket extends Component {
     })
   }
   redirectToPsilika = () => {
-    this.props.redirect("catalogues", { catalogueURL : "Ψιλικά" });
+    //this.props.redirect("catalogues", { catalogueURL : "Ψιλικά" });
+    window.location.href = "/Ψιλικά/";
   }
   showPsilika = () => {
+    const hasPsilika = this.state.data.reduce((a,b) => a || this.state.catalogues[b.catalogue].FriendlyURL === 'Ψιλικά',false);
+    const isPsilika = window.location.pathname.includes(encodeURI("Ψιλικά"));
+    if (hasPsilika || isPsilika) {
+      return this.checkout();
+    }
     this.setState({
       showPsilikaModal: true
     });
@@ -340,6 +346,7 @@ class Basket extends Component {
           )
         }
       </div>
+      <div>
       <EditProduct showModal={this.state.showEditModal} quantity={this.state.editModalOptions.editQuantity}
                    comments={this.state.editModalOptions.editComments} buttonText={this.state.editModalOptions.modalButtonText}
                    closeModal={this.closeModal} onSubmit={this.state.editModalOptions.callback} 
@@ -347,6 +354,7 @@ class Basket extends Component {
                    selectedAttributes={this.state.editModalOptions.selectedAttributes} />
       <CheckoutModal showModal={this.state.showCheckoutModal} closeModal={this.closeCheckoutModal} onCheckoutNow={this.props.onCheckout}></CheckoutModal>
       <PsilikaModal showModal={this.state.showPsilikaModal} onRedirect={this.redirectToPsilika} onSubmit={this.checkout}></PsilikaModal>
+      </div>
     </div>);
   }
 }

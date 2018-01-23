@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import './CheckoutModal.css';
 
-import {Button, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
+import {Button, Modal, ModalHeader, ModalFooter} from 'reactstrap';
 
 class PsilikaModal extends Component {
   render() {
@@ -13,13 +13,7 @@ class PsilikaModal extends Component {
               Τώρα μπορείς να παραγγείλεις και ψιλικά από το Μούργο!
             </div>
           </ModalHeader>
-          <ModalBody>
-            <div className="container-fluid">
-              <div className="modal-title-description">
 
-              </div>
-            </div>
-          </ModalBody>
           <ModalFooter>
             <Button onClick={this.props.onRedirect} className="btn btn-light">Θέλω ψιλικά</Button>
             <Button onClick={this.props.onSubmit} className="btn btn-light">Παραγγελία</Button>
