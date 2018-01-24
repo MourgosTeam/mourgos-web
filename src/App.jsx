@@ -111,8 +111,13 @@ class App extends Component {
     });
 
     this.router.transitionService.onSuccess({}, (trans) => {
-      console.log("Transitioned to " + trans.to().url);
-      ReactGA.pageview(trans.to().url);
+      const path = window.location.pathname + window.location.search;
+      if(window.location.href.includes("://localhost")) {
+        console.log("[Local]Transitioned to " + path);
+        return;
+      }
+      console.log("Transitioned to " + path);
+      ReactGA.pageview(path);
     });
 
     // Register the initial (eagerly loaded) states
