@@ -12,6 +12,9 @@ import Footer from './components/Footer.jsx'
 
 import {UIRouterReact, UIRouter, UIView, pushStateLocationPlugin,servicesPlugin} from '@uirouter/react';
 
+//add visualizer
+//import {visualizer} from '@uirouter/visualizer';
+
 import ReactGA from 'react-ga';
 ReactGA.initialize('UA-111431659-1'); //Unique Google Analytics tracking number
 
@@ -106,9 +109,9 @@ class App extends Component {
     this.router = new UIRouterReact();
     this.router.plugin(servicesPlugin);
     this.router.plugin(pushStateLocationPlugin);
-    this.router.urlService.rules.initial({
-      state: 'home'
-    });
+    this.router.urlService.rules.otherwise('/');
+
+    //visualizer(this.router);
 
     this.router.transitionService.onSuccess({}, (trans) => {
       const path = window.location.pathname + window.location.search;
