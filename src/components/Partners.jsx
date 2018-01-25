@@ -25,7 +25,7 @@ class Partners extends Component {
     .then((data) => {
       this.allData = data;
       return data.map(function(object, index){
-        return <Catalogue id={object.id} object={object} key={index} mode="card"></Catalogue>; 
+        return object.Ruleset > 0 && <Catalogue id={object.id} object={object} key={index} mode="card"></Catalogue>; 
       });
     })
     .then(

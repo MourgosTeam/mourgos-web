@@ -3,6 +3,7 @@ import './Basket.css';
 
 import EditProduct from './EditProduct.jsx'
 import CheckoutModal from './CheckoutModal.jsx'
+import PsilikaModal from './PsilikaModal.jsx'
 
 import { GetIt } from '../helpers/helpers.jsx'
 
@@ -256,10 +257,12 @@ class Basket extends Component {
     this.setState({showCheckoutModal:false});
   }
   checkout = () => {
-    const flag = this.state.data.reduce((a,b) => a || b.total < parseFloat(window.GlobalData.MinimumOrder), false); // sweet ;)
+    const flag = this.state.data.reduce((a,b) => a || (b.total < parseFloat(window.GlobalData.MinimumOrder) 
+                                                  && this.state.catalogues[b.catalogue].Ruleset > 0), false); // sweet ;)
     if(flag){
       this.setState({
-        showCheckoutModal : true
+        showCheckoutModal : true,
+        showPsilikaModal : false
       });
     }
     else{
@@ -304,7 +307,20 @@ class Basket extends Component {
       total: 0
     })
   }
-
+  redirectToPsilika = () => {
+    //this.props.redirect("catalogues", { catalogueURL : "Ψιλικά" });
+    window.location.href = "/Ψιλικά/";
+  }
+  showPsilika = () => {
+    const hasPsilika = this.state.data.reduce((a,b) => a || this.state.catalogues[b.catalogue].FriendlyURL === 'Ψιλικά',false);
+    const isPsilika = window.location.pathname.includes(encodeURI("Ψιλικά"));
+    if (hasPsilika || isPsilika) {
+      return this.checkout();
+    }
+    this.setState({
+      showPsilikaModal: true
+    });
+  }
   render() {
     return (
     <div className={ "row basket " + ((this.state.fixed) ? "basket-fixed" : "") } style={ (this.state.fixed) ? {top:this.state.top} : {}}>  
@@ -320,7 +336,7 @@ class Basket extends Component {
                   <div className="basket-total">ΣΥΝΟΛΟ: {this.state.total.toFixed(2)}<span className="fa fa-euro"></span></div>
                   <div className="row">
                     <button className="col-12 col-md-5 basket-clear-button m-auto btn btn-link" onClick={this.clear}>Καθαρισμα</button>
-                    <Button className="col-12 col-md-6 col-sm-7 basket-add-button m-auto" onClick={this.checkout}>Παραγγελια</Button>
+                    <Button className="col-12 col-md-6 col-sm-7 basket-add-button m-auto" onClick={this.showPsilika}>Παραγγελια</Button>
                   </div>
               </div>):
           (
@@ -330,12 +346,15 @@ class Basket extends Component {
           )
         }
       </div>
+      <div>
       <EditProduct showModal={this.state.showEditModal} quantity={this.state.editModalOptions.editQuantity}
                    comments={this.state.editModalOptions.editComments} buttonText={this.state.editModalOptions.modalButtonText}
                    closeModal={this.closeModal} onSubmit={this.state.editModalOptions.callback} 
                    object={this.state.editModalOptions.editItem} attributes={this.state.editModalOptions.editAttributes}
                    selectedAttributes={this.state.editModalOptions.selectedAttributes} />
       <CheckoutModal showModal={this.state.showCheckoutModal} closeModal={this.closeCheckoutModal} onCheckoutNow={this.props.onCheckout}></CheckoutModal>
+      <PsilikaModal showModal={this.state.showPsilikaModal} onRedirect={this.redirectToPsilika} onSubmit={this.checkout}></PsilikaModal>
+      </div>
     </div>);
   }
 }
