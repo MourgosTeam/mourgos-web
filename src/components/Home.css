@@ -83,3 +83,20 @@
     padding-bottom: 10px;
     padding-top: 10px;
 }
+
+.predictions {
+    /*background: gray;*/
+    border-radius: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.prediction {
+    background: white;
+    border-radius: 3px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    font-size: 18px;
+    line-height: 40px;
+    text-align: left;
+    padding-left: 20px;
+}

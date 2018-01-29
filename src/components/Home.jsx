@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 
 import './Home.css';
-import Autocomplete from 'react-google-autocomplete';
 
 import {UISref} from '@uirouter/react'
 
 import Partners from './Partners.jsx';
+
+const findComp = (match, place) => {
+  return place.address_components.reduce((a,b) => a + (b.types[0]===match ? b.long_name : ""), "");
+}
 
 class Home extends Component {
   
@@ -16,44 +19,25 @@ class Home extends Component {
     if(props.resolves.hasCreds && props.resolves.hasCreds.place){
       setTimeout( () => this.placeSelected(props.resolves.hasCreds.place), 100);
     }
+
+    this.state = {
+      predictions: []
+    };
+
+    this.service = new window.google.maps.places.AutocompleteService();
+    this.geocoder = new window.google.maps.Geocoder();
+    
   }
 
   componentDidMount = () => {
     this.createMap();
-
-    (function pacSelectFirst(input) {
-        // store the original event binding function
-        var _addEventListener = (input.addEventListener) ? input.addEventListener : input.attachEvent;
-
-        function addEventListenerWrapper(type, listener) {
-            // Simulate a 'down arrow' keypress on hitting 'return' when no pac suggestion is selected,
-            // and then trigger the original listener.
-            if (type === "keydown") {
-                var orig_listener = listener;
-                listener = function(event) {
-                    var suggestion_selected = document.getElementsByClassName("pac-item-selected").length > 0;
-                    if (event.which === 13 && !suggestion_selected) {
- var e = new Event("keydown");
-e.keyCode=40;
-e.which=e.keyCode;
-e.altKey=false;
-e.ctrlKey=true;
-e.shiftKey=false;
-e.metaKey=false;
-                        orig_listener.apply(input, [e]);
-                    }
-
-                    orig_listener.apply(input, [event]);
-                };
-            }
-
-            _addEventListener.apply(input, [type, listener]);
-        }
-
-        input.addEventListener = addEventListenerWrapper;
-        input.attachEvent = addEventListenerWrapper;
-
-    })(document.getElementById('address_input'));
+    const selectFirst = (event) => {
+      if (event.which === 13 && this.state.predictions.length) {
+        this.predictionSelected(this.state.predictions[0])
+      }
+    }; 
+    document.getElementById('address').addEventListener('keydown', selectFirst)
+    document.getElementById('address_number').addEventListener('keydown', selectFirst);
   }
 
   createMap = () => {
@@ -125,6 +109,7 @@ var triangleCoords = [
   }
 
   placeSelected = (place) => {
+    console.log(place);
     var google = window.google;
     document.getElementById('no-service').style.display = 'none';
     document.getElementById('accept').style.display = 'none';
@@ -142,6 +127,8 @@ var triangleCoords = [
         position: place.geometry.location, 
         map: this.map
       });
+      var latLng = this.marker.getPosition(); // returns LatLng object
+      this.map.setCenter(latLng);
       
       let point;
       if( typeof place.geometry.location.lat === "function" )
@@ -149,9 +136,9 @@ var triangleCoords = [
       else 
         point = new google.maps.LatLng(place.geometry.location.lat, place.geometry.location.lng);
 
-      if (google.maps.geometry.poly.containsLocation(point, this.polygon) ){
+      if (google.maps.geometry.poly.containsLocation(point, this.polygon) ){        
         document.getElementById('accept').style.display = 'block';
-        localStorage.setItem("user_address", place.name );
+        localStorage.setItem("user_address", findComp('route', place) + " " + findComp('street_number', place));
         localStorage.setItem("formatted_address", place.formatted_address );
         localStorage.setItem("place" , JSON.stringify(place));
         this.props.onCredentialChange();
@@ -163,7 +150,65 @@ var triangleCoords = [
     else{
       if(this.marker)this.marker.setMap(null);
     }
-    document.getElementById("address_input").value = place.formatted_address;
+    const number = findComp('street_number', place);
+    document.getElementById("address").value = place.formatted_address.split(" "+number).join('');
+    document.getElementById("address_number").value = number;
+    this.setState({
+      predictions: []
+    });
+  }
+
+  predictionSelected = (pred) => {
+    console.log(pred);
+    if (document.getElementById('address_number').value.length < 1) {
+      const address = document.getElementById('address');
+      address.value = pred.description;
+      return;
+    }
+    this.geocoder.geocode( { 'placeId': pred.place_id }, (results, status) => {
+      if (status === 'OK') {
+        this.placeSelected(results[0]);
+      } else {
+        console.log('Geocode was not successful for the following reason: ' + status);
+      }
+    });
+  }
+  onChange(e) {
+    const types=['address'],
+          componentRestrictions={country: "gr"};
+
+    const hasLetters = document.getElementById('address').value.length;
+    const arr = document.getElementById('address').value.split(',');
+    const num = document.getElementById('address_number').value;
+    const address = arr.map((a,b) => b === 0 ? a + " " + num : a).join(',');
+
+    if(address.length > 3 && hasLetters) {
+      this.service.getPlacePredictions({
+        input: address,
+        types, 
+        componentRestrictions
+      }, (predictions, status) => {
+        if (status === 'OK' && predictions && predictions.length > 0) {
+          this.onOpen(predictions);
+        } else {
+          this.onClose();
+        }
+      });
+    } else {
+      this.onClose();
+    }
+  }
+
+  onOpen = (preds) => {
+    this.setState({
+      predictions: preds
+    });
+  }
+
+  onClose = () => {
+    this.setState({
+      predictions: []
+    });
   }
 
   render = () => {
@@ -178,12 +223,30 @@ var triangleCoords = [
                     Πού θες να έρθει ο Μούργος;
                   </div>
                   <div className="col-12 col-lg-12">
-                    <Autocomplete id="address_input"
-                        style={{width:"100%"}}
+                    {/*<Autocomplete id="address_input"
+                        style={{width:"90%"}}
                         onPlaceSelected={this.placeSelected}
                         types={['address']}
                         componentRestrictions={{country: "gr"}}
-                        placeholder="Γράψε τη διεύθυνσή σου" />
+                        placeholder="Γράψε τη διεύθυνσή σου" />*/}
+                   {/* <ReactCustomGoogleAutocomplete 
+                        input={<input id="address_input" style={{width:"100%"}} placeholder="Γράψε τη διεύθυνσή σου"/>}
+                        onPlaceSelected={this.placeSelected}
+                        types={['address']}
+                        componentRestrictions={{country: "gr"}}
+                        onOpen={this.openAuto}
+                        onClose={this.closeAuto} />*/}
+                    <input type="text" placeholder="Γράψε την διεύθυνσή σου" id="address" className="col-10" onChange={(e) => this.onChange(e)}/>
+                    <input type="text" placeholder="Αρ." id="address_number" className="col-2" onChange={(e) => this.onChange(e)}/>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="predictions col-12">
+                    {this.state.predictions.map((pred, index) =>
+                      <div className="prediction col-12" key={index} id={index === 0? 'suggestion':''} onClick={() => this.predictionSelected(pred)}>
+                        {pred.description}
+                      </div>
+                    )}
                   </div>
 
                   <div className="col-12 col-lg-6 offset-lg-3 accept-button p-ud-md" id="accept">
