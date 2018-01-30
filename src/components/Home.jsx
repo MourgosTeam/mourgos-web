@@ -236,8 +236,14 @@ var triangleCoords = [
                         componentRestrictions={{country: "gr"}}
                         onOpen={this.openAuto}
                         onClose={this.closeAuto} />*/}
-                    <input type="text" placeholder="Γράψε την διεύθυνσή σου" id="address" className="col-10" onChange={(e) => this.onChange(e)}/>
-                    <input type="text" placeholder="Αρ." id="address_number" className="col-2" onChange={(e) => this.onChange(e)}/>
+                    <div className="row">
+                      <div className="col-10">
+                        <input type="text" placeholder="Γράψε την διεύθυνσή σου" id="address" onChange={(e) => this.onChange(e)}/>
+                      </div>
+                      <div className="col-2" style={{paddingLeft: 2}}>
+                        <input type="text" placeholder="Αρ." id="address_number" onChange={(e) => this.onChange(e)}/>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div className="row">

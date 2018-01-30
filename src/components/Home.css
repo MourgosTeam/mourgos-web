@@ -28,6 +28,7 @@
     padding-left: 8px;
 	line-height: 40px;
 	outline: none;
+    width: 100%;
 }
 .autocomplete input:focus{
     border: 1px solid #EE6055;
