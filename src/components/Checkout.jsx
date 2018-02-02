@@ -216,6 +216,8 @@ class Checkout extends Component {
   sendOrder = () => {
     if(!this.checkFields())return;
     
+    if(this.sending)return;
+    this.sending = true;
     const orders = this.castOrders();
 
 
@@ -226,10 +228,12 @@ class Checkout extends Component {
     .then((values) => {
       const orderID = values.map((data,i) => data.id).join('-');
       this.redirect("foodiscoming", { orderId : orderID });
+      this.sending = false;
       return true;
     })
     .catch((err) => {
       this.checkFields();
+      this.sending = false;
       if (err.status === 503) {
         alert('Δεν μπορείς να κάνεις παραγγελίες όσο ο Μούργος είναι κλειστός!');
       }
