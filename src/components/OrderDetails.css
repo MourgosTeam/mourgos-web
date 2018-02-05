@@ -18,3 +18,13 @@
     border-radius: 50px;
     color: #01bf00;
 }
+.orderdate {
+    font-family: "Open Sans", sans-serif;
+    font-size: 15px;
+    color: #757;
+}
+.olderorders{
+    font-family: "Open Sans", sans-serif;
+    font-size: 15px;
+    color: #777;    
+}

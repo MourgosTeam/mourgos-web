@@ -110,6 +110,7 @@ class OrderDetails extends Component {
 
 
   render(){
+    let orderDate = this.state.orders.length ? new Date(this.state.orders[0].PostDate) : false;
     return (
       <div className="container foodiscoming">
         <div className="row">
@@ -120,6 +121,7 @@ class OrderDetails extends Component {
                 <div className="success-circle">
                   <span className="fa fa-check" style={{fontSize: 125, padding: 30}}></span>
                 </div>
+
                 {this.state.orders.map((order, index) => 
                     <div className="col-12 col-lg-6 offset-lg-3 alert alert-secondary" key={index}>
                         <div className="row">
@@ -167,7 +169,13 @@ class OrderDetails extends Component {
                   <b>Σύνολο : {this.state.orders.reduce((a,b) => a + b.LocalTotalPrice, 0).toFixed(2)} <span className="fa fa-euro"></span></b>
                 </div>
                 <br /> 
-                <div className="">
+                <div className="orderdate">
+                  Ημερομηνία παραγγελίας : {orderDate && [orderDate.getDate(),orderDate.getMonth()+1,orderDate.getFullYear()].join('/')}
+                  <br />
+                  Ώρα παραγγελίας : {orderDate && (orderDate.getHours() + ":" + orderDate.getMinutes())}
+                </div>
+                <br /> 
+                <div className="olderorders">
                   Παλαιότερες παραγγελίες
                   <br />
                   <select onChange={(e) => this.moveTo(e.target.value)} defaultValue={this.code}>
