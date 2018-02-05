@@ -26,9 +26,19 @@ class OrderDetails extends Component {
     this.redirect = props.transition.router.stateService.go;
     this.code = props.transition.params().orderId;
     if(!this.code)this.redirect("allcatalogues");
-    localStorage.setItem("lastorder", this.code);
     localStorage.setItem("localbasket", null);
     localStorage.setItem("localbaskettotal", 0);
+
+    let localorders = localStorage.getItem("localorders") || '';
+    let orders = this.orders = localorders.split(',');
+    if (orders[0] === '') orders = this.orders = [];
+    if (orders.indexOf(this.code) === -1) {
+      orders.unshift(this.code);
+      localStorage.setItem("localorders", orders.join());
+      localStorage.setItem("lastorder", this.code);
+    }
+
+    
     window.storageUpdated();
 
     this.codes = this.code.split('-');
@@ -78,6 +88,10 @@ class OrderDetails extends Component {
       resorder.LocalTotalPrice =  parseFloat((final - discount).toFixed(2));
       return resorder;
     });
+  }
+
+  moveTo = (val) => {
+    window.location.href = "/readytoeat/" + val;
   }
 
   getOrders = () => {
@@ -151,6 +165,14 @@ class OrderDetails extends Component {
                 }
                 <div>
                   <b>Σύνολο : {this.state.orders.reduce((a,b) => a + b.LocalTotalPrice, 0).toFixed(2)} <span className="fa fa-euro"></span></b>
+                </div>
+                <br /> 
+                <div className="">
+                  Παλαιότερες παραγγελίες
+                  <br />
+                  <select onChange={(e) => this.moveTo(e.target.value)} defaultValue={this.code}>
+                    {this.orders.map((orderid,index) => <option key={index} value={orderid}>{orderid}</option>)}
+                  </select>
                 </div>
               </CardBody>
             </Card>
