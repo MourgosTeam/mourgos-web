@@ -9,6 +9,7 @@ import { Card,  CardBody, CardTitle } from 'reactstrap';
 
 import {GetIt} from '../helpers/helpers'
 
+import ReactGA from 'react-ga';
 
 
 export class CheckoutBasketItem extends Component{
@@ -226,6 +227,7 @@ class Checkout extends Component {
       return data.json();
     })
     .then((values) => {
+      ReactGA.pageview("/confirmedOrder");
       const orderID = values.map((data,i) => data.id).join('-');
       this.redirect("foodiscoming", { orderId : orderID });
       this.sending = false;
