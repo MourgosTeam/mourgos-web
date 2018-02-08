@@ -58,7 +58,7 @@ class Catalogue extends Component {
   renderMinimal() {
     let hours = this.props.object.WorkingHours && this.props.object.WorkingHours.split(","),
         today = new Date(),
-        rightnow = today.getHours()+":"+today.getMinutes(),
+        rightnow = today.getHours()+":"+(today.getMinutes()<10 ?'0':'')+today.getMinutes(),
         open = hours &&
                rightnow > hours[0] &&
                rightnow < hours[1];
@@ -66,7 +66,7 @@ class Catalogue extends Component {
 
     return (
       <div className={"col-12 col-sm-6 col-md-4 text-center sm-pad-all minimal-mode " + (open === false ? 'closedShop' : 'openShop')} >
-        <a href={ (open && '/'+this.props.object.FriendlyURL)+'/' || ''}>
+        <a href={ (open && '/'+this.props.object.FriendlyURL+'/') || undefined}>
           <Card>
             <div width="100%" className="hero-image" style={BackgroundImage(this.props.object.HeroImage)} alt={this.props.object.Name}></div>
             <div width="100%" className="logo-image" style={BackgroundImage(this.props.object.Image)} alt={this.props.object.Name}></div>
