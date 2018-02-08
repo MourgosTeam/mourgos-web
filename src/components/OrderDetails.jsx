@@ -172,7 +172,7 @@ class OrderDetails extends Component {
                 <div className="orderdate">
                   Ημερομηνία παραγγελίας : {orderDate && [orderDate.getDate(),orderDate.getMonth()+1,orderDate.getFullYear()].join('/')}
                   <br />
-                  Ώρα παραγγελίας : {orderDate && (orderDate.getHours() + ":" + orderDate.getMinutes())}
+                  Ώρα παραγγελίας : {orderDate && (orderDate.getHours() + ":" + (orderDate.getMinutes()<10?'0':'') + orderDate.getMinutes())}
                 </div>
                 <br /> 
                 <div className="olderorders">
