@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import './Header.css';
 
 import {UISref} from '@uirouter/react';
-import {GetIt} from '../helpers/helpers'
-
+import {GetIt} from '../helpers/helpers';
 
 
 const logo = "/images/mourgos-logo-white.png";
@@ -13,26 +12,23 @@ class Header extends Component {
     super(props);
 
     this.state = {
-      isSiteOpen: true
-    };
+        isSiteOpen: true,
+        workingHours: ""
+      };
 
-    GetIt('/globals/MourgosIsLive/', 'GET').then((data) => data.json())
-    .then( (data) => {
-      if (data.Value === '1') {
-        this.setState({
-          isSiteOpen: true
-        });
-      }
-      else {
-        this.setState({
-          isSiteOpen: false
-        });
-      }
+    GetIt('/globals/mourgos/status', 'GET').then((data) => data.json())
+    .then((data) => {
+      const status = parseInt(data.Status, 10) || 0;
+      this.setState({isSiteOpen: status === 1});
     });
-    
+
+    GetIt('/globals/MourgosWorkingHours', 'GET').then((data) => data.json())
+    .then((data) => {
+      this.setState({workingHours: data.Value});
+    });
   }
   render() {
-    return[  
+    return[
           <div key={'closedSite'} className="container-fluid text-center alert-warning mb-0">
             {this.state.isSiteOpen === false ?
               <div id='siteStatus' className="pt-4 pb-4">
@@ -43,7 +39,7 @@ class Header extends Component {
                 <b>
                 Ανοιχτά<br />
                 Δευτέρα - Παρασκευή <br />
-                11:00 - 17:00
+                {this.state.workingHours}
                 </b>
               </div>
             : ''}
